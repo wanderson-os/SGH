@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.KeyEvent;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -98,7 +100,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 694, Short.MAX_VALUE)
         );
 
         jMenu11.setText("Paciente");
@@ -116,16 +118,31 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmConsultarPaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmConsultarPaciente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
         jmConsultarPaciente.setText("Consultar");
+        jmConsultarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmConsultarPacienteActionPerformed(evt);
+            }
+        });
         jMenu11.add(jmConsultarPaciente);
 
         jmEditarPaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmEditarPaciente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
         jmEditarPaciente.setText("Editar");
+        jmEditarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEditarPacienteActionPerformed(evt);
+            }
+        });
         jMenu11.add(jmEditarPaciente);
 
         jmDeletarPaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmDeletarPaciente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/delete.png"))); // NOI18N
         jmDeletarPaciente.setText("Deletar");
+        jmDeletarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmDeletarPacienteActionPerformed(evt);
+            }
+        });
         jMenu11.add(jmDeletarPaciente);
 
         jmProntuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/arquivo-medico.png"))); // NOI18N
@@ -134,6 +151,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmConsultarProntuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmConsultarProntuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
         jmConsultarProntuario.setText("Consultar");
+        jmConsultarProntuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmConsultarProntuarioActionPerformed(evt);
+            }
+        });
         jmProntuario.add(jmConsultarProntuario);
 
         jMenu11.add(jmProntuario);
@@ -145,7 +167,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
         jMenu1.setText("Novo");
 
-        jmAnestesistaN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmAnestesistaN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmAnestesistaN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
         jmAnestesistaN.setText("Anestesista");
         jmAnestesistaN.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +177,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jmAnestesistaN);
 
-        jmCirculanteN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmCirculanteN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmCirculanteN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
         jmCirculanteN.setText("Circulante");
         jmCirculanteN.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +187,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jmCirculanteN);
 
-        jmCirurgiaoN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        jmCirurgiaoN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmCirurgiaoN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
         jmCirurgiaoN.setText("Cirurgiã(o)");
         jmCirurgiaoN.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +197,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jmCirurgiaoN);
 
-        jmEnfermeiroN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmEnfermeiroN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmEnfermeiroN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeira.png"))); // NOI18N
         jmEnfermeiroN.setText("Enferemeiro(a)");
         jmEnfermeiroN.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +207,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jmEnfermeiroN);
 
-        jmMedicoN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmMedicoN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmMedicoN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medico.png"))); // NOI18N
         jmMedicoN.setText("Médico(a)");
         jmMedicoN.addActionListener(new java.awt.event.ActionListener() {
@@ -195,7 +217,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jmMedicoN);
 
-        jmInstrumentadorN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmInstrumentadorN.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmInstrumentadorN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/instrumento-cirurgico.png"))); // NOI18N
         jmInstrumentadorN.setText("Instrumentador(a)");
         jmInstrumentadorN.addActionListener(new java.awt.event.ActionListener() {
@@ -212,26 +234,56 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jmAnestesistaC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
         jmAnestesistaC.setText("Anestesista");
+        jmAnestesistaC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAnestesistaCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmAnestesistaC);
 
         jmCirculanteC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
         jmCirculanteC.setText("Circulante");
+        jmCirculanteC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirculanteCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmCirculanteC);
 
         jmCirurgiaoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
         jmCirurgiaoC.setText("Cirurgiã(o)");
+        jmCirurgiaoC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirurgiaoCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmCirurgiaoC);
 
         jmEnfermeiroC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeira.png"))); // NOI18N
         jmEnfermeiroC.setText("Enferemeiro(a)");
+        jmEnfermeiroC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEnfermeiroCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmEnfermeiroC);
 
         jmMedicoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medico.png"))); // NOI18N
         jmMedicoC.setText("Médico(a)");
+        jmMedicoC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmMedicoCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmMedicoC);
 
         jmInstrumentadorC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/instrumento-cirurgico.png"))); // NOI18N
         jmInstrumentadorC.setText("Instrumentador(a)");
+        jmInstrumentadorC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmInstrumentadorCActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmInstrumentadorC);
 
         jMenu12.add(jMenu2);
@@ -241,26 +293,56 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jmAnestesistaE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
         jmAnestesistaE.setText("Anestesista");
+        jmAnestesistaE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAnestesistaEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmAnestesistaE);
 
         jmCirculanteE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
         jmCirculanteE.setText("Circulante");
+        jmCirculanteE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirculanteEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmCirculanteE);
 
         jmCirurgiaoE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
         jmCirurgiaoE.setText("Cirurgiã(o)");
+        jmCirurgiaoE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirurgiaoEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmCirurgiaoE);
 
         jmEnfermeiroE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeira.png"))); // NOI18N
         jmEnfermeiroE.setText("Enferemeiro(a)");
+        jmEnfermeiroE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEnfermeiroEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmEnfermeiroE);
 
         jmMedicoE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medico.png"))); // NOI18N
         jmMedicoE.setText("Médico(a)");
+        jmMedicoE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmMedicoEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmMedicoE);
 
         jmInstrumentadorE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/instrumento-cirurgico.png"))); // NOI18N
         jmInstrumentadorE.setText("Instrumentador(a)");
+        jmInstrumentadorE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmInstrumentadorEActionPerformed(evt);
+            }
+        });
         jMenu3.add(jmInstrumentadorE);
 
         jMenu12.add(jMenu3);
@@ -270,26 +352,56 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jmAnestesistaD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
         jmAnestesistaD.setText("Anestesista");
+        jmAnestesistaD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAnestesistaDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmAnestesistaD);
 
         jmCirculanteD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
         jmCirculanteD.setText("Circulante");
+        jmCirculanteD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirculanteDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmCirculanteD);
 
         jmCirurgiaoD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
         jmCirurgiaoD.setText("Cirurgiã(o)");
+        jmCirurgiaoD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirurgiaoDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmCirurgiaoD);
 
         jmEnfermeiroD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeira.png"))); // NOI18N
         jmEnfermeiroD.setText("Enferemeiro(a)");
+        jmEnfermeiroD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEnfermeiroDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmEnfermeiroD);
 
         jmMedicoD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medico.png"))); // NOI18N
         jmMedicoD.setText("Médico(a)");
+        jmMedicoD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmMedicoDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmMedicoD);
 
         jmInstrumentadorD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/instrumento-cirurgico.png"))); // NOI18N
         jmInstrumentadorD.setText("Instrumentador(a)");
+        jmInstrumentadorD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmInstrumentadorDActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmInstrumentadorD);
 
         jMenu12.add(jMenu5);
@@ -297,24 +409,44 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/horario-de-trabalho.png"))); // NOI18N
         jMenu10.setText("Escala");
 
-        jmNovoEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmNovoEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmNovoEscala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
         jmNovoEscala.setText("Novo");
+        jmNovoEscala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmNovoEscalaActionPerformed(evt);
+            }
+        });
         jMenu10.add(jmNovoEscala);
 
-        jmConsultarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmConsultarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmConsultarEscala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
         jmConsultarEscala.setText("Consultar");
+        jmConsultarEscala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmConsultarEscalaActionPerformed(evt);
+            }
+        });
         jMenu10.add(jmConsultarEscala);
 
-        jmEditarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmEditarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmEditarEscala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
         jmEditarEscala.setText("Editar");
+        jmEditarEscala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEditarEscalaActionPerformed(evt);
+            }
+        });
         jMenu10.add(jmEditarEscala);
 
-        jmDeletarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmDeletarEscala.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jmDeletarEscala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/delete.png"))); // NOI18N
         jmDeletarEscala.setText("Deletar");
+        jmDeletarEscala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmDeletarEscalaActionPerformed(evt);
+            }
+        });
         jMenu10.add(jmDeletarEscala);
 
         jMenu12.add(jMenu10);
@@ -368,53 +500,212 @@ public class FramePrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmNovoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmNovoPacienteActionPerformed
-        Pessoa paciente = new Pessoa("paciente", "");
+        PessoaCadastrar paciente = new PessoaCadastrar("paciente", "Paciente");
         jDesktopPane.add(paciente);
         paciente.setTitle("Paciente");
         paciente.setVisible(true);
 
+////NewJInternalFrame teste = new  NewJInternalFrame();
+////jDesktopPane.add(teste);
+//teste.setVisible(true);
 
     }//GEN-LAST:event_jmNovoPacienteActionPerformed
-
+//Novo-----------------------------------------------------------------------------
     private void jmAnestesistaNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAnestesistaNActionPerformed
-        Pessoa anestesista = new Pessoa("funcionario", "Anestesista");
+        PessoaCadastrar anestesista = new PessoaCadastrar("funcionario", "Anestesista");
         jDesktopPane.add(anestesista);
         anestesista.setTitle("Anestesista");
         anestesista.setVisible(true);
     }//GEN-LAST:event_jmAnestesistaNActionPerformed
 
     private void jmCirculanteNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirculanteNActionPerformed
-        Pessoa circulante = new Pessoa("funcionario", "Circulante");
+        PessoaCadastrar circulante = new PessoaCadastrar("funcionario", "Circulante");
         jDesktopPane.add(circulante);
         circulante.setTitle("Circulante");
         circulante.setVisible(true);    }//GEN-LAST:event_jmCirculanteNActionPerformed
 
     private void jmCirurgiaoNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirurgiaoNActionPerformed
-        Pessoa cirurgiao = new Pessoa("funcionario", "Cirurgiã(o)");
+        PessoaCadastrar cirurgiao = new PessoaCadastrar("funcionario", "Cirurgiã(ão)");
         jDesktopPane.add(cirurgiao);
         cirurgiao.setTitle("Cirurgiã(o)");
         cirurgiao.setVisible(true);
      }//GEN-LAST:event_jmCirurgiaoNActionPerformed
 
     private void jmEnfermeiroNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEnfermeiroNActionPerformed
-        Pessoa enfermeiro = new Pessoa("funcionario", "Enfermeiro(a)");
+        PessoaCadastrar enfermeiro = new PessoaCadastrar("funcionario", "Enfermeiro(a)");
         jDesktopPane.add(enfermeiro);
         enfermeiro.setTitle("Enfermeiro(a)");
         enfermeiro.setVisible(true);
      }//GEN-LAST:event_jmEnfermeiroNActionPerformed
 
     private void jmMedicoNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmMedicoNActionPerformed
-        Pessoa medico = new Pessoa("funcionario", "Medico(a)");
+        PessoaCadastrar medico = new PessoaCadastrar("funcionario", "Medico");
         jDesktopPane.add(medico);
         medico.setTitle("Medico(a)");
         medico.setVisible(true);     }//GEN-LAST:event_jmMedicoNActionPerformed
 
     private void jmInstrumentadorNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmInstrumentadorNActionPerformed
-        Pessoa instrumentador = new Pessoa("funcionario", "Instrumentador(a)");
+        PessoaCadastrar instrumentador = new PessoaCadastrar("funcionario", "Instrumentador(a)");
         jDesktopPane.add(instrumentador);
         instrumentador.setTitle("Instrumentador(a)");
-        instrumentador.setVisible(true); 
+        instrumentador.setVisible(true);
     }//GEN-LAST:event_jmInstrumentadorNActionPerformed
+//Paciente.
+    private void jmConsultarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarPacienteActionPerformed
+        PessoaConsultar pacienteConsultar = new PessoaConsultar("paciente", "paciente");
+        jDesktopPane.add(pacienteConsultar);
+        pacienteConsultar.setTitle("Paciente");
+        pacienteConsultar.setVisible(true);
+    }//GEN-LAST:event_jmConsultarPacienteActionPerformed
+
+    private void jmEditarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEditarPacienteActionPerformed
+        PessoaEditar pacienteEditar = new PessoaEditar("paciente", "paciente");
+        jDesktopPane.add(pacienteEditar);
+        pacienteEditar.setTitle("Editar paciente");
+        pacienteEditar.setVisible(true);    }//GEN-LAST:event_jmEditarPacienteActionPerformed
+
+    private void jmDeletarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeletarPacienteActionPerformed
+        PessoaDeletar pacienteDeletar = new PessoaDeletar("paciente", "paciente");
+        jDesktopPane.add(pacienteDeletar);
+        pacienteDeletar.setTitle("Deletar paciente");
+        pacienteDeletar.setVisible(true);
+     }//GEN-LAST:event_jmDeletarPacienteActionPerformed
+
+    private void jmConsultarProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarProntuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmConsultarProntuarioActionPerformed
+//Paciente----------------------------------------------------------------------------
+
+//Funcionario-------------------------------------------------------------------------
+//Consulta----------------------------------------------------------------------------
+
+    private void jmAnestesistaCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAnestesistaCActionPerformed
+        PessoaConsultar anestesistaConsultar = new PessoaConsultar("funcionario", "Anestesista");
+        jDesktopPane.add(anestesistaConsultar);
+        anestesistaConsultar.setTitle("Consultar anestesista");
+        anestesistaConsultar.setVisible(true);    }//GEN-LAST:event_jmAnestesistaCActionPerformed
+
+    private void jmCirculanteCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirculanteCActionPerformed
+        PessoaConsultar circulanteConsultar = new PessoaConsultar("funcionario", "Circulante");
+        jDesktopPane.add(circulanteConsultar);
+        circulanteConsultar.setTitle("Consultar circulante");
+        circulanteConsultar.setVisible(true);    }//GEN-LAST:event_jmCirculanteCActionPerformed
+
+    private void jmCirurgiaoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirurgiaoCActionPerformed
+        PessoaConsultar cirurgiaoConsultar = new PessoaConsultar("funcionario", "Cirurgiã(o)");
+        jDesktopPane.add(cirurgiaoConsultar);
+        cirurgiaoConsultar.setTitle("Consultar cirurgiã(o)");
+        cirurgiaoConsultar.setVisible(true);    }//GEN-LAST:event_jmCirurgiaoCActionPerformed
+
+    private void jmEnfermeiroCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEnfermeiroCActionPerformed
+        PessoaConsultar enfermeiroConsultar = new PessoaConsultar("funcionario", "Enfermeiro(a)");
+        jDesktopPane.add(enfermeiroConsultar);
+        enfermeiroConsultar.setTitle("Consultar enfermeiro(a)");
+        enfermeiroConsultar.setVisible(true);    }//GEN-LAST:event_jmEnfermeiroCActionPerformed
+
+    private void jmMedicoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmMedicoCActionPerformed
+        PessoaConsultar medicoConsultar = new PessoaConsultar("funcionario", "Medico(a)");
+        jDesktopPane.add(medicoConsultar);
+        medicoConsultar.setTitle("Consultar medico(a)");
+        medicoConsultar.setVisible(true);     }//GEN-LAST:event_jmMedicoCActionPerformed
+
+    private void jmInstrumentadorCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmInstrumentadorCActionPerformed
+        PessoaConsultar instrumentadorConsultar = new PessoaConsultar("funcionario", "Instrumentador(a)");
+        jDesktopPane.add(instrumentadorConsultar);
+        instrumentadorConsultar.setTitle("Consultar instrumentador(a)");
+        instrumentadorConsultar.setVisible(true);    }//GEN-LAST:event_jmInstrumentadorCActionPerformed
+
+//Editar---------------------------------------------------------------------------
+
+    private void jmAnestesistaEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAnestesistaEActionPerformed
+        PessoaEditar anestesistaEditar = new PessoaEditar("funcionario", "Anestesista");
+        jDesktopPane.add(anestesistaEditar);
+        anestesistaEditar.setTitle("Editar anestesista");
+        anestesistaEditar.setVisible(true);    }//GEN-LAST:event_jmAnestesistaEActionPerformed
+
+    private void jmCirculanteEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirculanteEActionPerformed
+        PessoaEditar circulanteEditar = new PessoaEditar("funcionario", "Circulante");
+        jDesktopPane.add(circulanteEditar);
+        circulanteEditar.setTitle("Editar circulante");
+        circulanteEditar.setVisible(true);    }//GEN-LAST:event_jmCirculanteEActionPerformed
+
+    private void jmCirurgiaoEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirurgiaoEActionPerformed
+        PessoaEditar cirurgiaoEditar = new PessoaEditar("funcionario", "Cirurgiã(o)");
+        jDesktopPane.add(cirurgiaoEditar);
+        cirurgiaoEditar.setTitle("Editar cirurgiã(o)");
+        cirurgiaoEditar.setVisible(true);    }//GEN-LAST:event_jmCirurgiaoEActionPerformed
+
+    private void jmEnfermeiroEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEnfermeiroEActionPerformed
+        PessoaEditar enfermeiroEditar = new PessoaEditar("funcionario", "Enfermeiro(a)");
+        jDesktopPane.add(enfermeiroEditar);
+        enfermeiroEditar.setTitle("Editar enfermeiro(a)");
+        enfermeiroEditar.setVisible(true);     }//GEN-LAST:event_jmEnfermeiroEActionPerformed
+
+    private void jmMedicoEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmMedicoEActionPerformed
+        PessoaEditar medicoEditar = new PessoaEditar("funcionario", "Medico(a)");
+        jDesktopPane.add(medicoEditar);
+        medicoEditar.setTitle("Editar medico(a)");
+        medicoEditar.setVisible(true);     }//GEN-LAST:event_jmMedicoEActionPerformed
+
+    private void jmInstrumentadorEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmInstrumentadorEActionPerformed
+        PessoaEditar instrumentadorEditar = new PessoaEditar("funcionario", "Instrumentador(a)");
+        jDesktopPane.add(instrumentadorEditar);
+        instrumentadorEditar.setTitle("Editar instrumentador(a)");
+        instrumentadorEditar.setVisible(true);    }//GEN-LAST:event_jmInstrumentadorEActionPerformed
+
+//Deletar-------------------------------------------------------------------------
+
+    private void jmAnestesistaDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAnestesistaDActionPerformed
+        PessoaDeletar anestesistaDeletar = new PessoaDeletar("funcionario", "Anestesista");
+        jDesktopPane.add(anestesistaDeletar);
+        anestesistaDeletar.setTitle("Deletar anestesista");
+        anestesistaDeletar.setVisible(true);     }//GEN-LAST:event_jmAnestesistaDActionPerformed
+
+    private void jmCirculanteDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirculanteDActionPerformed
+        PessoaDeletar circulanteDeletar = new PessoaDeletar("funcionario", "Circulante");
+        jDesktopPane.add(circulanteDeletar);
+        circulanteDeletar.setTitle("Deletar circulante");
+        circulanteDeletar.setVisible(true);    }//GEN-LAST:event_jmCirculanteDActionPerformed
+
+    private void jmCirurgiaoDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCirurgiaoDActionPerformed
+        PessoaDeletar cirurgiaoDeletar = new PessoaDeletar("funcionario", "Cirurgiã(o)");
+        jDesktopPane.add(cirurgiaoDeletar);
+        cirurgiaoDeletar.setTitle("Deletar cirurgiã(o)");
+        cirurgiaoDeletar.setVisible(true);     }//GEN-LAST:event_jmCirurgiaoDActionPerformed
+
+    private void jmEnfermeiroDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEnfermeiroDActionPerformed
+        PessoaDeletar enfermeiroDeletar = new PessoaDeletar("funcionario", "Enfermeiro(a)");
+        jDesktopPane.add(enfermeiroDeletar);
+        enfermeiroDeletar.setTitle("Deletar enfermeiro(a)");
+        enfermeiroDeletar.setVisible(true);     }//GEN-LAST:event_jmEnfermeiroDActionPerformed
+
+    private void jmMedicoDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmMedicoDActionPerformed
+        PessoaDeletar medicoDeletar = new PessoaDeletar("funcionario", "Medico(a)");
+        jDesktopPane.add(medicoDeletar);
+        medicoDeletar.setTitle("Deletar medico(a)");
+        medicoDeletar.setVisible(true);    }//GEN-LAST:event_jmMedicoDActionPerformed
+
+    private void jmInstrumentadorDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmInstrumentadorDActionPerformed
+        PessoaDeletar instrumentadorDeletar = new PessoaDeletar("funcionario", "Instrumentador(a)");
+        jDesktopPane.add(instrumentadorDeletar);
+        instrumentadorDeletar.setTitle("Deletar instrumentador(a)");
+        instrumentadorDeletar.setVisible(true);    }//GEN-LAST:event_jmInstrumentadorDActionPerformed
+//Escala-----------------------------------------------------------------------------
+    private void jmNovoEscalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmNovoEscalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmNovoEscalaActionPerformed
+
+    private void jmConsultarEscalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarEscalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmConsultarEscalaActionPerformed
+
+    private void jmEditarEscalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEditarEscalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmEditarEscalaActionPerformed
+
+    private void jmDeletarEscalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeletarEscalaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmDeletarEscalaActionPerformed
 
     /**
      * @param args the command line arguments
