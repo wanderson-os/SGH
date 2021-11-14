@@ -1,13 +1,14 @@
 package model;
+
 public class Medicamento {
 
-	private int nome;
+    private String nome;
 
-	private int preco;
+    private float preco;
 
-	private int quantidade;
+    private int quantidade;
 
-    public Medicamento(int nome, int preco, int quantidade) {
+    public Medicamento(String nome, float preco, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -16,19 +17,19 @@ public class Medicamento {
     public Medicamento() {
     }
 
-    public int getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(int nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public int getPreco() {
+    public float getPreco() {
         return preco;
     }
 
-    public void setPreco(int preco) {
+    public void setPreco(float preco) {
         this.preco = preco;
     }
 
@@ -40,6 +41,4 @@ public class Medicamento {
         this.quantidade = quantidade;
     }
 
-        
-        
 }

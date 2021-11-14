@@ -20,19 +20,20 @@ public class GerenciaPaciente {
         pacienteDao = new PacienteDao();
     }
 
-    public void cadastrar(Paciente p) {
-        pacienteDao.cadastrar(p);
-
+    public int cadastrar(Paciente p) {
+        int r = pacienteDao.cadastrar(p);
+        System.out.println("Cadastrar : " + r);
+        return r;
     }
 
-    public void excluir(Paciente p) {
-        pacienteDao.excluir(p);
-
+    public int excluir(Paciente p) {
+        int r = pacienteDao.excluir(p);
+        return r;
     }
 
-    public void alterar(Paciente p) {
-        pacienteDao.alterar(p, p.getCpf());
-
+    public int alterar(Paciente p) {
+        int r = pacienteDao.alterar(p, p.getCpf());
+        return r;
     }
 
     public void listar(Paciente p) {

@@ -55,7 +55,9 @@ public class EnderecoDao {
         return id;
     }
 
-    public void cadastrar(Endereco endereco, String cpf) {
+    public int cadastrar(Endereco endereco, String cpf) {
+        int r = 0;
+
         try {
             conn = Conexao.getConexao();
 
@@ -63,7 +65,6 @@ public class EnderecoDao {
             e.printStackTrace();
         }
         String sql;
-        int ret = 0;
         PreparedStatement pStatement = null;
         sql = "INSERT INTO endereco(numero,logradouro, complemento, uf, bairro, cep,id,cpf_pessoa)\n"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -81,7 +82,7 @@ public class EnderecoDao {
 
             pStatement.execute();
             pStatement.close();
-            ret = 1;
+            r = 1;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -90,6 +91,9 @@ public class EnderecoDao {
             fecharConexao();
 
         }
+        System.out.println("CadastrarDaoE : " + r);
+
+        return r;
     }
 
     public int alterar(Endereco endereco) {
@@ -135,7 +139,7 @@ public class EnderecoDao {
             e.printStackTrace();
         }
         String sql;
-        int ret = 0;
+        int r = 0;
         PreparedStatement pStatement = null;
         sql = "delete from endereco where id = ?";
         try {
@@ -144,7 +148,7 @@ public class EnderecoDao {
             pStatement.setInt(1, endereco.getId());
             pStatement.execute();
             pStatement.close();
-            ret = 1;
+            r = 1;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Excluir endereco: " + e.getMessage());
@@ -152,7 +156,7 @@ public class EnderecoDao {
         }
 
         fecharConexao();
-        return ret;
+        return r;
 
     }
 

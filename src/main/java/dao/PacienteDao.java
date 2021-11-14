@@ -31,7 +31,8 @@ public class PacienteDao {
         enderecoDao = new EnderecoDao();
     }
 
-    public void cadastrar(Paciente paciente) {
+    public int cadastrar(Paciente paciente) {
+        int r = 0;
         try {
             conn = Conexao.getConexao();
 
@@ -42,6 +43,7 @@ public class PacienteDao {
         PreparedStatement pStatement = null;
         sql = "insert into pessoa(cpf, nome, sobrenome, telefone, data_nascimento, sexo, peso) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
+            String sexo = Character.toString(paciente.getSexo());
             Date dataNasc = Date.valueOf(paciente.getDataNasc());
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, paciente.getCpf());
@@ -49,18 +51,22 @@ public class PacienteDao {
             pStatement.setString(3, paciente.getSobrenome());
             pStatement.setString(4, paciente.getTelefone());
             pStatement.setDate(5, dataNasc);
-            pStatement.setString(6, String.valueOf(paciente.getSexo()));
+            pStatement.setString(6, sexo);
             pStatement.setFloat(7, paciente.getPeso());
             pStatement.execute();
             pStatement.close();
-            enderecoDao.cadastrar(paciente.getEndereco(), paciente.getCpf());
+            System.out.println("Peso i: " + paciente.getPeso());
+            r = enderecoDao.cadastrar(paciente.getEndereco(), paciente.getCpf()) + 1;
+            System.out.println("CadastrarDaoPE : " + r);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
+        System.out.println("CadastrarDao : " + r);
 
+        return r;
     }
 
     public int alterar(Paciente paciente, String cpf) {
@@ -71,7 +77,7 @@ public class PacienteDao {
             e.printStackTrace();
         }
         String sql;
-        int ret = 0;
+        int r = 0;
         PreparedStatement pStatement = null;
         sql = "UPDATE public.pessoa\n"
                 + "	SET cpf=?, nome=?, sobrenome=?, telefone=?, data_nascimento=?, sexo=?, peso=?\n"
@@ -91,20 +97,20 @@ public class PacienteDao {
             pStatement.execute();
             pStatement.close();
             enderecoDao.alterar(paciente.getEndereco());
-            ret = 1;
+            r = 1;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
-        return ret;
+        return r;
     }
 
     public int excluir(Paciente paciente) {
-        int i = 0;
+        int r = 0;
         try {
-            i = enderecoDao.excluir(paciente.getEndereco());
+            r = enderecoDao.excluir(paciente.getEndereco());
             conn = Conexao.getConexao();
 
         } catch (Exception e) {
@@ -120,14 +126,14 @@ public class PacienteDao {
             pStatement.setString(1, paciente.getCpf());
             pStatement.execute();
             pStatement.close();
-            ret = i + 1;
+            r += 1;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
-        return ret;
+        return r;
 
     }
 

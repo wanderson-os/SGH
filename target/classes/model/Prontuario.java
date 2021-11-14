@@ -5,22 +5,99 @@ import java.time.LocalTime;
 
 public class Prontuario {
 
-	private Funcionario medico;
+    private Funcionario medico;
+    private Paciente paciente;
+    private LocalDate data;
+    private LocalTime hora;
+    private String diagnostico;
+    private Medicamento[] medicamentos;
+    private Cirurgia[] cirurgias;
+    private Exame[] exames;
+    private Alta alta;
+    private int id;
 
-	private Paciente paciente;
+    public Prontuario() {
+    }
 
-	private LocalDate data;
+    public Funcionario getMedico() {
+        return medico;
+    }
 
-	private LocalTime hora;
+    public void setMedico(Funcionario medico) {
+        this.medico = medico;
+    }
 
-	private String diagnostico;
+    public Paciente getPaciente() {
+        return paciente;
+    }
 
-	private Medicamento[] medicamentos;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
 
-	private Cirurgia[] cirurgias;
+    public LocalDate getData() {
+        return data;
+    }
 
-	private Exame[] exames;
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
 
-	private Alta alta;
+    public LocalTime getHora() {
+        return hora;
+    }
 
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
+
+    public String getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public Medicamento[] getMedicamentos() {
+        return medicamentos;
+    }
+
+    public void setMedicamentos(Medicamento[] medicamentos) {
+        this.medicamentos = medicamentos;
+    }
+
+    public Cirurgia[] getCirurgias() {
+        return cirurgias;
+    }
+
+    public void setCirurgias(Cirurgia[] cirurgias) {
+        this.cirurgias = cirurgias;
+    }
+
+    public Exame[] getExames() {
+        return exames;
+    }
+
+    public void setExames(Exame[] exames) {
+        this.exames = exames;
+    }
+
+    public Alta getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Alta alta) {
+        this.alta = alta;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+   
 }

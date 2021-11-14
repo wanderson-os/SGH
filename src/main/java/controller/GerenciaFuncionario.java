@@ -6,13 +6,14 @@
 package controller;
 
 import dao.FuncionarioDao;
+import model.Crud;
 import model.Funcionario;
 
 /**
  *
  * @author Wanderson_M
  */
-public class GerenciaFuncionario {
+public class GerenciaFuncionario implements Crud<Funcionario> {
 
     FuncionarioDao funcionarioDao;
 
@@ -20,28 +21,28 @@ public class GerenciaFuncionario {
         funcionarioDao = new FuncionarioDao();
     }
 
-    public void cadastrar(Funcionario f) {
-        
-        
-        
-        funcionarioDao.cadastrar(f);
-
+    @Override
+    public int cadastrar(Funcionario entidade) {
+        int r = funcionarioDao.cadastrar(entidade);
+        return r;
     }
 
-    public void excluir(Funcionario f) {
-        funcionarioDao.excluir(f);
-
+    @Override
+    public int listar() {
+        int r = 0;
+        return r;
     }
 
-    public void alterar(Funcionario f) {
-        funcionarioDao.alterar(f, f.getCpf());
-
+    @Override
+    public int alterar(Funcionario entidade) {
+        int r = funcionarioDao.alterar(entidade, entidade.getCpf());
+        return r;
     }
 
-    public void listar(Funcionario f) {
-        
-
+    @Override
+    public int excluir(Funcionario entidade) {
+        int r = funcionarioDao.excluir(entidade);
+        return r;
     }
 
-  
 }

@@ -1,17 +1,20 @@
-
 package model;
+
 public class Acomodacao {
 
-	private int numero;
+    private int numero;
 
-	private String tipo;
+    private String tipo;
 
-    public Acomodacao(int numero, String tipo) {
-        this.numero = numero;
-        this.tipo = tipo;
-    }
+    private int id;
 
     public Acomodacao() {
+    }
+
+    public Acomodacao(int numero, String tipo, int id) {
+        this.numero = numero;
+        this.tipo = tipo;
+        this.id = id;
     }
 
     public int getNumero() {
@@ -29,6 +32,13 @@ public class Acomodacao {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 }

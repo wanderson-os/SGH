@@ -1,6 +1,17 @@
 package view;
 
-import java.awt.event.KeyEvent;
+import view.filho.PessoaCadastrar;
+import view.filho.PessoaConsultar;
+import view.filho.MedicamentoDeletar;
+import view.filho.PessoaDeletar;
+import view.filho.PessoaEditar;
+import view.filho.EquipeCirurgicaCadastrar;
+import view.filho.EquipeCirurgicaConsultar;
+import view.filho.EquipeCirurgicaEditar;
+import view.filho.EquipeCirurgicaExcluir;
+import view.filho.MedicamentoCadastrar;
+import view.filho.MedicamentoConsultar;
+import view.filho.MedicamentoEditar;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -35,6 +46,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar3 = new javax.swing.JMenuBar();
+        jMenu9 = new javax.swing.JMenu();
         jMenu11 = new javax.swing.JMenu();
         jmNovoPaciente = new javax.swing.JMenuItem();
         jmConsultarPaciente = new javax.swing.JMenuItem();
@@ -51,12 +63,15 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmMedicoN = new javax.swing.JMenuItem();
         jmInstrumentadorN = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jmAnestesistaC = new javax.swing.JMenuItem();
-        jmCirculanteC = new javax.swing.JMenuItem();
-        jmCirurgiaoC = new javax.swing.JMenuItem();
+        jMenu16 = new javax.swing.JMenu();
         jmEnfermeiroC = new javax.swing.JMenuItem();
         jmMedicoC = new javax.swing.JMenuItem();
         jmInstrumentadorC = new javax.swing.JMenuItem();
+        jmAnestesistaC = new javax.swing.JMenuItem();
+        jmCirurgiaoC = new javax.swing.JMenuItem();
+        jmCirculanteC = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
         jmAnestesistaE = new javax.swing.JMenuItem();
         jmCirculanteE = new javax.swing.JMenuItem();
@@ -81,6 +96,18 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmConsultarEstoque = new javax.swing.JMenuItem();
         jmEditarEstoque = new javax.swing.JMenuItem();
         jmDeletarEstoque = new javax.swing.JMenuItem();
+        jMenu14 = new javax.swing.JMenu();
+        jMenu15 = new javax.swing.JMenu();
+        jmAdicionarEC = new javax.swing.JMenuItem();
+        jmConsultarEC = new javax.swing.JMenuItem();
+        jmEditarEC = new javax.swing.JMenuItem();
+        jmDeletarEC = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu17 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenu6.setText("File");
         jMenuBar2.add(jMenu6);
@@ -91,6 +118,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
@@ -103,6 +131,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addGap(0, 694, Short.MAX_VALUE)
         );
 
+        jMenu9.setText("Arquivo");
+
+        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/paciente.png"))); // NOI18N
         jMenu11.setText("Paciente");
 
         jmNovoPaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -160,8 +191,9 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenu11.add(jmProntuario);
 
-        jMenuBar3.add(jMenu11);
+        jMenu9.add(jMenu11);
 
+        jMenu12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/funcionarios.png"))); // NOI18N
         jMenu12.setText("Funcionário");
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
@@ -232,32 +264,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
         jMenu2.setText(" Consultar");
 
-        jmAnestesistaC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
-        jmAnestesistaC.setText("Anestesista");
-        jmAnestesistaC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmAnestesistaCActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmAnestesistaC);
-
-        jmCirculanteC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
-        jmCirculanteC.setText("Circulante");
-        jmCirculanteC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmCirculanteCActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmCirculanteC);
-
-        jmCirurgiaoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
-        jmCirurgiaoC.setText("Cirurgiã(o)");
-        jmCirurgiaoC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmCirurgiaoCActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmCirurgiaoC);
+        jMenu16.setText("Função");
 
         jmEnfermeiroC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeira.png"))); // NOI18N
         jmEnfermeiroC.setText("Enferemeiro(a)");
@@ -266,7 +273,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 jmEnfermeiroCActionPerformed(evt);
             }
         });
-        jMenu2.add(jmEnfermeiroC);
+        jMenu16.add(jmEnfermeiroC);
 
         jmMedicoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medico.png"))); // NOI18N
         jmMedicoC.setText("Médico(a)");
@@ -275,7 +282,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 jmMedicoCActionPerformed(evt);
             }
         });
-        jMenu2.add(jmMedicoC);
+        jMenu16.add(jmMedicoC);
 
         jmInstrumentadorC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/instrumento-cirurgico.png"))); // NOI18N
         jmInstrumentadorC.setText("Instrumentador(a)");
@@ -284,7 +291,46 @@ public class FramePrincipal extends javax.swing.JFrame {
                 jmInstrumentadorCActionPerformed(evt);
             }
         });
-        jMenu2.add(jmInstrumentadorC);
+        jMenu16.add(jmInstrumentadorC);
+
+        jmAnestesistaC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/anestesia.png"))); // NOI18N
+        jmAnestesistaC.setText("Anestesista");
+        jmAnestesistaC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAnestesistaCActionPerformed(evt);
+            }
+        });
+        jMenu16.add(jmAnestesistaC);
+
+        jmCirurgiaoC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgiao.png"))); // NOI18N
+        jmCirurgiaoC.setText("Cirurgiã(o)");
+        jmCirurgiaoC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirurgiaoCActionPerformed(evt);
+            }
+        });
+        jMenu16.add(jmCirurgiaoC);
+
+        jmCirculanteC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/enfermeiro.png"))); // NOI18N
+        jmCirculanteC.setText("Circulante");
+        jmCirculanteC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmCirculanteCActionPerformed(evt);
+            }
+        });
+        jMenu16.add(jmCirculanteC);
+
+        jMenu2.add(jMenu16);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setText("Geral");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+        jMenu2.add(jSeparator1);
 
         jMenu12.add(jMenu2);
 
@@ -451,8 +497,9 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenu12.add(jMenu10);
 
-        jMenuBar3.add(jMenu12);
+        jMenu9.add(jMenu12);
 
+        jMenu13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/estoque.png"))); // NOI18N
         jMenu13.setText("Estoque");
 
         jmAdicionarEstoque.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -475,7 +522,97 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmDeletarEstoque.setText("Deletar");
         jMenu13.add(jmDeletarEstoque);
 
-        jMenuBar3.add(jMenu13);
+        jMenu9.add(jMenu13);
+
+        jMenu14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/cirurgico.png"))); // NOI18N
+        jMenu14.setText("Cirurgia");
+
+        jMenu15.setText("Equipe Cirurgica");
+
+        jmAdicionarEC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmAdicionarEC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
+        jmAdicionarEC.setText("Novo");
+        jmAdicionarEC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAdicionarECActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jmAdicionarEC);
+
+        jmConsultarEC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmConsultarEC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
+        jmConsultarEC.setText("Consultar");
+        jmConsultarEC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmConsultarECActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jmConsultarEC);
+
+        jmEditarEC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmEditarEC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jmEditarEC.setText("Editar");
+        jmEditarEC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEditarECActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jmEditarEC);
+
+        jmDeletarEC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmDeletarEC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/delete.png"))); // NOI18N
+        jmDeletarEC.setText("Deletar");
+        jmDeletarEC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmDeletarECActionPerformed(evt);
+            }
+        });
+        jMenu15.add(jmDeletarEC);
+
+        jMenu14.add(jMenu15);
+
+        jMenu9.add(jMenu14);
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/medicamento.png"))); // NOI18N
+        jMenuItem6.setText("Medicamento");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem6);
+
+        jMenuBar3.add(jMenu9);
+
+        jMenu17.setText("Consulta");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
+        jMenuItem2.setText("Novo");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu17.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
+        jMenuItem3.setText("Consultar");
+        jMenu17.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jMenuItem4.setText("Editar");
+        jMenu17.add(jMenuItem4);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/delete.png"))); // NOI18N
+        jMenuItem5.setText("Deletar");
+        jMenu17.add(jMenuItem5);
+
+        jMenuBar3.add(jMenu17);
 
         setJMenuBar(jMenuBar3);
 
@@ -707,6 +844,51 @@ public class FramePrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jmDeletarEscalaActionPerformed
 
+    private void jmAdicionarECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAdicionarECActionPerformed
+        EquipeCirurgicaCadastrar ecca = new EquipeCirurgicaCadastrar();
+        jDesktopPane.add(ecca);
+        ecca.setVisible(true);
+    }//GEN-LAST:event_jmAdicionarECActionPerformed
+
+    private void jmConsultarECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarECActionPerformed
+        EquipeCirurgicaConsultar ecco = new EquipeCirurgicaConsultar();
+        jDesktopPane.add(ecco);
+        ecco.setVisible(true);    }//GEN-LAST:event_jmConsultarECActionPerformed
+
+    private void jmEditarECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEditarECActionPerformed
+        EquipeCirurgicaEditar ecce = new EquipeCirurgicaEditar();
+        jDesktopPane.add(ecce);
+        ecce.setVisible(true);    }//GEN-LAST:event_jmEditarECActionPerformed
+
+    private void jmDeletarECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeletarECActionPerformed
+        EquipeCirurgicaExcluir eccd = new EquipeCirurgicaExcluir();
+        jDesktopPane.add(eccd);
+        eccd.setVisible(true);    }//GEN-LAST:event_jmDeletarECActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        PessoaConsultar consultar = new PessoaConsultar("funcionario", "Geral");
+        jDesktopPane.add(consultar);
+        consultar.setTitle("Deletar instrumentador(a)");
+        consultar.setVisible(true);    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+
+        Consulta consulta = new Consulta();
+        jDesktopPane.add(consulta);
+        consulta.setVisible(true);
+
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+
+        Medicamento m = new Medicamento();
+        jDesktopPane.add(m);
+        m.setVisible(true);
+
+
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -724,13 +906,17 @@ public class FramePrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -749,14 +935,27 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu13;
+    private javax.swing.JMenu jMenu14;
+    private javax.swing.JMenu jMenu15;
+    private javax.swing.JMenu jMenu16;
+    private javax.swing.JMenu jMenu17;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem jmAdicionarEC;
     private javax.swing.JMenuItem jmAdicionarEstoque;
     private javax.swing.JMenuItem jmAnestesistaC;
     private javax.swing.JMenuItem jmAnestesistaD;
@@ -770,13 +969,16 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmCirurgiaoD;
     private javax.swing.JMenuItem jmCirurgiaoE;
     private javax.swing.JMenuItem jmCirurgiaoN;
+    private javax.swing.JMenuItem jmConsultarEC;
     private javax.swing.JMenuItem jmConsultarEscala;
     private javax.swing.JMenuItem jmConsultarEstoque;
     private javax.swing.JMenuItem jmConsultarPaciente;
     private javax.swing.JMenuItem jmConsultarProntuario;
+    private javax.swing.JMenuItem jmDeletarEC;
     private javax.swing.JMenuItem jmDeletarEscala;
     private javax.swing.JMenuItem jmDeletarEstoque;
     private javax.swing.JMenuItem jmDeletarPaciente;
+    private javax.swing.JMenuItem jmEditarEC;
     private javax.swing.JMenuItem jmEditarEscala;
     private javax.swing.JMenuItem jmEditarEstoque;
     private javax.swing.JMenuItem jmEditarPaciente;

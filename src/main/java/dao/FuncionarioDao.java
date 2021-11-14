@@ -30,13 +30,14 @@ public class FuncionarioDao {
     private Connection conn;
     ArrayList<Pessoa> pessoas = null;
 
-    public void cadastrar(Funcionario funcionario) {
+    public int cadastrar(Funcionario funcionario) {
         try {
             conn = Conexao.getConexao();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        int r = 0;
         String sql;
         PreparedStatement pStatement = null;
         sql = "insert into pessoa(cpf, nome, sobrenome, telefone, data_nascimento, sexo, ctps, especialidade, data_inscricao, registro_profissional, funcao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -57,14 +58,14 @@ public class FuncionarioDao {
             pStatement.setString(11, funcionario.getFuncao());
             pStatement.execute();
             pStatement.close();
-            enderecoDao.cadastrar(funcionario.getEndereco(), funcionario.getCpf());
+            r = enderecoDao.cadastrar(funcionario.getEndereco(), funcionario.getCpf()) + 1;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
-
+        return r;
     }
 
     public int alterar(Funcionario funcionario, String cpf) {
@@ -75,10 +76,10 @@ public class FuncionarioDao {
             e.printStackTrace();
         }
         String sql;
-        int ret = 0;
+        int r = 0;
         PreparedStatement pStatement = null;
         sql = "update pessoa SET cpf=?, nome=?, sobrenome=?, telefone=?, data_nascimento=?, "
-                + "sexo=?, peso=?, ctps=?, especialidade=?, data_inscricao=?, registro_profissional=?, funcao=?, endereco_id=? WHERE cpf = ? ";
+                + "sexo=?, ctps=?, especialidade=?, data_inscricao=?, registro_profissional=?, funcao=? WHERE cpf = ? ";
         try {
             Date dataNasc = Date.valueOf(funcionario.getDataNasc());
             Date dataInscricao = Date.valueOf(funcionario.getDataInscricao());
@@ -95,31 +96,29 @@ public class FuncionarioDao {
             pStatement.setDate(9, dataInscricao);
             pStatement.setString(10, funcionario.getRegistroProfissional());
             pStatement.setString(11, funcionario.getFuncao());
-            pStatement.setInt(12, funcionario.getEndereco().getId());
-            pStatement.setString(13, cpf);
+            pStatement.setString(12, cpf);
             pStatement.execute();
             pStatement.close();
-            enderecoDao.alterar(funcionario.getEndereco());
-            ret = 1;
+            r = enderecoDao.alterar(funcionario.getEndereco()) + 1;
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
-        return ret;
+        return r;
     }
 
     public int excluir(Funcionario funcionario) {
-        int i = 0;
+        int r = 0;
         try {
-            i = enderecoDao.excluir(funcionario.getEndereco());
+            r = enderecoDao.excluir(funcionario.getEndereco());
             conn = Conexao.getConexao();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         String sql;
-        int ret = 0;
         PreparedStatement pStatement = null;
         sql = "delete from pessoa where cpf = ?";
         try {
@@ -128,13 +127,13 @@ public class FuncionarioDao {
             pStatement.setString(1, funcionario.getCpf());
             pStatement.execute();
             pStatement.close();
-            ret = i + 1;
+            r = r + 1;
 
         } catch (Exception e) {
         }
 
         fecharConexao();
-        return ret;
+        return r;
 
     }
 
@@ -156,6 +155,54 @@ public class FuncionarioDao {
         try {
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, funcao);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    pessoas = new ArrayList<>();
+                    umaVez = false;
+                }
+                LocalDate dataNasc = rs.getDate("data_nascimento").toLocalDate();
+                LocalDate dataInscricao = rs.getDate("data_inscricao").toLocalDate();
+                Endereco endereco = new Endereco(rs.getString("bairro"), rs.getInt("numero"),
+                        rs.getString("logradouro"), rs.getString("uf"),
+                        rs.getString("complemento"), rs.getString("cep"),
+                        rs.getInt("id"), rs.getString("cpf_pessoa"));
+
+                Funcionario funcionario = new Funcionario(rs.getString("ctps"), rs.getString("funcao"), rs.getString("especialidade"), rs.getString("registro_profissional"),
+                        dataInscricao, rs.getString("nome"), rs.getString("sobrenome"), rs.getString("cpf"), rs.getString("telefone"),
+                        rs.getString("sexo").charAt(0), dataNasc, endereco);
+
+                pessoas.add(funcionario);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+
+        }
+        fecharConexao();
+        return pessoas;
+
+    }
+
+    public ArrayList<Pessoa> listarTodosFuncionarios() {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        sql = ("SELECT p.cpf, p.nome, p.sobrenome, p.telefone, p.data_nascimento, p.sexo, p.peso, p.ctps, p.especialidade, p.data_inscricao, p.registro_profissional,\n"
+                + "                p.funcao, e.logradouro, e.numero, e.complemento, e.uf, e.bairro ,e.cep ,e.id ,e.cpf_pessoa FROM pessoa p join endereco e on p.cpf = e.cpf_pessoa\n"
+                + "               where p.peso is null");
+
+        try {
+            pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
 
             while (rs.next()) {
