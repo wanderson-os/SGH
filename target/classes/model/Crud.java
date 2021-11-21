@@ -13,7 +13,7 @@ public abstract interface Crud<E> {
 
     public abstract int cadastrar(E entidade);
 
-    public abstract int listar();
+    public abstract void listar();
 
     public abstract int alterar(E entidade);
 

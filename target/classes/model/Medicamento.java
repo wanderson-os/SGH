@@ -1,20 +1,20 @@
 package model;
 
-public class Medicamento {
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Medicamento implements Cloneable {
 
     private String nome;
-
     private float preco;
-
     private int quantidade;
+    private int id;
 
-    public Medicamento(String nome, float preco, int quantidade) {
+    public Medicamento(String nome, float preco, int quantidade, int id) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-    }
-
-    public Medicamento() {
+        this.id = id;
     }
 
     public String getNome() {
@@ -41,4 +41,28 @@ public class Medicamento {
         this.quantidade = quantidade;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Medicamento() {
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    public Medicamento getClone() {
+        try {
+            return (Medicamento) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Medicamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

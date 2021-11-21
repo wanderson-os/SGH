@@ -33,9 +33,10 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
     public EquipeCirurgicaCE() {
 
         initComponents();
-        ecd = new EquipeCirurgicaDao();
         gec = new GerenciaEquipeCirurgica();
         fd = new FuncionarioDao();
+        ecd = new EquipeCirurgicaDao();
+        ecs = ecd.listarE();
         preencheCampos();
 
     }
@@ -50,12 +51,6 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jlCirculante = new javax.swing.JLabel();
-        jlAnestesista = new javax.swing.JLabel();
-        jlInstrumentador = new javax.swing.JLabel();
-        ljCirurgiaoPrincipal = new javax.swing.JLabel();
-        ljEnfermeiroChefe = new javax.swing.JLabel();
-        jlCirurgiaoAssistente = new javax.swing.JLabel();
         tfCirculante = new javax.swing.JTextField();
         tfAnestesista = new javax.swing.JTextField();
         tfInstrumentador = new javax.swing.JTextField();
@@ -67,18 +62,19 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
         btnAnterior = new javax.swing.JButton();
         cbxFuncionarios = new javax.swing.JComboBox<>();
 
-        jlCirculante.setText("Circulante");
+        setClosable(true);
 
-        jlAnestesista.setText("Anestesista");
+        tfCirculante.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Circulante", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jlInstrumentador.setText("Instrumentador");
+        tfAnestesista.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Anestesista", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        ljCirurgiaoPrincipal.setText("Cirurgiao principal");
+        tfInstrumentador.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instrumentador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        ljEnfermeiroChefe.setText("Enfermeiro chefe");
+        tfEnfermeiroChefe.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Enfermeiro Chefe", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jlCirurgiaoAssistente.setText("Cirurgiao Assistente");
+        tfCirurgiaoPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cirurgião Principal", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfCirurgiaoAssistente.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cirurgião Assistente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         tfCirurgiaoAssistente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCirurgiaoAssistenteActionPerformed(evt);
@@ -90,17 +86,9 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlCirculante)
-                    .addComponent(jlAnestesista)
-                    .addComponent(jlInstrumentador)
-                    .addComponent(ljEnfermeiroChefe)
-                    .addComponent(ljCirurgiaoPrincipal)
-                    .addComponent(jlCirurgiaoAssistente))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfCirurgiaoAssistente, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tfCirurgiaoAssistente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                     .addComponent(tfCirurgiaoPrincipal, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tfEnfermeiroChefe, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tfInstrumentador, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -112,29 +100,17 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlCirculante)
-                    .addComponent(tfCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlAnestesista)
-                    .addComponent(tfAnestesista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfAnestesista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlInstrumentador)
-                    .addComponent(tfInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ljEnfermeiroChefe)
-                    .addComponent(tfEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ljCirurgiaoPrincipal)
-                    .addComponent(tfCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlCirurgiaoAssistente)
-                    .addComponent(tfCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tfCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -168,21 +144,22 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(cbxFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnProximo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbxFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnProximo, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(341, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,13 +180,12 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void preencheCampos() {
-        ecs = ecd.listarE();
         if (ecs == null || ecs.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum funcionario cadastrado!");
             btnAcao.setEnabled(false);
         } else {
             for (int i = 0; i < ecs.size(); i++) {
-                cbxFuncionarios.addItem("Equipe " + (i + 1));
+                cbxFuncionarios.addItem("Equipe id: " + ecs.get(i).getId());
 
             }
 
@@ -236,10 +212,6 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
 
     }
 
-
-    private void tfCirurgiaoAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCirurgiaoAssistenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCirurgiaoAssistenteActionPerformed
 
     private void cbxFuncionariosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxFuncionariosItemStateChanged
 
@@ -270,6 +242,10 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnProximoActionPerformed
 
+    private void tfCirurgiaoAssistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCirurgiaoAssistenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCirurgiaoAssistenteActionPerformed
+
     public abstract void btnAcaoActionPerformed(java.awt.event.ActionEvent evt);
 
     public GerenciaEquipeCirurgica getGec() {
@@ -286,10 +262,6 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
 
     public FuncionarioDao getFd() {
         return fd;
-    }
-
-    public EquipeCirurgicaDao getEcd() {
-        return ecd;
     }
 
     public JButton getBtnAcao() {
@@ -327,12 +299,6 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnProximo;
     private javax.swing.JComboBox<String> cbxFuncionarios;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel jlAnestesista;
-    private javax.swing.JLabel jlCirculante;
-    private javax.swing.JLabel jlCirurgiaoAssistente;
-    private javax.swing.JLabel jlInstrumentador;
-    private javax.swing.JLabel ljCirurgiaoPrincipal;
-    private javax.swing.JLabel ljEnfermeiroChefe;
     private javax.swing.JTextField tfAnestesista;
     private javax.swing.JTextField tfCirculante;
     private javax.swing.JTextField tfCirurgiaoAssistente;

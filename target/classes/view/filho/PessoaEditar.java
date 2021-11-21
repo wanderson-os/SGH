@@ -5,6 +5,7 @@
  */
 package view.filho;
 
+import controller.GerenciaEndereco;
 import view.mae.Pessoa;
 import controller.GerenciaFuncionario;
 import controller.GerenciaPaciente;
@@ -33,12 +34,10 @@ public class PessoaEditar extends Pessoa {
 
     javax.swing.JButton btnPCbx, btnACbx;
     JComboBox cbxPessoa;
-    JLabel jlSelecione;
     ArrayList<model.Pessoa> pessoas;
     FuncionarioDao funcionarioDao;
     PacienteDao pacienteDao;
     String painel;
-    private JButton jbSalvar;
     private String nome, sobrenome, cpf, telefone, ctps, funcao, registroProfissional, especialidade;
     float peso;
     private char sexo;
@@ -46,7 +45,7 @@ public class PessoaEditar extends Pessoa {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     GerenciaFuncionario gerenciaFuncionario;
     GerenciaPaciente gerenciaPaciente;
-    EnderecoDao enderecoDao;
+    GerenciaEndereco ge;
 
     public PessoaEditar(String painel, String funcao) {
         super(painel, funcao);
@@ -54,7 +53,7 @@ public class PessoaEditar extends Pessoa {
         this.painel = painel;
         if (painel == "funcionario") {
             funcionarioDao = new FuncionarioDao();
-            pessoas = funcionarioDao.listar(funcao);
+            pessoas = funcionarioDao.listarFuncao(funcao);
             funcionario();
         } else {
             pacienteDao = new PacienteDao();
@@ -62,7 +61,7 @@ public class PessoaEditar extends Pessoa {
             paciente();
 
         }
-        enderecoDao = new EnderecoDao();
+        ge = new GerenciaEndereco();
         funcionarioDao = new FuncionarioDao();
         gerenciaFuncionario = new GerenciaFuncionario();
         gerenciaPaciente = new GerenciaPaciente();
@@ -73,22 +72,19 @@ public class PessoaEditar extends Pessoa {
                 jComboBox1ItemStateChanged(evt);
             }
         });
-        cbxPessoa.setBounds(100, 20, 180, 30);
+
+        cbxPessoa.setBounds(10, 20, 180, 30);
         btnACbx = new JButton();
         btnACbx.setText("Anterior");
-        btnACbx.setBounds(300, 20, 100, 30);
-
+        btnACbx.setBounds(200, 20, 100, 30);
         btnPCbx = new JButton();
         btnPCbx.setText("Proxímo");
-        btnPCbx.setBounds(400, 20, 100, 30);
+        btnPCbx.setBounds(320, 20, 100, 30);
 
         this.add(btnPCbx);
         this.add(btnACbx);
         this.add(cbxPessoa);
-        jlSelecione = new JLabel();
-        jlSelecione.setText("Selecione !");
-        jlSelecione.setBounds(10, 20, 70, 30);
-        add(jlSelecione);
+
         instanciaBotaoAcao("Alterar dados");
         SalvarBotoes();
         addItens();
@@ -96,14 +92,15 @@ public class PessoaEditar extends Pessoa {
     }
 
     private void funcionario() {
-        this.setSize(540, 560);
+        this.setSize(450, 550);
         JDesktop.setBounds(0, 50, 560, 550);
 
     }
 
     private void paciente() {
-        this.setSize(540, 450);
-        JDesktop.setBounds(0, 50, 520, 450);
+        this.setSize(450, 450);
+
+        JDesktop.setBounds(0, 50, 560, 450);
 
     }
 
@@ -115,6 +112,7 @@ public class PessoaEditar extends Pessoa {
         switch (painel) {
             case "paciente":
                 Paciente paciente = (Paciente) pessoas.get(cbxPessoa.getSelectedIndex());
+                String cpfAntigo = paciente.getCpf();
                 paciente.setCpf(cpf);
                 paciente.setDataNasc(dataNasc);
                 paciente.setNome(nome);
@@ -122,13 +120,16 @@ public class PessoaEditar extends Pessoa {
                 paciente.setSobrenome(sobrenome);
                 paciente.setTelefone(telefone);
                 paciente.setEndereco(endereco(paciente));
-                int r = gerenciaPaciente.alterar(paciente);
-                if (r == 2) {
-                    JOptionPane.showMessageDialog(null, "Dados alterados com sucesso !");
+                int r = ge.alterar(paciente.getEndereco());
+                if (r == 1) {
+                 r = gerenciaPaciente.alterar(paciente, cpfAntigo);
+                }
+                if (r == 1) {
+                    JOptionPane.showMessageDialog(this, "Dados alterados com sucesso !");
                     dispose();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados !");
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar dados !");
 
                 }
                 break;
@@ -147,13 +148,15 @@ public class PessoaEditar extends Pessoa {
                 funcionario.setTelefone(telefone);
                 funcionario.setEndereco(endereco(funcionario));
                 int rf = gerenciaFuncionario.alterar(funcionario);
-
+                if (rf == 1) {
+                    rf = ge.alterar(funcionario.getEndereco());
+                }
                 if (rf == 2) {
-                    JOptionPane.showMessageDialog(null, "Dados alterados com sucesso !");
+                    JOptionPane.showMessageDialog(this, "Dados alterados com sucesso !");
                     dispose();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao alterar dados !");
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar dados !");
 
                 }
 

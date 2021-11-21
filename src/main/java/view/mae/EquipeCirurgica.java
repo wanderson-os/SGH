@@ -45,7 +45,6 @@ public abstract class EquipeCirurgica extends javax.swing.JInternalFrame {
         jlInstrumentador = new javax.swing.JLabel();
         cbxInstrumentador = new javax.swing.JComboBox<>();
         cbxCirculante = new javax.swing.JComboBox<>();
-        btnAcao = new javax.swing.JButton();
         btnProximoCirculante = new javax.swing.JButton();
         btnAnteriorCirculante = new javax.swing.JButton();
         btnAnteriorAnestesista = new javax.swing.JButton();
@@ -58,6 +57,9 @@ public abstract class EquipeCirurgica extends javax.swing.JInternalFrame {
         btnProximoCirurgiaoPrincipal = new javax.swing.JButton();
         btnAnteriorCirurgiaoAssistente = new javax.swing.JButton();
         btnProximoCirurgiaoAssistente = new javax.swing.JButton();
+        btnAcao = new javax.swing.JButton();
+
+        setClosable(true);
 
         jlCirurgiaoPrincipal.setText("Cirurgiao Principal");
 
@@ -70,12 +72,6 @@ public abstract class EquipeCirurgica extends javax.swing.JInternalFrame {
         jlCirculante.setText("Circulante");
 
         jlInstrumentador.setText("Instrumentador");
-
-        btnAcao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAcaoActionPerformed(evt);
-            }
-        });
 
         btnProximoCirculante.setText(">>");
         btnProximoCirculante.addActionListener(new java.awt.event.ActionListener() {
@@ -168,50 +164,50 @@ public abstract class EquipeCirurgica extends javax.swing.JInternalFrame {
             .addGroup(jpCamposLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAcao)
+                    .addComponent(jlCirurgiaoAssistente)
+                    .addComponent(jlCirculante)
+                    .addComponent(jlAnestesista)
+                    .addComponent(jlInstrumentador)
+                    .addComponent(jlCirurgiaoPrincipal)
+                    .addComponent(jlEnfermeiroChefe))
+                .addGap(18, 18, 18)
+                .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbxCirurgiaoPrincipal, 0, 182, Short.MAX_VALUE)
+                    .addComponent(cbxEnfermeiroChefe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxInstrumentador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxAnestesista, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxCirurgiaoAssistente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbxCirculante, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpCamposLayout.createSequentialGroup()
-                        .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlCirurgiaoAssistente)
-                            .addComponent(jlCirculante)
-                            .addComponent(jlAnestesista)
-                            .addComponent(jlInstrumentador)
-                            .addComponent(jlCirurgiaoPrincipal)
-                            .addComponent(jlEnfermeiroChefe))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxCirurgiaoPrincipal, 0, 182, Short.MAX_VALUE)
-                            .addComponent(cbxEnfermeiroChefe, 0, 182, Short.MAX_VALUE)
-                            .addComponent(cbxInstrumentador, 0, 182, Short.MAX_VALUE)
-                            .addComponent(cbxAnestesista, 0, 182, Short.MAX_VALUE)
-                            .addComponent(cbxCirculante, 0, 182, Short.MAX_VALUE)
-                            .addComponent(cbxCirurgiaoAssistente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addComponent(btnAnteriorInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnProximoInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpCamposLayout.createSequentialGroup()
+                        .addComponent(btnAnteriorEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnProximoEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpCamposLayout.createSequentialGroup()
+                        .addComponent(btnAnteriorCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnProximoCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpCamposLayout.createSequentialGroup()
+                        .addComponent(btnAnteriorCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnProximoCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpCamposLayout.createSequentialGroup()
+                        .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnAnteriorCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(btnAnteriorAnestesista, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnProximoCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorAnestesista, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnProximoAnestesista, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnProximoInstrumentador, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnProximoEnfermeiroChefe, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnProximoCirurgiaoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpCamposLayout.createSequentialGroup()
-                                .addComponent(btnAnteriorCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnProximoCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpCamposLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(btnProximoCirculante, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jpCamposLayout.setVerticalGroup(
             jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,25 +258,36 @@ public abstract class EquipeCirurgica extends javax.swing.JInternalFrame {
                     .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbxCirurgiaoAssistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jlCirurgiaoAssistente)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(32, Short.MAX_VALUE))
         );
+
+        btnAcao.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        btnAcao.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        btnAcao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jpCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAcao)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jpCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jpCampos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();

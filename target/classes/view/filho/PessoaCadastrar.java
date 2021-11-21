@@ -39,9 +39,8 @@ public class PessoaCadastrar extends Pessoa {
     
     public PessoaCadastrar(String painel, String funcao) {
         super(painel, funcao);
-        initComponents(painel, funcao);
         instanciaBotaoAcao("Salvar");
-        SalvarBotoes();
+        initComponents(painel, funcao);
         enderecoDao = new EnderecoDao();
         funcionarioDao = new FuncionarioDao();
         gerenciaFuncionario = new GerenciaFuncionario();
@@ -52,10 +51,13 @@ public class PessoaCadastrar extends Pessoa {
     private void initComponents(String painel, String funcao) {
         
         if (painel.equals("paciente")) {
-            
+                    SalvarBotoes();
+
+
         } else if (painel.equals("funcionario")) {
             getTfFuncao().setText(funcao);
-            
+                    SalvarBotoes();
+
         }
     }
     
@@ -66,7 +68,8 @@ public class PessoaCadastrar extends Pessoa {
     }
     
     public void PegaCampos() {
-        
+        try {
+            
         nome = getTfNome().getText();
         sobrenome = getTfSobrenome().getText();
         cpf = getJftfCpf().getText();
@@ -85,6 +88,9 @@ public class PessoaCadastrar extends Pessoa {
             sexo = 'M';
         } else if (getRbFeminino().isSelected()) {
             sexo = 'F';
+        }
+        
+        } catch (Exception e) {
         }
         
     }
@@ -107,11 +113,11 @@ public class PessoaCadastrar extends Pessoa {
                 paciente.setPeso(peso);
                 int rp = gerenciaPaciente.cadastrar(paciente);
                 if (rp == 2) {
-                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !");
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
                     dispose();
                     
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
                     
                 }
                 break;
@@ -131,11 +137,11 @@ public class PessoaCadastrar extends Pessoa {
                 funcionario.setEndereco(endereco(funcionario.getCpf()));
                 int rf = gerenciaFuncionario.cadastrar(funcionario);
                 if (rf == 2) {
-                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !");
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
                     dispose();
                     
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
                     
                 }
         }

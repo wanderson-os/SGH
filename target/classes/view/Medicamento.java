@@ -22,6 +22,7 @@ public class Medicamento extends javax.swing.JInternalFrame {
     /**
      * Creates new form Medicamento
      */
+    String nome;
     MedicamentoDao md;
     GerenciaMedicamento gm;
     ArrayList<model.Medicamento> medicamentos;
@@ -30,7 +31,6 @@ public class Medicamento extends javax.swing.JInternalFrame {
         initComponents();
         md = new MedicamentoDao();
         gm = new GerenciaMedicamento();
-        medicamentos = md.listar();
         jpCampos.setVisible(false);
         jpCbx.setVisible(false);
     }
@@ -56,10 +56,10 @@ public class Medicamento extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         tfNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        ftfPreco = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jsQuantidade = new javax.swing.JSpinner();
         btnAcao = new javax.swing.JButton();
+        tfPreco = new javax.swing.JTextField();
 
         setClosable(true);
 
@@ -145,8 +145,6 @@ public class Medicamento extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Preço");
 
-        ftfPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-
         jLabel3.setText("Quantidade");
 
         jsQuantidade.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
@@ -171,8 +169,8 @@ public class Medicamento extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(btnAcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ftfPreco)
-                            .addComponent(jsQuantidade))
+                            .addComponent(jsQuantidade)
+                            .addComponent(tfPreco))
                         .addGap(0, 135, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -186,7 +184,7 @@ public class Medicamento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ftfPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,16 +239,19 @@ public class Medicamento extends javax.swing.JInternalFrame {
         jpCbx.setVisible(false);
         btnAcao.setText("Salvar");
         tfNome.setEditable(true);
-        ftfPreco.setEditable(true);
-
+        tfPreco.setEditable(true);
+        tfNome.setText(null);
+        tfPreco.setText(null);
+        jsQuantidade.setValue(1);
 
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         jpCampos.setVisible(true);
         tfNome.setEditable(false);
-        ftfPreco.setEditable(false);
+        tfPreco.setEditable(false);
         jpCbx.setVisible(true);
+        jsQuantidade.setEnabled(false);
         btnAcao.setText("Fechar");
         if (cbxMedicamentos.getItemCount() <= 0) {
             preencheCampos();
@@ -261,46 +262,78 @@ public class Medicamento extends javax.swing.JInternalFrame {
         jpCampos.setVisible(true);
         jpCbx.setVisible(true);
         tfNome.setEditable(true);
-        ftfPreco.setEditable(true);
+        tfPreco.setEditable(true);
         btnAcao.setText("Alterar");
+        jsQuantidade.setEnabled(true);
+
         if (cbxMedicamentos.getItemCount() <= 0) {
             preencheCampos();
         }
-
-
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         jpCampos.setVisible(true);
         tfNome.setEditable(false);
-        ftfPreco.setEditable(false);
+        tfPreco.setEditable(false);
         jpCbx.setVisible(true);
+        jsQuantidade.setEnabled(false);
+        if (cbxMedicamentos.getItemCount() <= 0) {
+            preencheCampos();
+        }
         btnAcao.setText("Excluir");    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
         switch (btnAcao.getText()) {
             case "Salvar":
                 model.Medicamento medicamento = new model.Medicamento();
                 medicamento.setNome(tfNome.getText());
-                medicamento.setPreco(Float.valueOf(ftfPreco.getText()));
+                medicamento.setPreco(Float.valueOf(tfPreco.getText()));
                 medicamento.setQuantidade((int) jsQuantidade.getValue());
-                gm.cadastrar(medicamento);
+                int r = gm.cadastrar(medicamento);
+                if (r != 1) {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar medicamento !");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
+                    dispose();
+                }
+
                 break;
             case "Excluir":
+                int e = JOptionPane.showConfirmDialog(this, "Deseja excluir ?", "", JOptionPane.OK_CANCEL_OPTION);
+                if (e == JOptionPane.OK_OPTION) {
+                    int re = gm.excluir(medicamentos.get(cbxMedicamentos.getSelectedIndex()));
+                    if (re == 1) {
+                        JOptionPane.showMessageDialog(this, "Medicamento excluido com sucesso !");
+                        preencheCampos();
+                    } else {
 
-                gm.excluir(medicamentos.get(cbxMedicamentos.getSelectedIndex()));
+                        JOptionPane.showMessageDialog(this, "Erro ao excluir medicamento !");
+
+                    }
+
+                }
                 break;
             case "Alterar":
                 model.Medicamento m = medicamentos.get(cbxMedicamentos.getSelectedIndex());
                 m.setNome(tfNome.getText());
-                m.setPreco(Float.valueOf(ftfPreco.getText()));
+                m.setPreco(Float.valueOf(tfPreco.getText()));
                 m.setQuantidade((int) jsQuantidade.getValue());
-                gm.alterar(m, m.getNome());
+                int rf = gm.alterar(m);
+                if (rf == 1) {
+                    JOptionPane.showMessageDialog(this, "Alterado com sucesso !");
+                    preencheCampos();
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar !");
+                    dispose();
+                }
                 break;
-            case "fechar":
+            case "Fechar":
 
-                int e = JOptionPane.showConfirmDialog(null, "Deseja Fechar ?", "", JOptionPane.OK_CANCEL_OPTION);
-                if (e == JOptionPane.OK_OPTION) {
+                int re = JOptionPane.showConfirmDialog(this, "Deseja Fechar ?", "", JOptionPane.OK_CANCEL_OPTION);
+
+                if (re == JOptionPane.OK_OPTION) {
                     dispose();
 
                 }
@@ -311,10 +344,19 @@ public class Medicamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAcaoActionPerformed
 
     private void cbxMedicamentosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxMedicamentosItemStateChanged
-        model.Medicamento m = medicamentos.get(cbxMedicamentos.getSelectedIndex());
-        tfNome.setText(m.getNome());
-        ftfPreco.setText(String.valueOf(m.getPreco()));
-        jsQuantidade.setValue(m.getQuantidade());
+
+        if (cbxMedicamentos == null || cbxMedicamentos.getItemCount() <= 0) {
+
+        } else {
+            model.Medicamento m = medicamentos.get(cbxMedicamentos.getSelectedIndex());
+            tfNome.setText(m.getNome());
+            tfPreco.setText(String.valueOf(m.getPreco()));
+
+            jsQuantidade.setValue(m.getQuantidade());
+            nome = tfNome.getText();
+
+        }
+
 //   if (!medicamentos.isEmpty()) {
 //
 //            SpinnerModel model = new SpinnerNumberModel(1, 1, medicamentos.get(cbxMedicamentos.getSelectedIndex()).getQuantidade(), 1);
@@ -346,19 +388,19 @@ public class Medicamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     public void preencheCampos() {
-
+        medicamentos = md.listar();
         if (medicamentos == null || medicamentos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum medicamento cadastrado !");
+            JOptionPane.showMessageDialog(this, "Nenhum medicamento cadastrado !");
         } else {
+            cbxMedicamentos.removeAllItems();
             for (int i = 0; i < medicamentos.size(); i++) {
                 cbxMedicamentos.addItem(medicamentos.get(i).getNome());
             }
         }
 
     }
-    
-    public void statosTextos()
-    {
+
+    public void statosTextos() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -368,7 +410,6 @@ public class Medicamento extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JComboBox<String> cbxMedicamentos;
-    private javax.swing.JFormattedTextField ftfPreco;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -378,5 +419,6 @@ public class Medicamento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jpCbx;
     private javax.swing.JSpinner jsQuantidade;
     private javax.swing.JTextField tfNome;
+    private javax.swing.JTextField tfPreco;
     // End of variables declaration//GEN-END:variables
 }

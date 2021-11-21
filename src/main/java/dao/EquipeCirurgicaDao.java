@@ -84,18 +84,13 @@ public class EquipeCirurgicaDao {
             pStatement.setString(5, equipeCirurgica.getCirculante().getCpf());
             pStatement.setString(6, equipeCirurgica.getEnfermeiroChefe().getCpf());
             pStatement.setInt(7, equipeCirurgica.getId());
-
+            System.out.println("ID: " + equipeCirurgica.getId());
             pStatement.execute();
             pStatement.close();
             ret = 1;
-            JOptionPane.showMessageDialog(null, equipeCirurgica.getId());
 
-        } catch (SQLException sqle) {
-            JOptionPane.showMessageDialog(null, sqle.getMessage());
-            ret = 2;
-        } catch (NullPointerException npe) {
-            JOptionPane.showMessageDialog(null, npe.getMessage() + " Null");
-            ret = 3;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         fecharConexao();
@@ -123,7 +118,6 @@ public class EquipeCirurgicaDao {
             ret = 1;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Excluir equipeCirurgica: " + e.getMessage());
 
         }
 
@@ -133,28 +127,6 @@ public class EquipeCirurgicaDao {
     }
 
     public ArrayList<EquipeCirurgica> listarE() {
-        ArrayList<EquipeCirurgica> equipeCirurgicas = new ArrayList();
-        EquipeCirurgica ec;
-        ArrayList<CpfF> cpfs = listar();
-        if (cpfs == null || cpfs.isEmpty()) {
-        } else {
-            for (int i = 0; i < cpfs.size(); i++) {
-                ec = new EquipeCirurgica();
-                ec.setAnestesista(funcionario(cpfs.get(i).getAnestesista()));
-                ec.setCirculante(funcionario(cpfs.get(i).getCirculante()));
-                ec.setCirurgiaoAssistente(funcionario(cpfs.get(i).getCirurgiaoAssistente()));
-                ec.setCirurgiaoPrincipal(funcionario(cpfs.get(i).getCirurgiaoPrincipal()));
-                ec.setEnfermeiroChefe(funcionario(cpfs.get(i).getEnfermeiroChefe()));
-                ec.setInstrumentador(funcionario(cpfs.get(i).getInstrumentador()));
-                ec.setId(cpfs.get(i).getId());
-                equipeCirurgicas.add(ec);
-            }
-        }
-
-        return equipeCirurgicas;
-    }
-
-    public ArrayList<CpfF> listar() {
         try {
             conn = Conexao.getConexao();
 
@@ -165,11 +137,9 @@ public class EquipeCirurgicaDao {
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         boolean umaVez = true;
-        ArrayList<CpfF> cpfs = null;
-        CpfF cpf = null;
+        ArrayList<EquipeCirurgica> equipeCirurgicas = null;
 
-        sql = ("SELECT cpf_cirurgiao_p, cpf_cirurgiao_a, cpf_anestesista, cpf_instrumentador, cpf_circulante, cpf_enfermeiro, id\n"
-                + "	FROM public.equipe_cirurgica");
+        sql = ("select * from equipe_cirurgica_completa");
         try {
 
             pStatement = conn.prepareStatement(sql);
@@ -177,33 +147,60 @@ public class EquipeCirurgicaDao {
 
             while (rs.next()) {
                 if (umaVez) {
-                    cpfs = new ArrayList<>();
+                    equipeCirurgicas = new ArrayList<>();
                     umaVez = false;
                 }
-                cpf = new CpfF(rs.getString("cpf_cirurgiao_p"),
-                        rs.getString("cpf_cirurgiao_a"),
-                        rs.getString("cpf_enfermeiro"),
-                        rs.getString("cpf_anestesista"),
-                        rs.getString("cpf_instrumentador"),
-                        rs.getString("cpf_circulante"),
-                        rs.getInt("id")
-                );
+                Funcionario circulante = new Funcionario();
+                circulante.setCpf(rs.getString("cpf_circulante"));
+                circulante.setNome(rs.getString("nome_circulante"));
+                circulante.setSobrenome(rs.getString("sobrenome_circulante"));
 
-                cpfs.add(cpf);
+                Funcionario enfermeiro = new Funcionario();
+                enfermeiro.setCpf(rs.getString("cpf_enfermeiro"));
+                enfermeiro.setNome(rs.getString("nome_enfermeiro"));
+                enfermeiro.setSobrenome(rs.getString("sobrenome_enfermeiro"));
 
+                Funcionario instrumentador = new Funcionario();
+                instrumentador.setCpf(rs.getString("cpf_instrumentador"));
+                instrumentador.setNome(rs.getString("nome_instrumentador"));
+                instrumentador.setSobrenome(rs.getString("sobrenome_instrumentador"));
+
+                Funcionario cirurgiaoP = new Funcionario();
+                cirurgiaoP.setCpf(rs.getString("cpf_cirurgiao_p"));
+                cirurgiaoP.setNome(rs.getString("nome_cirurgiao_p"));
+                cirurgiaoP.setSobrenome(rs.getString("sobrenome_cirurgiao_p"));
+
+                Funcionario cirurgiaoA = new Funcionario();
+                cirurgiaoA.setCpf(rs.getString("cpf_cirurgiao_a"));
+                cirurgiaoA.setNome(rs.getString("nome_cirurgiao_a"));
+                cirurgiaoA.setSobrenome(rs.getString("sobrenome_cirurgiao_a"));
+
+                Funcionario anestesista = new Funcionario();
+                anestesista.setCpf(rs.getString("cpf_anestesista"));
+                anestesista.setNome(rs.getString("nome_anestesista"));
+                anestesista.setSobrenome(rs.getString("sobrenome_anestesista"));
+                EquipeCirurgica equipeCirurgica = new EquipeCirurgica();
+                equipeCirurgica.setAnestesista(anestesista);
+                equipeCirurgica.setCirculante(circulante);
+                equipeCirurgica.setCirurgiaoAssistente(cirurgiaoA);
+                equipeCirurgica.setCirurgiaoPrincipal(cirurgiaoP);
+                equipeCirurgica.setEnfermeiroChefe(enfermeiro);
+                equipeCirurgica.setInstrumentador(instrumentador);
+                equipeCirurgica.setId(rs.getInt("id"));
+
+                equipeCirurgicas.add(equipeCirurgica);
             }
 
         } catch (Exception e) {
-
             JOptionPane.showMessageDialog(null, e.getMessage());
-
         }
         fecharConexao();
-        return cpfs;
+        return equipeCirurgicas;
 
     }
 
-    public Funcionario funcionario(String Cpf) {
+    public EquipeCirurgica listarUnica(int id) {
+        EquipeCirurgica equipeCirurgica = null;
         try {
             conn = Conexao.getConexao();
 
@@ -213,39 +210,82 @@ public class EquipeCirurgicaDao {
         String sql;
         PreparedStatement pStatement = null;
         ResultSet rs = null;
-        Funcionario funcionario = null;
-        boolean umaVez = true;
 
-        sql = ("SELECT p.cpf, p.nome, p.sobrenome, p.telefone, p.data_nascimento, p.sexo, p.ctps, p.especialidade, p.data_inscricao, p.registro_profissional,\n"
-                + "                p.funcao, e.logradouro, e.numero, e.complemento, e.uf, e.bairro ,e.cep ,e.id ,e.cpf_pessoa FROM pessoa p join endereco e on p.cpf = e.cpf_pessoa\n"
-                + "               where p.cpf = ?");
-
+        sql = (" SELECT ec.id,\n"
+                + "    cp.cpf AS cpf_cirurgiao_p,\n"
+                + "    cp.nome AS nome_cirurgiao_p,\n"
+                + "    cp.sobrenome AS sobrenome_cirurgiao_p,\n"
+                + "    ca.cpf AS cpf_cirurgiao_a,\n"
+                + "    ca.nome AS nome_cirurgiao_a,\n"
+                + "    ca.sobrenome AS sobrenome_cirurgiao_a,\n"
+                + "    a.cpf AS cpf_anestesista,\n"
+                + "    a.nome AS nome_anestesista,\n"
+                + "    a.sobrenome AS sobrenome_anestesista,\n"
+                + "    c.cpf AS cpf_circulante,\n"
+                + "    c.nome AS nome_circulante,\n"
+                + "    c.sobrenome AS sobrenome_circulante,\n"
+                + "    i.cpf AS cpf_instrumentador,\n"
+                + "    i.nome AS nome_instrumentador,\n"
+                + "    i.sobrenome AS sobrenome_instrumentador,\n"
+                + "    e.cpf AS cpf_enfermeiro,\n"
+                + "    e.nome AS nome_enfermeiro,\n"
+                + "    e.sobrenome AS sobrenome_enfermeiro\n"
+                + "   FROM pessoa cp\n"
+                + "     JOIN equipe_cirurgica ec ON cp.cpf::text = ec.cpf_cirurgiao_p\n"
+                + "     JOIN pessoa ca ON ca.cpf::text = ec.cpf_cirurgiao_a\n"
+                + "     JOIN pessoa a ON a.cpf::text = ec.cpf_anestesista\n"
+                + "     JOIN pessoa c ON c.cpf::text = ec.cpf_circulante\n"
+                + "     JOIN pessoa i ON i.cpf::text = ec.cpf_instrumentador\n"
+                + "     JOIN pessoa e ON e.cpf::text = ec.cpf_enfermeiro\n"
+                + "	  join cirurgia cr on cr.id_equipe_cirurgica = ec.id\n"
+                + "	  join cirurgia_prontuario cpr on cpr.id_cirurgia = cr.id\n"
+                + "		where cpr.id_cirurgia = ?");
         try {
+
             pStatement = conn.prepareStatement(sql);
-            pStatement.setString(1, Cpf);
+            pStatement.setInt(1, id);
             rs = pStatement.executeQuery();
 
             while (rs.next()) {
 
-                LocalDate dataNasc = rs.getDate("data_nascimento").toLocalDate();
-                LocalDate dataInscricao = rs.getDate("data_inscricao").toLocalDate();
-                Endereco endereco = new Endereco(rs.getString("bairro"), rs.getInt("numero"),
-                        rs.getString("logradouro"), rs.getString("uf"),
-                        rs.getString("complemento"), rs.getString("cep"),
-                        rs.getInt("id"), rs.getString("cpf_pessoa"));
+                Funcionario circulante = new Funcionario();
+                circulante.setCpf(rs.getString("cpf_circulante"));
+                circulante.setNome(rs.getString("nome_circulante"));
+                circulante.setSobrenome(rs.getString("sobrenome_circulante"));
 
-                funcionario = new Funcionario(rs.getString("ctps"), rs.getString("funcao"), rs.getString("especialidade"), rs.getString("registro_profissional"),
-                        dataInscricao, rs.getString("nome"), rs.getString("sobrenome"), rs.getString("cpf"), rs.getString("telefone"),
-                        rs.getString("sexo").charAt(0), dataNasc, endereco);
+                Funcionario enfermeiro = new Funcionario();
+                enfermeiro.setCpf(rs.getString("cpf_enfermeiro"));
+                enfermeiro.setNome(rs.getString("nome_enfermeiro"));
+                enfermeiro.setSobrenome(rs.getString("sobrenome_enfermeiro"));
 
+                Funcionario instrumentador = new Funcionario();
+                instrumentador.setCpf(rs.getString("cpf_instrumentador"));
+                instrumentador.setNome(rs.getString("nome_instrumentador"));
+                instrumentador.setSobrenome(rs.getString("sobrenome_instrumentador"));
+
+                Funcionario cirurgiaoP = new Funcionario();
+                cirurgiaoP.setCpf(rs.getString("cpf_cirurgiao_p"));
+                cirurgiaoP.setNome(rs.getString("nome_cirurgiao_p"));
+                cirurgiaoP.setSobrenome(rs.getString("sobrenome_cirurgiao_p"));
+
+                Funcionario cirurgiaoA = new Funcionario();
+                cirurgiaoA.setCpf(rs.getString("cpf_cirurgiao_a"));
+                cirurgiaoA.setNome(rs.getString("nome_cirurgiao_a"));
+                cirurgiaoA.setSobrenome(rs.getString("sobrenome_cirurgiao_a"));
+
+                Funcionario anestesista = new Funcionario();
+                anestesista.setCpf(rs.getString("cpf_anestesista"));
+                anestesista.setNome(rs.getString("nome_anestesista"));
+                anestesista.setSobrenome(rs.getString("sobrenome_anestesista"));
+                equipeCirurgica = new EquipeCirurgica(cirurgiaoP, cirurgiaoA, enfermeiro, anestesista, instrumentador, circulante);
+            
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-
         }
         fecharConexao();
-        return funcionario;
+        return equipeCirurgica;
 
     }
 

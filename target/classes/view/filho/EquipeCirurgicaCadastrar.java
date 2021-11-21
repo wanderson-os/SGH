@@ -28,7 +28,7 @@ public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
         getBtnAcao().setText("Salvar");
         gec = new GerenciaEquipeCirurgica();
         fd = new FuncionarioDao();
-        pessoas = fd.listarTodosFuncionarios();
+        pessoas = fd.listarFuncionarioNC();
         preencheCampos();
 
         if (getCbxAnestesista().getItemCount() < 1
@@ -45,7 +45,7 @@ public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
 
     public void preencheCampos() {
         if (pessoas == null || pessoas.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum funcionario cadastrado!");
+            JOptionPane.showMessageDialog(this, "Nenhum funcionario cadastrado!");
         } else {
             for (int i = 0; i < pessoas.size(); i++) {
                 Funcionario f = (Funcionario) pessoas.get(i);
@@ -107,7 +107,7 @@ public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
 
             } else if ((pessoas.get(i).getNome() + " " + pessoas.get(i).getSobrenome()).equals(CirurgiaoP)) {
                 cirurgiaoPrincipal = (Funcionario) pessoas.get(i);
-                JOptionPane.showMessageDialog(null, cirurgiaoPrincipal.getCpf() + " " + cirurgiaoPrincipal.getNome());
+                JOptionPane.showMessageDialog(this, cirurgiaoPrincipal.getCpf() + " " + cirurgiaoPrincipal.getNome());
 
             } else if ((pessoas.get(i).getNome() + " " + pessoas.get(i).getSobrenome()).equals(CirurgiaoA)) {
                 cirurgiaoAssistente = (Funcionario) pessoas.get(i);
@@ -119,14 +119,14 @@ public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
 
         int r = gec.cadastrar(ec);
         if (r == 1) {
-            JOptionPane.showMessageDialog(null, "Dados Cadastrados com sucesso !");
+            JOptionPane.showMessageDialog(this, "Dados Cadastrados com sucesso !");
             dispose();
         } else {
             if (r == 3) {
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar. Cirurgião principal e Cirurgião assistente não podem ser a mesma pessoa !");
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar. Cirurgião principal e Cirurgião assistente não podem ser a mesma pessoa !");
 
             } else {
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar. Equipe cirurgica existente !");
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar. Equipe cirurgica existente !");
             }
         }
     }

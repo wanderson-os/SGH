@@ -1,0 +1,10 @@
+SELECT 
+p. cpf as "CPF Paciente", p.nome as paciente, p.sobrenome as "Sobrenome Paciente", p.telefone as "Telefone Paciente", p.data_nascimento as "Data nascimento paciente", p.sexo as "Sexo paciente", p.peso,
+pm. cpf as "CPF Medico", pm.nome as Medico, pm.sobrenome as "Sobrenome Medico", pm.telefone as "Telefone Medico", pm.data_nascimento as "Data nascimento Medico", pm.sexo as "Sexo Medico",
+pr.data as "Data prontuario", pr.hora as "Hora prontuario", pr.diagnostico as "Diagnostico prontuario", pr.id as "ID prontuario",
+	c.id_equipe_cirurgica , c.data as "Data cirurgia", c.hora as "hora cirurgia", c.valor as "Valor cirurgia", c.relatorio as "Relatorio cirurgia", c.sala_cirurgica_id, c.id as "ID cirurgia"
+	FROM prontuario pr 
+	join pessoa p on p.cpf = pr.cpf_paciente
+	join pessoa pm on pm.cpf = pr.cpf_medico
+join cirurgia_prontuario cp on pr.id = cp.id_prontuario
+join cirurgia c on c.id = cp.id_cirurgia

@@ -107,7 +107,7 @@ public class EnderecoDao {
         int ret = 0;
         PreparedStatement pStatement = null;
         sql = "UPDATE public.endereco\n"
-                + "	SET complemento=?, numero=?, logradouro=?, uf=?, bairro=?, cep=?, cpf_pessoa=?\n"
+                + "	SET complemento=?, numero=?, logradouro=?, uf=?, bairro=?, cep=?\n"
                 + "	WHERE id = ?";
         try {
             pStatement = conn.prepareStatement(sql);
@@ -117,14 +117,16 @@ public class EnderecoDao {
             pStatement.setString(4, endereco.getUf());
             pStatement.setString(5, endereco.getBairro());
             pStatement.setString(6, endereco.getCep());
-            pStatement.setString(7, endereco.getCpf_pessoa());
-            pStatement.setInt(8, endereco.getId());
 
+            pStatement.setInt(7, endereco.getId());
+            System.out.println("ID ENDERECO :" + endereco.getId());
+            System.out.println("CPF ENDERECO :" + endereco.getCpf_pessoa());
             pStatement.execute();
             pStatement.close();
             ret = 1;
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         fecharConexao();

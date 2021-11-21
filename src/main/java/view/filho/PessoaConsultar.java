@@ -29,7 +29,6 @@ public class PessoaConsultar extends Pessoa {
     
     javax.swing.JButton btnSalvar, btnPCbx, btnACbx;
     JComboBox cbxPessoa;
-    JLabel jlSelecione;
     ArrayList<model.Pessoa> pessoas;
     FuncionarioDao funcionarioDao;
     PacienteDao pacienteDao;
@@ -41,12 +40,13 @@ public class PessoaConsultar extends Pessoa {
         this.painel = painel;
         if (painel == "funcionario") {
             funcionarioDao = new FuncionarioDao();
-           
+            
             if (funcao == "Geral") {
                 pessoas = funcionarioDao.listarTodosFuncionarios();
                 
+            } else {
+                pessoas = funcionarioDao.listarFuncao(funcao);
             }
-            pessoas = funcionarioDao.listar(funcao);
             funcionario();
         } else {
             pacienteDao = new PacienteDao();
@@ -60,21 +60,17 @@ public class PessoaConsultar extends Pessoa {
         this.add(btnSalvar);
         cbxPessoa = new JComboBox();
         cbxPessoa.addItemListener(this::jComboBox1ItemStateChanged);
-        cbxPessoa.setBounds(100, 20, 180, 30);
+        cbxPessoa.setBounds(10, 20, 180, 30);
         btnACbx = new JButton();
         btnACbx.setText("Anterior");
-        btnACbx.setBounds(300, 20, 100, 30);
+        btnACbx.setBounds(200, 20, 100, 30);
         btnPCbx = new JButton();
         btnPCbx.setText("Proxímo");
-        btnPCbx.setBounds(400, 20, 100, 30);
+        btnPCbx.setBounds(320, 20, 100, 30);
         
         this.add(btnPCbx);
         this.add(btnACbx);
         this.add(cbxPessoa);
-        jlSelecione = new JLabel();
-        jlSelecione.setText("Selecione !");
-        jlSelecione.setBounds(10, 20, 70, 30);
-        add(jlSelecione);
         instanciaBotaoAcao("Fechar");
         SalvarBotoes();
         addItens();
@@ -83,13 +79,13 @@ public class PessoaConsultar extends Pessoa {
     }
     
     private void funcionario() {
-        this.setSize(540, 560);
+        this.setSize(450, 550);
         JDesktop.setBounds(0, 50, 560, 550);
         
     }
     
     private void paciente() {
-        this.setSize(540, 450);
+        this.setSize(450, 450);
         JDesktop.setBounds(0, 50, 520, 450);
         
     }
@@ -124,7 +120,7 @@ public class PessoaConsultar extends Pessoa {
     
     public void addItens() {
         if (pessoas == null || pessoas.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum cadastro encontrado !");
+            JOptionPane.showMessageDialog(this, "Nenhum cadastro encontrado !");
         } else {
             for (int i = 0; i < pessoas.size(); i++) {
                 cbxPessoa.addItem(pessoas.get(i).getNome() + " " + pessoas.get(i).getSobrenome());

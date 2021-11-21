@@ -56,17 +56,11 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
         jpAvanco1 = new javax.swing.JPanel();
         jpCampos = new javax.swing.JPanel();
         jpPessoa = new javax.swing.JPanel();
-        jlCpf = new javax.swing.JLabel();
-        jlNome = new javax.swing.JLabel();
-        jlSobrenome = new javax.swing.JLabel();
-        jlTelefone = new javax.swing.JLabel();
-        jlDataNascimento = new javax.swing.JLabel();
         jftfDataNascimento = new javax.swing.JFormattedTextField();
         jftfTelefone = new javax.swing.JFormattedTextField();
         tfSobrenome = new javax.swing.JTextField();
         tfNome = new javax.swing.JTextField();
         jftfCpf = new javax.swing.JFormattedTextField();
-        jlSexo = new javax.swing.JLabel();
         rbMasculino = new javax.swing.JRadioButton();
         rbFeminino = new javax.swing.JRadioButton();
         jpPaciente = new javax.swing.JPanel();
@@ -74,33 +68,23 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
         jsPeso = new javax.swing.JSpinner();
         jpFuncionario = new javax.swing.JPanel();
         ftfCtps = new javax.swing.JFormattedTextField();
-        jlCtps = new javax.swing.JLabel();
-        jlFuncao = new javax.swing.JLabel();
-        jlRegistroProfissional = new javax.swing.JLabel();
         ftfRegistroProfissional = new javax.swing.JFormattedTextField();
-        ljDataInscricao = new javax.swing.JLabel();
         ftfDataInscricao = new javax.swing.JFormattedTextField();
-        jlEspecialidade = new javax.swing.JLabel();
         tfEspecialidade = new javax.swing.JTextField();
         tfFuncao = new javax.swing.JTextField();
         jbProximo = new javax.swing.JButton();
         jpAvanco2 = new javax.swing.JPanel();
         jpCampos1 = new javax.swing.JPanel();
-        jlLogradouro = new javax.swing.JLabel();
-        ljNumero = new javax.swing.JLabel();
         tfLogradouro = new javax.swing.JTextField();
         tfNumero = new javax.swing.JFormattedTextField();
-        jlBairro = new javax.swing.JLabel();
         tfBairro = new javax.swing.JTextField();
-        jlUf = new javax.swing.JLabel();
         cbxUf = new javax.swing.JComboBox<>();
-        jlComplemento = new javax.swing.JLabel();
         tfComplemento = new javax.swing.JTextField();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jlCep = new javax.swing.JLabel();
+        btnVoltar = new javax.swing.JToggleButton();
         jftfCep = new javax.swing.JFormattedTextField();
 
         setClosable(true);
+        getContentPane().setLayout(null);
 
         JDesktop.setBackground(new java.awt.Color(60, 63, 65));
         JDesktop.setForeground(new java.awt.Color(102, 102, 102));
@@ -113,35 +97,30 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             }
         });
 
-        jlCpf.setText("CPF");
-
-        jlNome.setText("Nome");
-
-        jlSobrenome.setText("Sobrenome");
-
-        jlTelefone.setText("Telefone");
-
-        jlDataNascimento.setText("Data de Nascimento");
-
+        jftfDataNascimento.setBorder(javax.swing.BorderFactory.createTitledBorder("Data de Nascimento"));
         try {
             jftfDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        jftfTelefone.setBorder(javax.swing.BorderFactory.createTitledBorder("Telefone"));
         try {
             jftfTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#.####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        tfSobrenome.setBorder(javax.swing.BorderFactory.createTitledBorder("Sobrenome"));
+
+        tfNome.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
+
+        jftfCpf.setBorder(javax.swing.BorderFactory.createTitledBorder("CPF"));
         try {
             jftfCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-
-        jlSexo.setText("Sexo");
 
         bgSexo.add(rbMasculino);
         rbMasculino.setText("Masculino");
@@ -157,53 +136,35 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpPessoaLayout.createSequentialGroup()
-                        .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlSobrenome)
-                            .addComponent(jlCpf)
-                            .addComponent(jlNome))
-                        .addGap(103, 103, 103)
-                        .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jftfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfSobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jftfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jftfDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jlTelefone)
-                    .addComponent(jlDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jpPessoaLayout.createSequentialGroup()
-                        .addComponent(jlSexo)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbMasculino)
+                        .addComponent(jftfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbFeminino)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpPessoaLayout.createSequentialGroup()
+                        .addComponent(jftfDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(rbMasculino)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbFeminino))
+                    .addGroup(jpPessoaLayout.createSequentialGroup()
+                        .addComponent(tfSobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jftfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         jpPessoaLayout.setVerticalGroup(
             jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpPessoaLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(23, 23, 23)
                 .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlCpf)
-                    .addComponent(jftfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlNome)
+                    .addComponent(jftfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlSobrenome)
-                    .addComponent(tfSobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlTelefone)
+                    .addComponent(tfSobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jftfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlDataNascimento)
-                    .addComponent(jftfDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlSexo)
+                    .addComponent(jftfDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbMasculino)
                     .addComponent(rbFeminino))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -234,35 +195,31 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        ftfCtps.setBorder(javax.swing.BorderFactory.createTitledBorder("CTPS"));
         try {
             ftfCtps.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jlCtps.setText("CTPS");
-
-        jlFuncao.setText("Função");
-
-        jlRegistroProfissional.setText("Registro Profissional");
-
+        ftfRegistroProfissional.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro Profissional"));
         try {
             ftfRegistroProfissional.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######-#")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        ljDataInscricao.setText("Data da Inscriçao");
-
+        ftfDataInscricao.setBorder(javax.swing.BorderFactory.createTitledBorder("Data de Inscrição"));
         try {
             ftfDataInscricao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jlEspecialidade.setText("Especialidade");
+        tfEspecialidade.setBorder(javax.swing.BorderFactory.createTitledBorder("Especialidade"));
 
         tfFuncao.setEditable(false);
+        tfFuncao.setBorder(javax.swing.BorderFactory.createTitledBorder("Função"));
 
         javax.swing.GroupLayout jpFuncionarioLayout = new javax.swing.GroupLayout(jpFuncionario);
         jpFuncionario.setLayout(jpFuncionarioLayout);
@@ -272,23 +229,13 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpFuncionarioLayout.createSequentialGroup()
-                        .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlFuncao)
-                            .addComponent(jlCtps))
-                        .addGap(50, 50, 50)
-                        .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ftfCtps, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(tfFuncao))
+                        .addComponent(ftfCtps, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ljDataInscricao)
-                            .addComponent(jlRegistroProfissional))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ftfDataInscricao, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(ftfRegistroProfissional)))
+                        .addComponent(ftfDataInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ftfRegistroProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpFuncionarioLayout.createSequentialGroup()
-                        .addComponent(jlEspecialidade)
+                        .addComponent(tfFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(tfEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -297,47 +244,29 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpFuncionarioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ftfCtps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlCtps)
-                    .addComponent(ljDataInscricao)
-                    .addComponent(ftfDataInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ftfRegistroProfissional, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ftfCtps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ftfDataInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlFuncao)
-                    .addComponent(ftfRegistroProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlRegistroProfissional)
-                    .addComponent(tfFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jpFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlEspecialidade)
+                    .addComponent(tfFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        jbProximo.setText("Proximo");
-        jbProximo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbProximoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jpCamposLayout = new javax.swing.GroupLayout(jpCampos);
         jpCampos.setLayout(jpCamposLayout);
         jpCamposLayout.setHorizontalGroup(
             jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpCamposLayout.createSequentialGroup()
-                .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpCamposLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jpCamposLayout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(jbProximo)))
-                .addContainerGap(14, Short.MAX_VALUE))
             .addComponent(jpFuncionario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jpCamposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jpCamposLayout.setVerticalGroup(
             jpCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,10 +277,15 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
                 .addComponent(jpPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbProximo)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jbProximo.setText("Proximo");
+        jbProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbProximoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpAvanco1Layout = new javax.swing.GroupLayout(jpAvanco1);
         jpAvanco1.setLayout(jpAvanco1Layout);
@@ -360,39 +294,48 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             .addGroup(jpAvanco1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jpAvanco1Layout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(jbProximo)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jpAvanco1Layout.setVerticalGroup(
             jpAvanco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAvanco1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpCampos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbProximo)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         jtAvanco.addTab("Cadastro Inicial", jpAvanco1);
 
-        jlLogradouro.setText("Logradouro");
+        tfLogradouro.setBorder(javax.swing.BorderFactory.createTitledBorder("Logradouro"));
 
-        ljNumero.setText("Número");
+        tfNumero.setBorder(javax.swing.BorderFactory.createTitledBorder("Número"));
 
-        jlBairro.setText("Bairro");
-
-        jlUf.setText("UF");
+        tfBairro.setBorder(javax.swing.BorderFactory.createTitledBorder("Bairro"));
 
         cbxUf.setMaximumRowCount(4);
         cbxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MG", "RO", "AC", "AM", "RR", "PA", "AP", "TO", "MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA", "ES", "RJ", "SP", "PR", "SC", "RS", "MS", "MT", "GO", "DF" }));
+        cbxUf.setBorder(javax.swing.BorderFactory.createTitledBorder("UF"));
 
-        jlComplemento.setText("Complemento");
+        tfComplemento.setBorder(javax.swing.BorderFactory.createTitledBorder("Complemento"));
 
-        jToggleButton4.setText("Voltar");
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
+                btnVoltarActionPerformed(evt);
+            }
+        });
+        btnVoltar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                btnVoltarKeyReleased(evt);
             }
         });
 
-        jlCep.setText("Cep");
-
+        jftfCep.setBorder(javax.swing.BorderFactory.createTitledBorder("CEP"));
         try {
             jftfCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
         } catch (java.text.ParseException ex) {
@@ -405,69 +348,41 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCampos1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpCampos1Layout.createSequentialGroup()
-                        .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpCampos1Layout.createSequentialGroup()
-                        .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jpCampos1Layout.createSequentialGroup()
-                                .addComponent(jlLogradouro)
-                                .addGap(137, 137, 137))
-                            .addComponent(tfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ljNumero)))
-                    .addGroup(jpCampos1Layout.createSequentialGroup()
-                        .addComponent(cbxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jftfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jpCampos1Layout.createSequentialGroup()
-                        .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpCampos1Layout.createSequentialGroup()
-                                .addComponent(jlBairro)
-                                .addGap(186, 186, 186)
-                                .addComponent(jlComplemento))
-                            .addGroup(jpCampos1Layout.createSequentialGroup()
-                                .addComponent(jlUf)
-                                .addGap(76, 76, 76)
-                                .addComponent(jlCep)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(cbxUf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jftfCep))
+                    .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tfNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                        .addComponent(tfComplemento))
+                    .addComponent(btnVoltar))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jpCampos1Layout.setVerticalGroup(
             jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCampos1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlLogradouro)
-                    .addComponent(ljNumero))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(9, 9, 9)
                 .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlBairro)
-                    .addComponent(jlComplemento))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlUf)
-                    .addComponent(jlCep))
+                .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpCampos1Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(tfComplemento, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                    .addGroup(jpCampos1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(tfBairro)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpCampos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxUf, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jftfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton4))
-                .addGap(0, 57, Short.MAX_VALUE))
+                    .addComponent(btnVoltar))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jpAvanco2Layout = new javax.swing.GroupLayout(jpAvanco2);
@@ -477,14 +392,14 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             .addGroup(jpAvanco2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpCampos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jpAvanco2Layout.setVerticalGroup(
             jpAvanco2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpAvanco2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addContainerGap()
                 .addComponent(jpCampos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         jtAvanco.addTab("Endereço", jpAvanco2);
@@ -497,7 +412,7 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
             JDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JDesktopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtAvanco)
+                .addComponent(jtAvanco, javax.swing.GroupLayout.PREFERRED_SIZE, 446, Short.MAX_VALUE)
                 .addContainerGap())
         );
         JDesktopLayout.setVerticalGroup(
@@ -508,22 +423,8 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(JDesktop)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(JDesktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
+        getContentPane().add(JDesktop);
+        JDesktop.setBounds(0, 6, 458, 488);
         JDesktop.getAccessibleContext().setAccessibleParent(JDesktop);
 
         pack();
@@ -542,29 +443,35 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jbProximoActionPerformed
 
-    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         jtAvanco.setSelectedIndex(0);
-    }//GEN-LAST:event_jToggleButton4ActionPerformed
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnVoltarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnVoltarKeyReleased
+
+        System.out.println( "X: " +btnVoltar.getX()+ "Y: "+btnVoltar.getY());
+
+    }//GEN-LAST:event_btnVoltarKeyReleased
 
     public void visivel(String painel) {
 
         if (painel.equals("paciente")) {
-            this.setSize(450, 400);
+            this.setSize(435, 400);
             jpCampos.add(jbProximo);
-            jbProximo.setBounds(140, 275, 80, 25);
+            jbProximo.setBounds(100, 100, 80, 25);
             jpPaciente.setVisible(true);
+            jpFuncionario.setVisible(false);
         } else if (painel.equals("funcionario")) {
             jpFuncionario.setVisible(true);
             jpPaciente.setVisible(false);
-            this.setSize(600, 600);
+            this.setSize(435, 550);
 
         }
     }
 
     public void SalvarBotoes() {
         jpCampos1.add(jbAcao);
-        jpCampos1.add(jbAcao);
-        jbAcao.setBounds(5, 220, 80, 25);
+        jbAcao.setBounds(220, 190, 80, 30);
 
     }
 
@@ -645,9 +552,7 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
 
     }
 
-    public JLabel getJlSexo() {
-        return jlSexo;
-    }
+    
 
     public JRadioButton getRbFeminino() {
         return rbFeminino;
@@ -672,32 +577,17 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JDesktopPane JDesktop;
     private javax.swing.ButtonGroup bgSexo;
+    private javax.swing.JToggleButton btnVoltar;
     private javax.swing.JComboBox<String> cbxUf;
     private javax.swing.JFormattedTextField ftfCtps;
     private javax.swing.JFormattedTextField ftfDataInscricao;
     private javax.swing.JFormattedTextField ftfRegistroProfissional;
-    private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JButton jbProximo;
     private javax.swing.JFormattedTextField jftfCep;
     private javax.swing.JFormattedTextField jftfCpf;
     private javax.swing.JFormattedTextField jftfDataNascimento;
     private javax.swing.JFormattedTextField jftfTelefone;
-    private javax.swing.JLabel jlBairro;
-    private javax.swing.JLabel jlCep;
-    private javax.swing.JLabel jlComplemento;
-    private javax.swing.JLabel jlCpf;
-    private javax.swing.JLabel jlCtps;
-    private javax.swing.JLabel jlDataNascimento;
-    private javax.swing.JLabel jlEspecialidade;
-    private javax.swing.JLabel jlFuncao;
-    private javax.swing.JLabel jlLogradouro;
-    private javax.swing.JLabel jlNome;
     private javax.swing.JLabel jlPeso;
-    private javax.swing.JLabel jlRegistroProfissional;
-    private javax.swing.JLabel jlSexo;
-    private javax.swing.JLabel jlSobrenome;
-    private javax.swing.JLabel jlTelefone;
-    private javax.swing.JLabel jlUf;
     private javax.swing.JPanel jpAvanco1;
     private javax.swing.JPanel jpAvanco2;
     protected javax.swing.JPanel jpCampos;
@@ -707,8 +597,6 @@ public abstract class Pessoa extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jpPessoa;
     private javax.swing.JSpinner jsPeso;
     private javax.swing.JTabbedPane jtAvanco;
-    private javax.swing.JLabel ljDataInscricao;
-    private javax.swing.JLabel ljNumero;
     private javax.swing.JRadioButton rbFeminino;
     private javax.swing.JRadioButton rbMasculino;
     private javax.swing.JTextField tfBairro;

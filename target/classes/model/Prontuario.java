@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Prontuario {
 
@@ -10,9 +11,9 @@ public class Prontuario {
     private LocalDate data;
     private LocalTime hora;
     private String diagnostico;
-    private Medicamento[] medicamentos;
-    private Cirurgia[] cirurgias;
-    private Exame[] exames;
+    private ArrayList<Medicamento> medicamentos;
+    private ArrayList<Cirurgia> cirurgias;
+    private ArrayList<Exame> exames;
     private Alta alta;
     private int id;
 
@@ -59,27 +60,27 @@ public class Prontuario {
         this.diagnostico = diagnostico;
     }
 
-    public Medicamento[] getMedicamentos() {
+    public ArrayList<Medicamento> getMedicamentos() {
         return medicamentos;
     }
 
-    public void setMedicamentos(Medicamento[] medicamentos) {
+    public void setMedicamentos(ArrayList<Medicamento> medicamentos) {
         this.medicamentos = medicamentos;
     }
 
-    public Cirurgia[] getCirurgias() {
+    public ArrayList<Cirurgia> getCirurgias() {
         return cirurgias;
     }
 
-    public void setCirurgias(Cirurgia[] cirurgias) {
+    public void setCirurgias(ArrayList<Cirurgia> cirurgias) {
         this.cirurgias = cirurgias;
     }
 
-    public Exame[] getExames() {
+    public ArrayList<Exame> getExames() {
         return exames;
     }
 
-    public void setExames(Exame[] exames) {
+    public void setExames(ArrayList<Exame> exames) {
         this.exames = exames;
     }
 
@@ -99,5 +100,7 @@ public class Prontuario {
         this.id = id;
     }
 
-   
+    
+    
+    
 }

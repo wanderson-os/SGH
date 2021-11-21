@@ -24,29 +24,28 @@ import model.Paciente;
  * @author Wanderson_M
  */
 public class PessoaDeletar extends Pessoa {
-    
+
     javax.swing.JButton btnSalvar, btnPCbx, btnACbx;
     JComboBox cbxPessoa;
-    JLabel jlSelecione;
     ArrayList<model.Pessoa> pessoas;
     FuncionarioDao funcionarioDao;
     PacienteDao pacienteDao;
     String funcao, painel;
     private JButton jbExcluir;
-    
+
     public PessoaDeletar(String painel, String funcao) {
         super(painel, funcao);
         this.funcao = funcao;
         this.painel = painel;
         if (painel == "funcionario") {
             funcionarioDao = new FuncionarioDao();
-            pessoas = funcionarioDao.listar(funcao);
+            pessoas = funcionarioDao.listarFuncao(funcao);
             funcionario();
         } else {
             pacienteDao = new PacienteDao();
             pessoas = pacienteDao.listar();
             paciente();
-            
+
         }
         btnSalvar = new javax.swing.JButton();
         btnSalvar.setBounds(9, 500, 70, 25);
@@ -58,76 +57,71 @@ public class PessoaDeletar extends Pessoa {
                 jComboBox1ItemStateChanged(evt);
             }
         });
-        cbxPessoa.setBounds(100, 20, 180, 30);
+        cbxPessoa.setBounds(10, 20, 180, 30);
         btnACbx = new JButton();
         btnACbx.setText("Anterior");
-        btnACbx.setBounds(300, 20, 100, 30);
-        
+        btnACbx.setBounds(200, 20, 100, 30);
         btnPCbx = new JButton();
         btnPCbx.setText("Proxímo");
-        btnPCbx.setBounds(400, 20, 100, 30);
-        
+        btnPCbx.setBounds(320, 20, 100, 30);
+
         this.add(btnPCbx);
         this.add(btnACbx);
         this.add(cbxPessoa);
-        jlSelecione = new JLabel();
-        jlSelecione.setText("Selecione !");
-        jlSelecione.setBounds(10, 20, 70, 30);
-        add(jlSelecione);
+        
         instanciaBotaoAcao("Excluir");
         SalvarBotoes();
         addItens();
         EditableOff();
-        
+
     }
-    
+
     private void funcionario() {
-        this.setSize(540, 560);
+        this.setSize(450, 550);
         JDesktop.setBounds(0, 50, 560, 550);
-        
+
     }
-    
+
     private void paciente() {
-        this.setSize(540, 450);
+        this.setSize(450, 450);
         JDesktop.setBounds(0, 50, 520, 450);
-        
+
     }
-    
+
     @Override
     public void jbAcaoActionPerformed(ActionEvent ae, String string) {
         int i = 0;
-        int e = JOptionPane.showConfirmDialog(null, "Deseja excluir ?", "", JOptionPane.OK_CANCEL_OPTION);
+        int e = JOptionPane.showConfirmDialog(this, "Deseja excluir ?", "", JOptionPane.OK_CANCEL_OPTION);
         if (e == JOptionPane.OK_OPTION) {
-//                JOptionPane.showMessageDialog(null, getTfFuncao().getText());
 
             if ("paciente".equals(getTfFuncao().getText())) {
                 i = pacienteDao.excluir((Paciente) pessoas.get(cbxPessoa.getSelectedIndex()));
-                
+
                 if (i == 1) {
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir paciente !");
-                    
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir paciente !");
+
                 } else if (i == 2) {
-                    JOptionPane.showMessageDialog(null, "Excluido com sucesso !");
+                    JOptionPane.showMessageDialog(this, "Excluido com sucesso !");
                     dispose();
-                    
+
                 }
             } else {
                 i = funcionarioDao.excluir((Funcionario) pessoas.get(cbxPessoa.getSelectedIndex()));
                 if (i == 1) {
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir funcionario");
-                    
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir funcionario");
+
                 } else if (i == 2) {
-                    JOptionPane.showMessageDialog(null, "Excluido com sucesso !");
+                    JOptionPane.showMessageDialog(this, "Excluido com sucesso !");
                     dispose();
-                    
+
                 }
-                
+
             }
-            
+
         }
-        
+
     }
-    
+
     public void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {
         if (painel == "funcionario") {
             SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
@@ -141,11 +135,11 @@ public class PessoaDeletar extends Pessoa {
         } else if (painel == "paciente") {
             Paciente paciente = (Paciente) pessoas.get(cbxPessoa.getSelectedIndex());
             preencheCamposPessoa(paciente);
-            
+
         }
-        
+
     }
-    
+
     public void addItens() {
         if (pessoas == null || pessoas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum cadastro encontrado !");
@@ -164,12 +158,13 @@ public class PessoaDeletar extends Pessoa {
                     btnACbxActionPerformed(evt);
                 }
             });
-            
+
         }
     }
-    
+
     public void preencheCamposPessoa(model.Pessoa p) {
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        getTfFuncao().setText("paciente");
         getTfNome().setText(p.getNome());
         getJftfCpf().setText(p.getCpf());
         getTfSobrenome().setText(p.getSobrenome());
@@ -187,9 +182,9 @@ public class PessoaDeletar extends Pessoa {
             getRbFeminino().setSelected(true);
         }
     }
-    
+
     public void EditableOff() {
-        
+
         getTfNome().setEditable(false);
         getJftfCpf().setEditable(false);
         getTfSobrenome().setEditable(false);
@@ -207,27 +202,27 @@ public class PessoaDeletar extends Pessoa {
         getFtfRegistroProfissional().setEditable(false);
         getRbMasculino().setEnabled(false);
         getRbFeminino().setEnabled(false);
-        
+
     }
-    
+
     public void btnPCbxActionPerformed(ActionEvent evt) {
         if (cbxPessoa.getSelectedIndex() + 1 >= cbxPessoa.getItemCount()) {
             cbxPessoa.setSelectedIndex(0);
         } else {
-            
+
             cbxPessoa.setSelectedIndex(cbxPessoa.getSelectedIndex() + 1);
         }
-        
+
     }
-    
+
     public void btnACbxActionPerformed(ActionEvent evt) {
         if (cbxPessoa.getSelectedIndex() - 1 < 0) {
             cbxPessoa.setSelectedIndex(cbxPessoa.getItemCount() - 1);
         } else {
-            
+
             cbxPessoa.setSelectedIndex(cbxPessoa.getSelectedIndex() - 1);
         }
-        
+
     }
-    
+
 }

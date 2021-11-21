@@ -5,21 +5,20 @@ import java.time.LocalTime;
 
 public class Exame extends Conta {
 
-	private String Tipo;
+    private String Tipo;
+    private LocalDate data;
+    private LocalTime hora;
+    private double valor;
+    private String relatorio;
+    private Acomodacao salaExame;
+    private Prontuario prontuario;
+    private int salaExameId;
+    private int id;
 
-	private LocalDate data;
+    public Exame() {
+    }
 
-	private LocalTime hora;
-
-	private double valor;
-
-	private String relatorio;
-
-	private Acomodacao salaExame;
-
-	private Prontuario prontuario;
-
-    public Exame(String Tipo, LocalDate data, LocalTime hora, double valor, String relatorio, Acomodacao salaExame, Prontuario prontuario) {
+    public Exame(String Tipo, LocalDate data, LocalTime hora, double valor, String relatorio, Acomodacao salaExame, Prontuario prontuario, int salaExameId, int id) {
         this.Tipo = Tipo;
         this.data = data;
         this.hora = hora;
@@ -27,9 +26,8 @@ public class Exame extends Conta {
         this.relatorio = relatorio;
         this.salaExame = salaExame;
         this.prontuario = prontuario;
-    }
-
-    public Exame() {
+        this.salaExameId = salaExameId;
+        this.id = id;
     }
 
     public String getTipo() {
@@ -88,5 +86,20 @@ public class Exame extends Conta {
         this.prontuario = prontuario;
     }
 
-        
+    public int getSalaExameId() {
+        return salaExameId;
+    }
+
+    public void setSalaExameId(int salaExameId) {
+        this.salaExameId = salaExameId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

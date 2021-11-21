@@ -20,13 +20,13 @@ import model.Medicamento;
  * @author Wanderson_M
  */
 public class AcomodacaoDao {
-
+    
     private Connection conn;
-
+    
     public ArrayList<Acomodacao> listar(String tipo) {
         try {
             conn = Conexao.getConexao();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,29 +41,31 @@ public class AcomodacaoDao {
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, tipo);
             rs = pStatement.executeQuery();
-
+            
             while (rs.next()) {
                 if (umaVez) {
                     acomodacaoS = new ArrayList<>();
                     umaVez = false;
                 }
-                model.Acomodacao acomodacao = new model.Acomodacao(rs.getInt("numero"), rs.getString("tipo"));
+                
+                model.Acomodacao acomodacao = new model.Acomodacao(rs.getInt("numero"), rs.getString("tipo"),
+                        rs.getInt("id"));
                 acomodacaoS.add(acomodacao);
             }
-
+            
         } catch (Exception e) {
-
+            
         }
         fecharConexao();
         return acomodacaoS;
-
+        
     }
-
+    
     public void fecharConexao() {
         try {
             conn.close();
         } catch (SQLException e) {
         }
     }
-
+    
 }

@@ -6,6 +6,8 @@
 package view.filho;
 
 import controller.GerenciaEquipeCirurgica;
+import controller.GerenciaFuncionario;
+import controller.GerenciaPaciente;
 import dao.EquipeCirurgicaDao;
 import dao.FuncionarioDao;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ public class EquipeCirurgicaEditar extends EquipeCirurgica {
     EquipeCirurgicaDao ecd;
     ArrayList<model.EquipeCirurgica> ecs;
     GerenciaEquipeCirurgica gec;
+    GerenciaFuncionario gf;
     ArrayList<Pessoa> pessoas;
     FuncionarioDao fd;
     JComboBox cbxEquipeCirugica;
@@ -35,24 +38,25 @@ public class EquipeCirurgicaEditar extends EquipeCirurgica {
         ecd = new EquipeCirurgicaDao();
         getBtnAcao().setText("Alterar");
         gec = new GerenciaEquipeCirurgica();
-        fd = new FuncionarioDao();
         cbxEquipeCirugica = new JComboBox();
         cbxEquipeCirugica.addItemListener(this::cbxEquipeCirurgicaItemStateChanged);
         btnp = new JButton();
         btna = new JButton();
+        gf = new GerenciaFuncionario();
         btna.addActionListener(this::btnAnteriorActionPerformed);
         btnp.addActionListener(this::btnProximoActionPerformed);
-        pessoas = fd.listarTodosFuncionarios();
+        ecs = ecd.listarE();
+        pessoas = gf.getFuncionarios();
         preencheCampos();
         this.setSize(496, 360);
         this.setLayout(null);
         getBtnAcao().setBounds(30, 280, 80, 25);
         getJpCampos().setBounds(0, 70, 473, 211);
-        cbxEquipeCirugica.setBounds(165, 10, 182, 25);
+        cbxEquipeCirugica.setBounds(152, 10, 182, 25);
         btna.setText("<<");
-        btna.setBounds(367, 10, 48, 25);
+        btna.setBounds(352, 10, 48, 25);
         btnp.setText(">>");
-        btnp.setBounds(427, 10, 48, 25);
+        btnp.setBounds(412, 10, 48, 25);
         this.add(btnp);
         this.add(btna);
         this.add(cbxEquipeCirugica);
@@ -121,13 +125,12 @@ public class EquipeCirurgicaEditar extends EquipeCirurgica {
     }
 
     public void CarregaComboBox() {
-        ecs = ecd.listarE();
         if (ecs == null || ecs.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum funcionario cadastrado!");
             getBtnAcao().setEnabled(false);
         } else {
             for (int i = 0; i < ecs.size(); i++) {
-                cbxEquipeCirugica.addItem("Equipe " + (i + 1));
+                cbxEquipeCirugica.addItem("Equipe id: " + ecs.get(i).getId());
 
             }
 

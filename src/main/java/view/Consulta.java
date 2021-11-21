@@ -5,11 +5,39 @@
  */
 package view;
 
+import controller.GerenciaCirurgia;
+import controller.GerenciaExame;
+import controller.GerenciaMedicamento;
+import controller.GerenciaPaciente;
+import controller.GerenciaProntuario;
+import dao.CirurgiaDao;
+import dao.ExameDao;
 import dao.FuncionarioDao;
+import dao.MedicamentoDao;
 import dao.PacienteDao;
+import dao.ProntuarioDao;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import model.Funcionario;
+import model.Medicamento;
+import model.Paciente;
 import model.Pessoa;
 import model.Prontuario;
 
@@ -22,23 +50,92 @@ public class Consulta extends javax.swing.JInternalFrame {
     /**
      * Creates new form Consulta
      */
+    String medics[];
     FramePrincipal fp;
     ArrayList<Pessoa> medicos;
     ArrayList<Pessoa> pacientes;
-    
+    ArrayList<model.Medicamento> medicamentos;
+    ArrayList<model.Medicamento> medicamentosEscolhidos;
+    ArrayList<model.Prontuario> consultas;
+    ArrayList<model.Cirurgia> cirurgiasPaciente;
+    ArrayList<model.Exame> examesPaciente;
     FuncionarioDao fd;
     PacienteDao pd;
-    
-    public Consulta() {
+    MedicamentoDao md;
+    ProntuarioDao prd;
+    CirurgiaDao cd;
+    ExameDao ed;
+    String opcao;
+    GerenciaPaciente gerenciaPaciente;
+    GerenciaProntuario gp;
+    GerenciaMedicamento gm;
+    GerenciaExame ge;
+    GerenciaCirurgia gc;
+
+    public Consulta(String opcao) {
         initComponents();
-        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        this.opcao = opcao;
+        gerenciaPaciente = new GerenciaPaciente();
+        gp = new GerenciaProntuario();
         fp = new FramePrincipal();
         fd = new FuncionarioDao();
+        ed = new ExameDao();
         pd = new PacienteDao();
-        medicos = fd.listar("Medico");
-        pacientes = pd.listar();
+        md = new MedicamentoDao();
+        gm = new GerenciaMedicamento();
+        ge = new GerenciaExame();
+        gc = new GerenciaCirurgia();
+        prd = new ProntuarioDao();
+        cd = new CirurgiaDao();
+        medicos = fd.listarFuncionarioNCF("Medico");
+        pacientes = pd.listarNC();
+        if (medicos == null || medicos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum médico encontrado !");
+            dispose();
+        }
+        if (pacientes == null || pacientes.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum paciente encontrado !");
+            dispose();
+        }
+
+        medicamentosEscolhidos = new ArrayList();
         preencheCampos();
-        
+
+        switch (opcao) {
+            case "cadastrar":
+                jpSelecionarConsulta.setSelectedIndex(1);
+                btnVoltar3.setEnabled(false);
+                break;
+            case "consultar":
+                jlCirurgia.setText("Consultar cirurgia(s) ?");
+                jlExame.setText("Consultar exame(s) ?");
+
+                break;
+            case "alterar":
+                consultas = prd.listarTodos();
+
+                jlCirurgia.setText("Alterar cirurgia(s) ?");
+                jlExame.setText("Alterar exame(s) ?");
+                if (consultas == null || consultas.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Nenhuma consulta encontrda");
+                } else {
+                    for (int i = 0; i < consultas.size(); i++) {
+                        String consulta = ("Consulta - " + consultas.get(i).getData() + " -- " + consultas.get(i).getHora());
+                        cbxConsulta.addItem(consulta);
+                    }
+
+                }
+
+                break;
+            case "excluir":
+                jlCirurgia.setText("Excluir cirurgia(s) ?");
+                jlExame.setText("Excluir exame(s) ?");
+                break;
+
+        }
+
     }
 
     /**
@@ -55,210 +152,161 @@ public class Consulta extends javax.swing.JInternalFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        tpConsulta = new javax.swing.JTabbedPane();
+        jpSelecionarConsulta = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jpMedicoPaciente = new javax.swing.JPanel();
-        cbxMedico = new javax.swing.JComboBox<>();
-        jlMedico = new javax.swing.JLabel();
-        jlPaciente = new javax.swing.JLabel();
-        cbxPaciente = new javax.swing.JComboBox<>();
-        btnProximo1 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        jpSalaCirurgia1 = new javax.swing.JPanel();
+        cbxConsulta = new javax.swing.JComboBox<>();
+        btnAnterior1 = new javax.swing.JButton();
+        btnAvancar1 = new javax.swing.JButton();
+        jlSalaExame1 = new javax.swing.JLabel();
+        btnProximo6 = new javax.swing.JButton();
+        jpFazerCirurgia = new javax.swing.JPanel();
+        jpCirurgia = new javax.swing.JPanel();
+        jlCirurgia = new javax.swing.JLabel();
+        rbNao1 = new javax.swing.JRadioButton();
+        rbSim1 = new javax.swing.JRadioButton();
+        btnProximo3 = new javax.swing.JToggleButton();
+        btnVoltar3 = new javax.swing.JToggleButton();
+        jpFazerExame = new javax.swing.JPanel();
+        jpExame = new javax.swing.JPanel();
+        jlExame = new javax.swing.JLabel();
+        rbNao2 = new javax.swing.JRadioButton();
+        rbSim2 = new javax.swing.JRadioButton();
+        btnProximo4 = new javax.swing.JToggleButton();
+        btnVoltar5 = new javax.swing.JToggleButton();
+        jpMedicamentos = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jliMedicamentos = new javax.swing.JList<>();
+        btnPassar = new javax.swing.JButton();
+        btnVoltar4 = new javax.swing.JToggleButton();
+        btnProximo5 = new javax.swing.JToggleButton();
+        btnRemover = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jtMedicamentos = new javax.swing.JTable();
+        jpDataDiagnostico = new javax.swing.JPanel();
         jpDataHorarioDiagnostico = new javax.swing.JPanel();
-        jlData = new javax.swing.JLabel();
         jdcData = new com.toedter.calendar.JDateChooser();
-        jlHorario = new javax.swing.JLabel();
         jsHora = new javax.swing.JSpinner();
         jsMinuto = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDiagnostico = new javax.swing.JTextArea();
         jlDiagnostico = new javax.swing.JLabel();
-        btnProximo2 = new javax.swing.JToggleButton();
         btnVoltar1 = new javax.swing.JToggleButton();
-        jPanel6 = new javax.swing.JPanel();
-        jpCirurgia = new javax.swing.JPanel();
-        jlCirurgia = new javax.swing.JLabel();
-        rbNao1 = new javax.swing.JRadioButton();
-        rbSim1 = new javax.swing.JRadioButton();
-        btnVoltar2 = new javax.swing.JToggleButton();
-        btnProximo3 = new javax.swing.JToggleButton();
-        jPanel8 = new javax.swing.JPanel();
-        jpExame = new javax.swing.JPanel();
-        jlExame = new javax.swing.JLabel();
-        rbNao2 = new javax.swing.JRadioButton();
-        rbSim2 = new javax.swing.JRadioButton();
         btnSalvar = new javax.swing.JToggleButton();
-        btnVoltar3 = new javax.swing.JToggleButton();
+        jpMedicoPaciente = new javax.swing.JPanel();
+        cbxMedico = new javax.swing.JComboBox<>();
+        cbxPaciente = new javax.swing.JComboBox<>();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setClosable(true);
-
-        jlMedico.setText("Selecione o Medico");
-
-        jlPaciente.setText("Selecione o Paciente");
-
-        javax.swing.GroupLayout jpMedicoPacienteLayout = new javax.swing.GroupLayout(jpMedicoPaciente);
-        jpMedicoPaciente.setLayout(jpMedicoPacienteLayout);
-        jpMedicoPacienteLayout.setHorizontalGroup(
-            jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlMedico)
-                    .addComponent(cbxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlPaciente)
-                    .addComponent(cbxPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jpMedicoPacienteLayout.setVerticalGroup(
-            jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
-                        .addComponent(jlPaciente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
-                        .addComponent(jlMedico)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        btnProximo1.setText("Próximo");
-        btnProximo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProximo1ActionPerformed(evt);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
             }
         });
+
+        jpSelecionarConsulta.setEnabled(false);
+
+        cbxConsulta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxConsultaItemStateChanged(evt);
+            }
+        });
+
+        btnAnterior1.setText("<<");
+        btnAnterior1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnterior1ActionPerformed(evt);
+            }
+        });
+
+        btnAvancar1.setText(">>");
+        btnAvancar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvancar1ActionPerformed(evt);
+            }
+        });
+
+        jlSalaExame1.setText("Selecione a consulta");
+
+        btnProximo6.setText("Próximo");
+        btnProximo6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProximo6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpSalaCirurgia1Layout = new javax.swing.GroupLayout(jpSalaCirurgia1);
+        jpSalaCirurgia1.setLayout(jpSalaCirurgia1Layout);
+        jpSalaCirurgia1Layout.setHorizontalGroup(
+            jpSalaCirurgia1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpSalaCirurgia1Layout.createSequentialGroup()
+                .addGroup(jpSalaCirurgia1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpSalaCirurgia1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jlSalaExame1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 168, Short.MAX_VALUE))
+                    .addGroup(jpSalaCirurgia1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cbxConsulta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAnterior1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAvancar1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpSalaCirurgia1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnProximo6)))
+                .addContainerGap())
+        );
+        jpSalaCirurgia1Layout.setVerticalGroup(
+            jpSalaCirurgia1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpSalaCirurgia1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jlSalaExame1)
+                .addGap(18, 18, 18)
+                .addGroup(jpSalaCirurgia1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAnterior1)
+                    .addComponent(btnAvancar1))
+                .addGap(18, 18, 18)
+                .addComponent(btnProximo6)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(jpMedicoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(206, 206, 206)
-                .addComponent(btnProximo1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(65, 65, 65)
+                .addComponent(jpSalaCirurgia1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jpMedicoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnProximo1)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(jpSalaCirurgia1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(55, 55, 55))
         );
 
-        tpConsulta.addTab("Inicio", jPanel2);
-
-        jlData.setText("Data");
-
-        jlHorario.setText("Horário");
-
-        taDiagnostico.setColumns(20);
-        taDiagnostico.setRows(5);
-        jScrollPane1.setViewportView(taDiagnostico);
-
-        jlDiagnostico.setText("Diagnóstico");
-
-        javax.swing.GroupLayout jpDataHorarioDiagnosticoLayout = new javax.swing.GroupLayout(jpDataHorarioDiagnostico);
-        jpDataHorarioDiagnostico.setLayout(jpDataHorarioDiagnosticoLayout);
-        jpDataHorarioDiagnosticoLayout.setHorizontalGroup(
-            jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
-                        .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
-                                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jlData))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jsHora)
-                                    .addComponent(jlHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jsMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jlDiagnostico))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jpDataHorarioDiagnosticoLayout.setVerticalGroup(
-            jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlData)
-                    .addComponent(jlHorario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jsHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jsMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jlDiagnostico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-        );
-
-        btnProximo2.setText("Próximo");
-        btnProximo2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProximo2ActionPerformed(evt);
-            }
-        });
-
-        btnVoltar1.setText("Voltar");
-        btnVoltar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltar1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jpDataHorarioDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(110, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnVoltar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnProximo2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(119, 119, 119))))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jpDataHorarioDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnProximo2)
-                    .addComponent(btnVoltar1))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        tpConsulta.addTab("Data e diagnostico", jPanel4);
+        jpSelecionarConsulta.addTab("", jPanel2);
 
         jlCirurgia.setText("O paciente vai realizar alguma cirurgia ?");
 
@@ -273,6 +321,20 @@ public class Consulta extends javax.swing.JInternalFrame {
             }
         });
 
+        btnProximo3.setText("Próximo");
+        btnProximo3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProximo3ActionPerformed(evt);
+            }
+        });
+
+        btnVoltar3.setText("Voltar");
+        btnVoltar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltar3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpCirurgiaLayout = new javax.swing.GroupLayout(jpCirurgia);
         jpCirurgia.setLayout(jpCirurgiaLayout);
         jpCirurgiaLayout.setHorizontalGroup(
@@ -281,66 +343,54 @@ public class Consulta extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpCirurgiaLayout.createSequentialGroup()
+                        .addComponent(jlCirurgia)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpCirurgiaLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
                         .addComponent(rbSim1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(rbNao1)
-                        .addGap(109, 109, 109))
-                    .addComponent(jlCirurgia))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpCirurgiaLayout.createSequentialGroup()
+                        .addComponent(btnVoltar3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnProximo3)
+                        .addContainerGap())))
         );
         jpCirurgiaLayout.setVerticalGroup(
             jpCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCirurgiaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlCirurgia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jpCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbSim1)
                     .addComponent(rbNao1))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnProximo3)
+                    .addComponent(btnVoltar3))
+                .addContainerGap())
         );
 
-        btnVoltar2.setText("Voltar");
-        btnVoltar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltar2ActionPerformed(evt);
-            }
-        });
-
-        btnProximo3.setText("Próximo");
-        btnProximo3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProximo3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpCirurgia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(btnVoltar2)
-                        .addGap(98, 98, 98)
-                        .addComponent(btnProximo3)))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+        javax.swing.GroupLayout jpFazerCirurgiaLayout = new javax.swing.GroupLayout(jpFazerCirurgia);
+        jpFazerCirurgia.setLayout(jpFazerCirurgiaLayout);
+        jpFazerCirurgiaLayout.setHorizontalGroup(
+            jpFazerCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFazerCirurgiaLayout.createSequentialGroup()
+                .addContainerGap(135, Short.MAX_VALUE)
                 .addComponent(jpCirurgia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVoltar2)
-                    .addComponent(btnProximo3))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(150, 150, 150))
+        );
+        jpFazerCirurgiaLayout.setVerticalGroup(
+            jpFazerCirurgiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFazerCirurgiaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpCirurgia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tpConsulta.addTab("Cirurgia", jPanel6);
+        jpSelecionarConsulta.addTab("Cirurgia", jpFazerCirurgia);
 
         jlExame.setText("O paciente vai realizar algum exame ?");
 
@@ -355,31 +405,214 @@ public class Consulta extends javax.swing.JInternalFrame {
             }
         });
 
+        btnProximo4.setText("Próximo");
+        btnProximo4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProximo4ActionPerformed(evt);
+            }
+        });
+
+        btnVoltar5.setText("Voltar");
+        btnVoltar5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltar5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpExameLayout = new javax.swing.GroupLayout(jpExame);
         jpExame.setLayout(jpExameLayout);
         jpExameLayout.setHorizontalGroup(
             jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpExameLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jlExame)
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(jpExameLayout.createSequentialGroup()
                 .addGroup(jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpExameLayout.createSequentialGroup()
-                        .addComponent(rbSim2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rbNao2))
-                    .addComponent(jlExame))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addComponent(rbSim2))
+                    .addComponent(btnVoltar5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnProximo4)
+                    .addComponent(rbNao2)))
         );
         jpExameLayout.setVerticalGroup(
             jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpExameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlExame)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbSim2)
-                    .addComponent(rbNao2))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbSim2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(rbNao2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnProximo4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpExameLayout.createSequentialGroup()
+                        .addComponent(btnVoltar5)
+                        .addContainerGap())))
         );
+
+        javax.swing.GroupLayout jpFazerExameLayout = new javax.swing.GroupLayout(jpFazerExame);
+        jpFazerExame.setLayout(jpFazerExameLayout);
+        jpFazerExameLayout.setHorizontalGroup(
+            jpFazerExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpFazerExameLayout.createSequentialGroup()
+                .addContainerGap(136, Short.MAX_VALUE)
+                .addComponent(jpExame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152))
+        );
+        jpFazerExameLayout.setVerticalGroup(
+            jpFazerExameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpFazerExameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpExame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+
+        jpSelecionarConsulta.addTab("Exame", jpFazerExame);
+
+        jliMedicamentos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medicamentos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jliMedicamentos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jliMedicamentos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jliMedicamentosValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jliMedicamentos);
+
+        btnPassar.setText(">>");
+        btnPassar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPassarActionPerformed(evt);
+            }
+        });
+
+        btnVoltar4.setText("Voltar");
+        btnVoltar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltar4ActionPerformed(evt);
+            }
+        });
+
+        btnProximo5.setText("Próximo");
+        btnProximo5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProximo5ActionPerformed(evt);
+            }
+        });
+
+        btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
+
+        jtMedicamentos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "Quantidade"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtMedicamentos.setToolTipText("");
+        jScrollPane5.setViewportView(jtMedicamentos);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRemover, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPassar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnVoltar4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(btnProximo5))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnPassar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addComponent(btnRemover))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnProximo5)
+                    .addComponent(btnVoltar4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jpMedicamentosLayout = new javax.swing.GroupLayout(jpMedicamentos);
+        jpMedicamentos.setLayout(jpMedicamentosLayout);
+        jpMedicamentosLayout.setHorizontalGroup(
+            jpMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpMedicamentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jpMedicamentosLayout.setVerticalGroup(
+            jpMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpMedicamentosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90))
+        );
+
+        jpSelecionarConsulta.addTab("Medicamentos", jpMedicamentos);
+
+        jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        jsHora.setModel(new javax.swing.SpinnerNumberModel(1, 0, 23, 1));
+        jsHora.setBorder(javax.swing.BorderFactory.createTitledBorder("Hora"));
+
+        jsMinuto.setModel(new javax.swing.SpinnerNumberModel(1, 0, 59, 1));
+        jsMinuto.setBorder(javax.swing.BorderFactory.createTitledBorder("Minuto"));
+
+        taDiagnostico.setColumns(20);
+        taDiagnostico.setRows(5);
+        jScrollPane1.setViewportView(taDiagnostico);
+
+        jlDiagnostico.setText("Diagnóstico");
+
+        btnVoltar1.setText("Voltar");
+        btnVoltar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltar1ActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -388,56 +621,127 @@ public class Consulta extends javax.swing.JInternalFrame {
             }
         });
 
-        btnVoltar3.setText("Voltar");
-        btnVoltar3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltar3ActionPerformed(evt);
+        javax.swing.GroupLayout jpDataHorarioDiagnosticoLayout = new javax.swing.GroupLayout(jpDataHorarioDiagnostico);
+        jpDataHorarioDiagnostico.setLayout(jpDataHorarioDiagnosticoLayout);
+        jpDataHorarioDiagnosticoLayout.setHorizontalGroup(
+            jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                        .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(btnVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                                .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jsHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jsMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jlDiagnostico))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jpDataHorarioDiagnosticoLayout.setVerticalGroup(
+            jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpDataHorarioDiagnosticoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jsHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jsMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jdcData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlDiagnostico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpDataHorarioDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVoltar1)
+                    .addComponent(btnSalvar))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jpDataDiagnosticoLayout = new javax.swing.GroupLayout(jpDataDiagnostico);
+        jpDataDiagnostico.setLayout(jpDataDiagnosticoLayout);
+        jpDataDiagnosticoLayout.setHorizontalGroup(
+            jpDataDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDataDiagnosticoLayout.createSequentialGroup()
+                .addContainerGap(87, Short.MAX_VALUE)
+                .addComponent(jpDataHorarioDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(116, 116, 116))
+        );
+        jpDataDiagnosticoLayout.setVerticalGroup(
+            jpDataDiagnosticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDataDiagnosticoLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jpDataHorarioDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        jpSelecionarConsulta.addTab("Data e diagnostico", jpDataDiagnostico);
+
+        jpMedicoPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jpMedicoPacienteMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpExame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(btnVoltar3)
-                        .addGap(88, 88, 88)
-                        .addComponent(btnSalvar)))
-                .addGap(0, 175, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(jpExame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVoltar3)
-                    .addComponent(btnSalvar))
-                .addContainerGap(64, Short.MAX_VALUE))
-        );
+        cbxMedico.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Médico", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        tpConsulta.addTab("Exame", jPanel8);
+        cbxPaciente.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Paciente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        cbxPaciente.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxPacienteItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpMedicoPacienteLayout = new javax.swing.GroupLayout(jpMedicoPaciente);
+        jpMedicoPaciente.setLayout(jpMedicoPacienteLayout);
+        jpMedicoPacienteLayout.setHorizontalGroup(
+            jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
+                .addComponent(cbxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbxPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 18, Short.MAX_VALUE))
+        );
+        jpMedicoPacienteLayout.setVerticalGroup(
+            jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpMedicoPacienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpMedicoPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(tpConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(jpSelecionarConsulta)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpMedicoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(tpConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jpMedicoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jpSelecionarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -460,113 +764,517 @@ public class Consulta extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVoltar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar4ActionPerformed
+        jpSelecionarConsulta.setSelectedIndex(2);
+    }//GEN-LAST:event_btnVoltar4ActionPerformed
+
+    private void rbSim2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSim2ActionPerformed
+
+
+    }//GEN-LAST:event_rbSim2ActionPerformed
+
+    private void btnProximo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo4ActionPerformed
+
+        boolean vazio = false;
+        if (rbSim2.isSelected()) {
+
+            switch (opcao) {
+
+                case "consultar":
+                    if (examesPaciente == null || examesPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhum exame cadastrado !");
+                        vazio = true;
+                    }
+                    break;
+                case "alterar":
+                    if (examesPaciente == null || examesPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhum exame cadastrado !");
+                        vazio = true;
+                    }
+                    break;
+                case "excluir":
+                    if (examesPaciente == null || examesPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhum exame cadastrado !");
+                        vazio = true;
+                    }
+                    break;
+
+            }
+            if (!vazio) {
+                ExameCadastrar exameCad = new ExameCadastrar(Consulta.this);
+                getDesktopPane().add(exameCad);
+                exameCad.setVisible(true);
+
+            }
+        }
+
+        if (rbNao2.isSelected()) {
+            jpSelecionarConsulta.setSelectedIndex(3);
+        }
+
+
+    }//GEN-LAST:event_btnProximo4ActionPerformed
+
+    private void btnVoltar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar3ActionPerformed
+        jpSelecionarConsulta.setSelectedIndex(0);
+    }//GEN-LAST:event_btnVoltar3ActionPerformed
+
+    private void btnProximo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo3ActionPerformed
+        boolean vazio = false;
+
+        if (rbNao1.isSelected()) {
+
+            jpSelecionarConsulta.setSelectedIndex(2);
+
+        }
+        if (rbSim1.isSelected()) {
+            switch (opcao) {
+
+                case "consultar":
+                    if (cirurgiasPaciente == null || cirurgiasPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhuma cirurgia cadastrada !");
+                        vazio = true;
+                    }
+                    break;
+                case "alterar":
+                    if (cirurgiasPaciente == null || cirurgiasPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhuma cirurgia cadastrada !");
+                        vazio = true;
+                    }
+                    break;
+                case "excluir":
+                    if (cirurgiasPaciente == null || cirurgiasPaciente.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "O paciente selecionado não tem nenhuma cirurgia cadastrada !");
+                        vazio = true;
+                    }
+                    break;
+            }
+            if (!vazio) {
+
+                CirurgiaCadastrar cirurgia = new CirurgiaCadastrar(Consulta.this);
+                getDesktopPane().add(cirurgia);
+                cirurgia.setVisible(true);
+
+            }
+        }
+
+
+    }//GEN-LAST:event_btnProximo3ActionPerformed
+
     private void rbSim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSim1ActionPerformed
-        
 
     }//GEN-LAST:event_rbSim1ActionPerformed
 
-    private void btnProximo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo1ActionPerformed
-        tpConsulta.setSelectedIndex(1);
-    }//GEN-LAST:event_btnProximo1ActionPerformed
-
     private void btnVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar1ActionPerformed
-        tpConsulta.setSelectedIndex(0);
+        jpSelecionarConsulta.setSelectedIndex(3);
     }//GEN-LAST:event_btnVoltar1ActionPerformed
 
-    private void btnProximo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo2ActionPerformed
-        tpConsulta.setSelectedIndex(2);
-    }//GEN-LAST:event_btnProximo2ActionPerformed
-
-    private void btnVoltar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar2ActionPerformed
-        tpConsulta.setSelectedIndex(1);
-    }//GEN-LAST:event_btnVoltar2ActionPerformed
-
-    private void btnProximo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo3ActionPerformed
-        
-        if (rbNao1.isSelected()) {
-            tpConsulta.setSelectedIndex(3);
-        }
-        if (rbSim1.isSelected()) {
-            Cirurgia cirurgia = new Cirurgia(Consulta.this);
-            getDesktopPane().add(cirurgia);
-            cirurgia.setVisible(true);
-            
-        }
-    }//GEN-LAST:event_btnProximo3ActionPerformed
-
-    private void btnVoltar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar3ActionPerformed
-        tpConsulta.setSelectedIndex(2);
-    }//GEN-LAST:event_btnVoltar3ActionPerformed
-
-    private void rbSim2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSim2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbSim2ActionPerformed
-
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
-        Prontuario prontuario = new Prontuario();
+        try {
+            Prontuario c = new Prontuario();
+            c.setPaciente((Paciente) pacientes.get(cbxPaciente.getSelectedIndex()));
+            c.setMedico((Funcionario) medicos.get(cbxMedico.getSelectedIndex()));
+            c.setHora(LocalTime.of((int) jsHora.getValue(), (int) jsMinuto.getValue()));
+            ArrayList<String> medicamentosSelecionados = new ArrayList();
+
+            for (int i = 0; i < jtMedicamentos.getRowCount(); i++) {
+                medicamentosSelecionados.add(jtMedicamentos.getValueAt(i, 0).toString());
+
+            }
+
+            for (int i = 0; i < medicamentos.size(); i++) {
+                String nome = medicamentos.get(i).getNome();
+                for (int j = 0; j < medicamentosSelecionados.size(); j++) {
+                    String ms = medicamentosSelecionados.get(j);
+                    if (nome == ms) {
+                        model.Medicamento medicamento = medicamentos.get(i);
+                        medicamento.setQuantidade(((model.Medicamento) jtMedicamentos.getValueAt(j, 0)).getQuantidade());
+                    }
+                }
+            }
+            c.setMedicamentos(medicamentosEscolhidos);
+            c.setData(jdcData.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+            c.setDiagnostico(taDiagnostico.getText());
+
+            switch (opcao) {
+
+                case "cadastrar":
+                    gm.cadastrar(c.getMedicamentos());
+                    int r = gp.cadastrar(c);
+                    if (r == 1) {
+                        JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
+                        dispose();
+                    } else {
+                        r = gc.excluirNulos();
+                        r = gm.excluirMPNulo();
+                        r = ge.excluirNulos();
+
+                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar !");
+
+                    }
+                    break;
+                case "alterar":
+
+                    c.setId(consultas.get(cbxConsulta.getSelectedIndex()).getId());
+                    int re = gp.alterar(c);
+                    if (re == 1) {
+                        re = 0;
+                        re = gm.alterar(c.getMedicamentos(), c.getId());
+
+                        if (re == 1) {
+                            JOptionPane.showMessageDialog(this, "Alterado com sucesso !");
+                            dispose();
+                        }
+                    }
+
+                    break;
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
-    
+
+    private void btnProximo5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo5ActionPerformed
+        jpSelecionarConsulta.setSelectedIndex(4);
+//        for (int i = 0; i < jtMedicamentos.getRowCount(); i++) {
+//            System.out.println(((model.Medicamento) jtMedicamentos.getValueAt(i, 0)).getQuantidade());
+//            System.out.println(((model.Medicamento) jtMedicamentos.getValueAt(i, 0)).getNome());
+//
+//        }
+
+    }//GEN-LAST:event_btnProximo5ActionPerformed
+
+    private void cbxConsultaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxConsultaItemStateChanged
+
+        for (int i = 0; i < pacientes.size(); i++) {
+
+            for (int j = 0; j < consultas.size(); j++) {
+                if (consultas.get(j).getPaciente().getNome().equals(pacientes.get(i).getNome())) {
+                    cbxPaciente.setSelectedIndex(i);
+                }
+            }
+
+        }
+        for (int i = 0; i < medicos.size(); i++) {
+
+            for (int j = 0; j < consultas.size(); j++) {
+                if (consultas.get(j).getMedico().getNome().equals(medicos.get(i).getNome())) {
+                    cbxMedico.setSelectedIndex(i);
+                }
+            }
+
+        }
+//        if (consultas.get(cbxConsulta.getSelectedIndex()).getMedicamentos() != null) {
+//            Object[][] valores = new Object[consultas.get(cbxConsulta.getSelectedIndex()).getMedicamentos().size()][2];
+//            for (int i = 0; i < consultas.get(cbxConsulta.getSelectedIndex()).getMedicamentos().size(); i++) {
+//                valores[i][0] = consultas.get(cbxConsulta.getSelectedIndex()).getMedicamentos().get(i);
+//                valores[i][1] = consultas.get(cbxConsulta.getSelectedIndex()).getMedicamentos().get(i).getQuantidade();
+//            }
+//            DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Nome", "Quantidade"});
+//            jtMedicamentos.setModel(model);
+//            CriaSpinnerJtable();
+//        }
+
+
+    }//GEN-LAST:event_cbxConsultaItemStateChanged
+
+    private void btnAnterior1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnterior1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnterior1ActionPerformed
+
+    private void btnAvancar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAvancar1ActionPerformed
+
+    private void btnProximo6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximo6ActionPerformed
+        jpSelecionarConsulta.setSelectedIndex(1);
+
+    }//GEN-LAST:event_btnProximo6ActionPerformed
+
+    private void jpMedicoPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpMedicoPacienteMouseClicked
+
+
+    }//GEN-LAST:event_jpMedicoPacienteMouseClicked
+
+    private void btnPassarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPassarActionPerformed
+
+        Boolean igual = false;
+        if (medicamentosEscolhidos.isEmpty()) {
+            model.Medicamento m = medicamentos.get(jliMedicamentos.getSelectedIndex()).getClone();
+            m.setQuantidade(1);
+            medicamentosEscolhidos.add(m);
+        } else {
+
+            for (int j = 0; j < medicamentosEscolhidos.size(); j++) {
+                String nome = medicamentos.get(jliMedicamentos.getSelectedIndex()).getNome();
+                String nomeListaEscolhidos = medicamentosEscolhidos.get(j).getNome();
+                if (nome == nomeListaEscolhidos) {
+                    igual = true;
+
+                }
+            }
+
+            if (!igual) {
+                model.Medicamento m = medicamentos.get(jliMedicamentos.getSelectedIndex()).getClone();
+                m.setQuantidade(1);
+                medicamentosEscolhidos.add(m);
+
+            }
+
+        }
+
+        Object[][] valores = new Object[medicamentosEscolhidos.size()][2];
+        for (int i = 0; i < medicamentosEscolhidos.size(); i++) {
+            valores[i][0] = medicamentosEscolhidos.get(i);
+            valores[i][1] = medicamentosEscolhidos.get(i).getQuantidade();
+        }
+        DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Nome", "Quantidade"});
+        jtMedicamentos.setModel(model);
+        CriaSpinnerJtable();
+
+//            medx.addElement(me.getNome());
+//        jliMedicamentosEscolhidos.setModel(medx);
+
+    }//GEN-LAST:event_btnPassarActionPerformed
+
+    private void jliMedicamentosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jliMedicamentosValueChanged
+
+
+    }//GEN-LAST:event_jliMedicamentosValueChanged
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        gc.excluirNulos();
+        gm.excluirMPNulo();
+        ge.excluirNulos();
+
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+
+
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void cbxPacienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxPacienteItemStateChanged
+        examesPaciente = ed.listarPorPaciente(pacientes.get(cbxPaciente.getSelectedIndex()).getCpf());
+
+        cirurgiasPaciente = cd.listarPorPaciente(pacientes.get(cbxPaciente.getSelectedIndex()).getCpf());
+
+        if (cirurgiasPaciente == null || cirurgiasPaciente.isEmpty()) {
+            rbNao1.setSelected(true);
+            rbSim1.disable();
+        }
+
+    }//GEN-LAST:event_cbxPacienteItemStateChanged
+
+    private void btnVoltar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltar5ActionPerformed
+        jpSelecionarConsulta.setSelectedIndex(1);
+    }//GEN-LAST:event_btnVoltar5ActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        gc.excluirNulos();
+        gm.excluirMPNulo();
+        ge.excluirNulos();    }//GEN-LAST:event_formInternalFrameOpened
+
     public JTabbedPane getTpConsulta() {
-        return tpConsulta;
+        return jpSelecionarConsulta;
     }
-    
+
     public void preencheCampos() {
+        medicamentos = md.listar();
+
+        if (medicamentos == null || medicamentos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum medicamento cadastrado!");
+
+        } else {
+
+            DefaultListModel medx = new DefaultListModel();
+            for (model.Medicamento me : medicamentos) {
+                medx.addElement(me.getNome());
+
+            }
+            jliMedicamentos.setModel(medx);
+
+        }
         if (medicos == null || medicos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum medico cadastrado!");
-            btnProximo1.setEnabled(false);
+            JOptionPane.showMessageDialog(this, "Nenhum medico cadastrado!");
         } else {
             for (int i = 0; i < medicos.size(); i++) {
                 cbxMedico.addItem(medicos.get(i).getNome() + " " + medicos.get(i).getSobrenome());
-                
+
             }
-            
+
         }
-        
+
         for (int i = 0; i < pacientes.size(); i++) {
             cbxPaciente.addItem(pacientes.get(i).getNome() + " " + pacientes.get(i).getSobrenome());
         }
-        
+
     }
 
+    public void CriaSpinnerJtable() {
+
+        TableColumn coluna = jtMedicamentos.getColumnModel().getColumn(1);
+        coluna.setCellEditor(new TableCellEditor() {
+
+            @Override
+
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean bln, int row, int column) {
+                JSpinner spinner = new JSpinner();
+
+                model.Medicamento m = (model.Medicamento) jtMedicamentos.getModel().getValueAt(row, 0);
+                int quantidadeMax = 0;
+                for (model.Medicamento me : medicamentos) {
+                    if (m.getNome().equals(me.getNome())) {
+                        quantidadeMax = me.getQuantidade();
+                    }
+
+                }
+                spinner.setModel(new SpinnerNumberModel(m.getQuantidade(), 1, quantidadeMax, 1));
+                spinner.setEditor(new JSpinner.NumberEditor(spinner));
+                spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+                    public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                        model.Medicamento m = (model.Medicamento) jtMedicamentos.getValueAt(row, 0);
+                        m.setQuantidade((int) spinner.getValue());
+//                        System.out.println("V: " + spinner.getValue());
+//                        System.out.println("Hash: " + spinner.hashCode());
+
+                    }
+                });
+                if (value != null) {
+                    spinner.setValue(Integer.valueOf(value.toString()));
+
+                } else {
+                    System.out.println("Não foi possivel criar Renderer");
+                }
+                return spinner;
+            }
+
+            @Override
+            public Object getCellEditorValue() {
+
+                return null;
+
+            }
+
+            @Override
+            public boolean isCellEditable(EventObject eo) {
+                return true;
+            }
+
+            @Override
+            public boolean shouldSelectCell(EventObject eo) {
+                return true;
+            }
+
+            @Override
+            public boolean stopCellEditing() {
+                return true;
+            }
+
+            @Override
+            public void cancelCellEditing() {
+
+            }
+
+            @Override
+            public void addCellEditorListener(CellEditorListener l) {
+
+            }
+
+            @Override
+            public void removeCellEditorListener(CellEditorListener l) {
+
+            }
+        });
+
+        jtMedicamentos.setRowHeight(30);
+        DefaultTableModel model = (DefaultTableModel) jtMedicamentos.getModel();
+//        model.a
+        coluna.setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                JSpinner spinner = new JSpinner();
+                model.Medicamento m = (model.Medicamento) jtMedicamentos.getModel().getValueAt(row, 0);
+                int quantidadeMax = 0;
+                for (model.Medicamento me : medicamentos) {
+                    if (m.getNome().equals(me.getNome())) {
+                        quantidadeMax = me.getQuantidade();
+                    }
+
+                }
+                spinner.setModel(new SpinnerNumberModel(m.getQuantidade(), 1, quantidadeMax, 1));
+                spinner.setEditor(new JSpinner.NumberEditor(spinner));
+                if (value != null) {
+                    spinner.setValue(Integer.valueOf(value.toString()));
+
+                } else {
+                    System.out.println("Não foi possivel criar Renderer");
+                }
+                return spinner;
+            }
+
+        });
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnProximo1;
-    private javax.swing.JToggleButton btnProximo2;
+    private javax.swing.JButton btnAnterior1;
+    private javax.swing.JButton btnAvancar1;
+    private javax.swing.JButton btnPassar;
     private javax.swing.JToggleButton btnProximo3;
+    private javax.swing.JToggleButton btnProximo4;
+    private javax.swing.JToggleButton btnProximo5;
+    private javax.swing.JButton btnProximo6;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JToggleButton btnSalvar;
     private javax.swing.JToggleButton btnVoltar1;
-    private javax.swing.JToggleButton btnVoltar2;
     private javax.swing.JToggleButton btnVoltar3;
+    private javax.swing.JToggleButton btnVoltar4;
+    private javax.swing.JToggleButton btnVoltar5;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbxConsulta;
     private javax.swing.JComboBox<String> cbxMedico;
     private javax.swing.JComboBox<String> cbxPaciente;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane5;
     private com.toedter.calendar.JDateChooser jdcData;
     private javax.swing.JLabel jlCirurgia;
-    private javax.swing.JLabel jlData;
     private javax.swing.JLabel jlDiagnostico;
     private javax.swing.JLabel jlExame;
-    private javax.swing.JLabel jlHorario;
-    private javax.swing.JLabel jlMedico;
-    private javax.swing.JLabel jlPaciente;
+    private javax.swing.JLabel jlSalaExame1;
+    private javax.swing.JList<String> jliMedicamentos;
     private javax.swing.JPanel jpCirurgia;
+    private javax.swing.JPanel jpDataDiagnostico;
     private javax.swing.JPanel jpDataHorarioDiagnostico;
     private javax.swing.JPanel jpExame;
+    private javax.swing.JPanel jpFazerCirurgia;
+    private javax.swing.JPanel jpFazerExame;
+    private javax.swing.JPanel jpMedicamentos;
     private javax.swing.JPanel jpMedicoPaciente;
+    private javax.swing.JPanel jpSalaCirurgia1;
+    private javax.swing.JTabbedPane jpSelecionarConsulta;
     private javax.swing.JSpinner jsHora;
     private javax.swing.JSpinner jsMinuto;
+    private javax.swing.JTable jtMedicamentos;
     private javax.swing.JRadioButton rbNao1;
     private javax.swing.JRadioButton rbNao2;
     private javax.swing.JRadioButton rbSim1;
     private javax.swing.JRadioButton rbSim2;
     private javax.swing.JTextArea taDiagnostico;
-    private javax.swing.JTabbedPane tpConsulta;
     // End of variables declaration//GEN-END:variables
 }

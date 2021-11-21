@@ -60,7 +60,6 @@ public class PacienteDao {
             System.out.println("CadastrarDaoPE : " + r);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
@@ -93,16 +92,18 @@ public class PacienteDao {
             pStatement.setString(6, String.valueOf(paciente.getSexo()));
             pStatement.setFloat(7, paciente.getPeso());
             pStatement.setString(8, cpf);
-
             pStatement.execute();
             pStatement.close();
-            enderecoDao.alterar(paciente.getEndereco());
-            r = 1;
+            r  = 1;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
 
+        try {
+
+        } catch (Exception e) {
+        }
         fecharConexao();
         return r;
     }
@@ -129,7 +130,7 @@ public class PacienteDao {
             r += 1;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            enderecoDao.cadastrar(paciente.getEndereco(), paciente.getCpf());
         }
 
         fecharConexao();
@@ -176,6 +177,86 @@ public class PacienteDao {
         }
         fecharConexao();
         return pessoas;
+
+    }
+
+    public ArrayList<Pessoa> listarNC() {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Pessoa> pessoas = null;
+        sql = ("SELECT cpf, nome, sobrenome FROM pessoa where ctps is null");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    pessoas = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Paciente paciente = new Paciente();
+                paciente.setCpf(rs.getString("cpf"));
+                paciente.setNome(rs.getString("nome"));
+                paciente.setSobrenome(rs.getString("sobrenome"));
+
+                pessoas.add(paciente);
+            }
+
+        } catch (Exception e) {
+
+        }
+        fecharConexao();
+        return pessoas;
+
+    }
+
+    public Paciente BuscarPorCpf(String cpf) {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        Paciente paciente = null;
+        sql = ("SELECT p.cpf, p.nome, p.sobrenome, p.telefone, p.data_nascimento, p.sexo, p.peso, e.logradouro, e.numero, e.complemento, e.uf, e.bairro ,e.cep ,e.id ,e.cpf_pessoa FROM pessoa p join endereco e on p.cpf = e.cpf_pessoa where ctps is null and p.cpf = ?");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, cpf);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    umaVez = false;
+                }
+                LocalDate dataNasc = rs.getDate("data_nascimento").toLocalDate();
+                Endereco endereco = new Endereco(rs.getString("bairro"), rs.getInt("numero"),
+                        rs.getString("logradouro"), rs.getString("uf"),
+                        rs.getString("complemento"), rs.getString("cep"),
+                        rs.getInt("id"), rs.getString("cpf_pessoa"));
+
+                paciente = new Paciente(rs.getFloat("peso"), rs.getString("nome"),
+                        rs.getString("sobrenome"), rs.getString("cpf"), rs.getString("telefone"),
+                        rs.getString("sexo").charAt(0), dataNasc, endereco);
+            }
+
+        } catch (Exception e) {
+
+        }
+        fecharConexao();
+        return paciente;
 
     }
 

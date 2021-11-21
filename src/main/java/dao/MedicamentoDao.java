@@ -25,13 +25,13 @@ import model.Pessoa;
  * @author Wanderson_M
  */
 public class MedicamentoDao {
-
+    
     private Connection conn;
-
-    public void cadastrar(Medicamento medicamento) {
+    
+    public int cadastrar(Medicamento medicamento) {
         try {
             conn = Conexao.getConexao();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class MedicamentoDao {
                 + "	nome, preco, quantidade)\n"
                 + "	VALUES (?, ?, ?)";
         try {
-
+            
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, medicamento.getNome());
             pStatement.setFloat(2, medicamento.getPreco());
@@ -50,17 +50,83 @@ public class MedicamentoDao {
             pStatement.execute();
             pStatement.close();
             ret = 1;
-
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
         fecharConexao();
+        return ret;
     }
-
-    public int alterar(Medicamento medicamento, String nome) {
+    
+    public int cadastrarMeCon(Medicamento medicamento) {
         try {
             conn = Conexao.getConexao();
-
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        int ret = 0;
+        PreparedStatement pStatement = null;
+        sql = "INSERT INTO public.medicamento_prontuario(\n"
+                + "	nome, quantidade_medicamento, preco, medicamento_id)\n"
+                + "	VALUES (?, ?, ?, ?);";
+        try {
+            
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, medicamento.getNome());
+            pStatement.setInt(2, medicamento.getQuantidade());
+            pStatement.setFloat(3, medicamento.getPreco());
+            pStatement.setInt(4, medicamento.getId());
+            
+            pStatement.execute();
+            pStatement.close();
+            ret = 1;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fecharConexao();
+        return ret;
+    }
+    
+    public int cadastrarAlterados(Medicamento medicamento, int id) {
+        try {
+            conn = Conexao.getConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        int ret = 0;
+        PreparedStatement pStatement = null;
+        sql = "INSERT INTO public.medicamento_prontuario(\n"
+                + "	nome, quantidade_medicamento, preco, medicamento_id, prontuario_id)\n"
+                + "	VALUES (?, ?, ?, ?, ?);";
+        try {
+            
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, medicamento.getNome());
+            pStatement.setInt(2, medicamento.getQuantidade());
+            pStatement.setFloat(3, medicamento.getPreco());
+            pStatement.setInt(4, medicamento.getId());
+            pStatement.setInt(5, id);
+            
+            pStatement.execute();
+            pStatement.close();
+            ret = 1;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fecharConexao();
+        return ret;
+    }
+    
+    public int alterar(Medicamento medicamento) {
+        try {
+            conn = Conexao.getConexao();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,59 +135,110 @@ public class MedicamentoDao {
         PreparedStatement pStatement = null;
         sql = "UPDATE medicamento\n"
                 + "	SET nome=?, preco=?, quantidade=?\n"
-                + "	WHERE nome = ?";
+                + "	WHERE id = ?";
         try {
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, medicamento.getNome());
             pStatement.setFloat(2, medicamento.getPreco());
             pStatement.setInt(3, medicamento.getQuantidade());
-            pStatement.setString(4, nome);
+            pStatement.setInt(4, medicamento.getId());
             pStatement.execute();
             pStatement.close();
-            JOptionPane.showMessageDialog(null, nome);
             ret = 1;
-
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
+        
         fecharConexao();
         return ret;
     }
-
+    
     public int excluir(Medicamento medicamento) {
         try {
             conn = Conexao.getConexao();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
         String sql;
         int ret = 0;
         PreparedStatement pStatement = null;
-        sql = "delete from medicamento where nome = ?";
+        sql = "delete from medicamento where id = ?";
         try {
-
+            
             pStatement = conn.prepareStatement(sql);
-            pStatement.setString(1, medicamento.getNome());
+            pStatement.setInt(1, medicamento.getId());
             pStatement.execute();
             pStatement.close();
             ret = 1;
-
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Excluir medicamento: " + e.getMessage());
-
+            
         }
-
+        
         fecharConexao();
         return ret;
-
+        
     }
-
+    
+    public int excluirMP(int id) {
+        try {
+            conn = Conexao.getConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        int ret = 0;
+        PreparedStatement pStatement = null;
+        sql = "delete from medicamento_prontuario where prontuario_id = ?";
+        try {
+            
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setInt(1, id);
+            pStatement.execute();
+            pStatement.close();
+            ret = 1;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        fecharConexao();
+        return ret;
+        
+    }
+    
+    public int excluirMPNulo() {
+        try {
+            conn = Conexao.getConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        int ret = 0;
+        PreparedStatement pStatement = null;
+        sql = "delete from medicamento_prontuario where prontuario_id is null";
+        try {
+            
+            pStatement = conn.prepareStatement(sql);
+            pStatement.execute();
+            pStatement.close();
+            
+        } catch (Exception e) {
+            ret = 1;
+        }
+        
+        fecharConexao();
+        return ret;
+        
+    }
+    
     public ArrayList<Medicamento> listar() {
         try {
             conn = Conexao.getConexao();
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,34 +247,74 @@ public class MedicamentoDao {
         ResultSet rs = null;
         boolean umaVez = true;
         ArrayList<Medicamento> medicamentos = null;
-        sql = ("SELECT nome, preco, quantidade\n"
+        sql = ("SELECT nome, preco, quantidade, id\n"
                 + "	FROM medicamento");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
-
+            
             while (rs.next()) {
                 if (umaVez) {
                     medicamentos = new ArrayList<>();
                     umaVez = false;
                 }
-                Medicamento m = new Medicamento(rs.getString("nome"), rs.getFloat("preco"), rs.getInt("Quantidade"));
+                Medicamento m = new Medicamento(rs.getString("nome"), rs.getFloat("preco"), rs.getInt("Quantidade"), rs.getInt("id"));
+                
                 medicamentos.add(m);
             }
-
+            
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         fecharConexao();
+        
         return medicamentos;
-
+        
     }
-
+    
+    public ArrayList<Medicamento> listarPorProntuario(int id) {
+        try {
+            conn = Conexao.getConexao();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Medicamento> medicamentos = null;
+        sql = ("SELECT medicamento_id, prontuario_id, id, nome, quantidade_medicamento, preco\n"
+                + "	FROM public.medicamento_prontuario where prontuario_id = ?");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setInt(1, id);
+            rs = pStatement.executeQuery();
+            
+            while (rs.next()) {
+                if (umaVez) {
+                    medicamentos = new ArrayList<>();
+                    umaVez = false;
+                }
+                Medicamento m = new Medicamento(rs.getString("nome"), rs.getFloat("preco"), rs.getInt("quantidade_medicamento"), rs.getInt("medicamento_id"));
+                
+                medicamentos.add(m);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        fecharConexao();
+        
+        return medicamentos;
+        
+    }
+    
     public void fecharConexao() {
         try {
             conn.close();
         } catch (SQLException e) {
         }
     }
-
+    
 }

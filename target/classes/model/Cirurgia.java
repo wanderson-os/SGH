@@ -5,29 +5,16 @@ import java.time.LocalTime;
 
 public class Cirurgia extends Conta {
 
-	private EquipeCirurgica equipeCirugica;
-
-	private LocalDate data;
-
-	private LocalTime hora;
-
-	private double valor;
-
-	private String relatorio;
-
-	private Acomodacao salaCirurgia;
-
-	private Prontuario prontuario;
-
-    public Cirurgia(EquipeCirurgica equipeCirugica, LocalDate data, LocalTime hora, double valor, String relatorio, Acomodacao salaCirurgia, Prontuario prontuario) {
-        this.equipeCirugica = equipeCirugica;
-        this.data = data;
-        this.hora = hora;
-        this.valor = valor;
-        this.relatorio = relatorio;
-        this.salaCirurgia = salaCirurgia;
-        this.prontuario = prontuario;
-    }
+    private EquipeCirurgica equipeCirugica;
+    private LocalDate data;
+    private LocalTime hora;
+    private double valor;
+    private String relatorio;
+    private Acomodacao salaCirurgia;
+    private Prontuario prontuario;
+    private int id;
+    private int salaCirurgicaId;
+    private int equipeCirurgicaId;
 
     public Cirurgia() {
     }
@@ -88,5 +75,31 @@ public class Cirurgia extends Conta {
         this.prontuario = prontuario;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getSalaCirurgicaId() {
+        return salaCirurgicaId;
+    }
+
+    public void setSalaCirurgicaId(int salaCirurgicaId) {
+        this.salaCirurgicaId = salaCirurgicaId;
+    }
+
+    public int getEquipeCirurgicaId() {
+        return equipeCirurgicaId;
+    }
+
+    public void setEquipeCirurgicaId(int equipeCirurgicaId) {
+        this.equipeCirurgicaId = equipeCirurgicaId;
+    }
+
+
+    
     
 }

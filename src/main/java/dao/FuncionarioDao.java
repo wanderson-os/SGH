@@ -58,10 +58,9 @@ public class FuncionarioDao {
             pStatement.setString(11, funcionario.getFuncao());
             pStatement.execute();
             pStatement.close();
-            r = enderecoDao.cadastrar(funcionario.getEndereco(), funcionario.getCpf()) + 1;
+            r = 1;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
@@ -99,10 +98,9 @@ public class FuncionarioDao {
             pStatement.setString(12, cpf);
             pStatement.execute();
             pStatement.close();
-            r = enderecoDao.alterar(funcionario.getEndereco()) + 1;
+            r = 1;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         fecharConexao();
@@ -130,6 +128,7 @@ public class FuncionarioDao {
             r = r + 1;
 
         } catch (Exception e) {
+            enderecoDao.cadastrar(funcionario.getEndereco(), funcionario.getCpf());
         }
 
         fecharConexao();
@@ -137,7 +136,7 @@ public class FuncionarioDao {
 
     }
 
-    public ArrayList<Pessoa> listar(String funcao) {
+    public ArrayList<Pessoa> listarFuncao(String funcao) {
         try {
             conn = Conexao.getConexao();
 
@@ -178,7 +177,6 @@ public class FuncionarioDao {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
         fecharConexao();
@@ -226,11 +224,136 @@ public class FuncionarioDao {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
 
         }
         fecharConexao();
         return pessoas;
+
+    }
+
+    public ArrayList<Pessoa> listarFuncionarioNCF(String funcao) {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        sql = ("SELECT cpf, nome, sobrenome, funcao "
+                + "FROM pessoa  where peso is null and funcao = ?");
+
+        try {
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, funcao);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    pessoas = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Funcionario funcionario = new Funcionario();
+                funcionario.setCpf(rs.getString("cpf"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setFuncao(rs.getString("funcao"));
+
+                pessoas.add(funcionario);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getCause());
+        }
+        fecharConexao();
+        return pessoas;
+
+    }
+
+    public ArrayList<Pessoa> listarFuncionarioNC() {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        sql = ("SELECT cpf, nome, sobrenome, funcao "
+                + "FROM pessoa  where peso is null");
+
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    pessoas = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Funcionario funcionario = new Funcionario();
+                funcionario.setCpf(rs.getString("cpf"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setFuncao(rs.getString("funcao"));
+
+                pessoas.add(funcionario);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getCause());
+        }
+        fecharConexao();
+        return pessoas;
+
+    }
+
+    public Funcionario BuscarPorCpf(String cpf) {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        Funcionario funcionario = null;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        sql = ("SELECT p.cpf, p.nome, p.sobrenome, p.telefone, p.data_nascimento, p.sexo, p.peso, p.ctps, p.especialidade, p.data_inscricao, p.registro_profissional,\n"
+                + "                p.funcao, e.logradouro, e.numero, e.complemento, e.uf, e.bairro ,e.cep ,e.id ,e.cpf_pessoa FROM pessoa p join endereco e on p.cpf = e.cpf_pessoa\n"
+                + "               where p.cpf = ?");
+
+        try {
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, cpf);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+
+                LocalDate dataNasc = rs.getDate("data_nascimento").toLocalDate();
+                LocalDate dataInscricao = rs.getDate("data_inscricao").toLocalDate();
+                Endereco endereco = new Endereco(rs.getString("bairro"), rs.getInt("numero"),
+                        rs.getString("logradouro"), rs.getString("uf"),
+                        rs.getString("complemento"), rs.getString("cep"),
+                        rs.getInt("id"), rs.getString("cpf_pessoa"));
+
+                funcionario = new Funcionario(rs.getString("ctps"), rs.getString("funcao"), rs.getString("especialidade"), rs.getString("registro_profissional"),
+                        dataInscricao, rs.getString("nome"), rs.getString("sobrenome"), rs.getString("cpf"), rs.getString("telefone"),
+                        rs.getString("sexo").charAt(0), dataNasc, endereco);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        fecharConexao();
+        return funcionario;
 
     }
 

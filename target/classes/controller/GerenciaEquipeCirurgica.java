@@ -24,27 +24,34 @@ public class GerenciaEquipeCirurgica implements Crud<EquipeCirurgica> {
     @Override
     public int cadastrar(EquipeCirurgica entidade) {
         int r = ecd.cadastrar(entidade);
+       
         return r;
     }
 
     @Override
-    public int listar() {
-        ecd.listar();
-        int r = 0;
-        return r;
+    public void listar() {
+
     }
 
     @Override
     public int alterar(EquipeCirurgica entidade) {
         int r = ecd.alterar(entidade);
+       
         return r;
     }
 
     @Override
     public int excluir(EquipeCirurgica entidade) {
-        ecd.excluir(entidade);
-        int r = 0;
+        int r = ecd.excluir(entidade);
+      
+
         return r;
+    }
+
+   
+
+    public EquipeCirurgicaDao getEcd() {
+        return ecd;
     }
 
 }
