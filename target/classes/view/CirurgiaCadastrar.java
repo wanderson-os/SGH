@@ -93,24 +93,6 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
         jsMinuto = new javax.swing.JSpinner();
 
         setClosable(true);
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-        });
 
         cbxEquipeCirurgica.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Equipe cirurgica", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         cbxEquipeCirurgica.addItemListener(new java.awt.event.ItemListener() {
@@ -414,18 +396,6 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
     }
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-
-        if (!consulta.isClosed()) {
-            consulta.getTpConsulta().setSelectedIndex(2);
-        }
-    }//GEN-LAST:event_formInternalFrameClosed
-
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if (!consulta.isClosed()) {
-            consulta.getTpConsulta().setSelectedIndex(2);
-        }    }//GEN-LAST:event_formInternalFrameClosing
-
     public void campos() {
 
         model.EquipeCirurgica equipeCirurgica = ecs.get(cbxEquipeCirurgica.getSelectedIndex());

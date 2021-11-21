@@ -4,23 +4,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Alta {
+    private LocalDate data;
+    private LocalTime hora;
+    private Paciente paciente;
+    private Funcionario medico;
+    private int id;
 
-	private LocalDate data;
+    public Alta() {
+    }
 
-	private LocalTime hora;
-
-	private Paciente paciente;
-
-	private Funcionario medico;
-
-    public Alta(LocalDate data, LocalTime hora, Paciente paciente, Funcionario medico) {
+    public Alta(LocalDate data, LocalTime hora, Paciente paciente, Funcionario medico, int id) {
         this.data = data;
         this.hora = hora;
         this.paciente = paciente;
         this.medico = medico;
-    }
-
-    public Alta() {
+        this.id = id;
     }
 
     public LocalDate getData() {
@@ -55,6 +53,13 @@ public class Alta {
         this.medico = medico;
     }
 
-        
-        
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
 }

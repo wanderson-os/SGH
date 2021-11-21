@@ -69,25 +69,6 @@ public class ExameCadastrar extends javax.swing.JInternalFrame {
         btnAvancar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
 
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-        });
-
         jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jsMinuto.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
@@ -296,18 +277,6 @@ public class ExameCadastrar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar !");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        if (!consulta.isClosed()) {
-            consulta.getTpConsulta().setSelectedIndex(3);
-        }
-     }//GEN-LAST:event_formInternalFrameClosed
-
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if (!consulta.isClosed()) {
-            consulta.getTpConsulta().setSelectedIndex(3);
-        }
-     }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

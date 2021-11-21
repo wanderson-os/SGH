@@ -413,7 +413,6 @@ public class CirurgiaConsultar extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        int i = 0;
         int e = JOptionPane.showConfirmDialog(this, "Deseja Fechar ?", "", JOptionPane.OK_CANCEL_OPTION);
         if (e == JOptionPane.OK_OPTION) {
             dispose();

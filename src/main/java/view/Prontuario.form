@@ -28,15 +28,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="1006" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="1000" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" pref="543" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="536" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -78,7 +77,7 @@
                               <Component id="jpExames1" alignment="0" max="32767" attributes="0"/>
                               <Component id="jpMedico1" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="70" max="32767" attributes="0"/>
+                          <EmptySpace pref="54" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -88,7 +87,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jpPaciente1" min="-2" pref="367" max="-2" attributes="0"/>
+                                  <Component id="jpPaciente1" min="-2" pref="376" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jpProntuarios1" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -240,6 +239,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JFormattedTextField" name="jftfDataNascimentoPaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Data de Nascimento"/>
@@ -252,6 +252,7 @@
                             </Component>
                             <Component class="javax.swing.JFormattedTextField" name="jftfTelefonePaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Telefone"/>
@@ -264,6 +265,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfSobrenomePaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Sobrenome"/>
@@ -273,6 +275,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfNomePaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Nome"/>
@@ -282,6 +285,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfSexoPaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Sexo"/>
@@ -291,6 +295,7 @@
                             </Component>
                             <Component class="javax.swing.JFormattedTextField" name="jftfCpfPaciente">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="CPF"/>
@@ -305,6 +310,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfPeso">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Peso"/>
@@ -366,6 +372,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JTextField" name="tfLogradouroPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Logradouro"/>
@@ -375,6 +382,7 @@
                             </Component>
                             <Component class="javax.swing.JFormattedTextField" name="tfNumeroPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="N&#xfa;mero"/>
@@ -384,6 +392,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfBairroPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Bairro"/>
@@ -393,6 +402,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfComplementoPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="Complemento"/>
@@ -402,6 +412,7 @@
                             </Component>
                             <Component class="javax.swing.JFormattedTextField" name="jftfCepPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder title="CEP"/>
@@ -414,6 +425,7 @@
                             </Component>
                             <Component class="javax.swing.JTextField" name="tfUfPaciente1">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                                     <TitledBorder justification="1" title="UF"/>
@@ -863,15 +875,11 @@
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                                               <Component id="jButton8" min="-2" pref="49" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jButton7" pref="0" max="32767" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="tfValorCirurgia1" min="-2" pref="100" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="tfValorCirurgia1" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -897,7 +905,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jpEquipeCirurgica1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="9" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                               <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -921,6 +929,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfDataCirurgia1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Data"/>
@@ -930,6 +939,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfHoraCirurgia1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Hor&#xe1;rio"/>
@@ -939,6 +949,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfValorCirurgia1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Valor"/>
@@ -948,7 +959,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfSalaCirurgica1">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="sasas"/>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Sala cirurgica"/>
@@ -1099,6 +1110,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextArea" name="taRelatorio1">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -1204,6 +1216,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JComboBox" name="cbxExames">
                       <Properties>
+                        <Property name="editable" type="boolean" value="true"/>
                         <Property name="maximumRowCount" type="int" value="4"/>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
@@ -1218,6 +1231,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfDataExame">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Data"/>
@@ -1227,6 +1241,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfHoraExame">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Hor&#xe1;rio"/>
@@ -1236,6 +1251,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfSalaExame">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Sala cirurgica"/>
@@ -1245,6 +1261,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfValorExame">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Valor"/>
@@ -1257,6 +1274,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfTipoExame">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Tipo"/>
@@ -1289,6 +1307,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextArea" name="taRelatorioExame">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
                           </Properties>
@@ -1335,12 +1354,12 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cbxMedicamentos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                       <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="cbxMedicamentos" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1370,6 +1389,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfNomeMedicamento1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Nome"/>
@@ -1379,6 +1399,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfQunatidade1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Quantidade"/>
@@ -1388,6 +1409,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfPrecoMedicamento1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Pre&#xe7;o"/>
@@ -1480,6 +1502,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfDataProntuario1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Data"/>
@@ -1489,6 +1512,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfHoraProntuario1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Hor&#xe1;rio"/>
@@ -1556,6 +1580,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JTextField" name="tfDataAlta1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Data"/>
@@ -1565,6 +1590,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfHoraAlta1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="Hor&#xe1;rio"/>
@@ -1574,6 +1600,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfMedicoAlta1">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder justification="2" title="M&#xe9;dico"/>
@@ -1622,6 +1649,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextArea" name="taDiagnosticoProntuario">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="columns" type="int" value="20"/>
                             <Property name="rows" type="int" value="5"/>
                           </Properties>

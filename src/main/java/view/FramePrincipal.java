@@ -29,7 +29,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     controller.GerenciaCirurgia gc;
     controller.GerenciaMedicamento gm;
     controller.GerenciaExame ge;
-
+    
     public FramePrincipal() {
         initComponents();
         gc = new GerenciaCirurgia();
@@ -88,6 +88,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmDeletarPaciente = new javax.swing.JMenuItem();
         jmProntuario = new javax.swing.JMenu();
         jmConsultarProntuario = new javax.swing.JMenuItem();
+        jMenu18 = new javax.swing.JMenu();
+        jmNovoPaciente1 = new javax.swing.JMenuItem();
+        jmConsultarPaciente1 = new javax.swing.JMenuItem();
+        jmEditarPaciente1 = new javax.swing.JMenuItem();
+        jmDeletarPaciente1 = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jmAnestesistaN = new javax.swing.JMenuItem();
@@ -417,6 +422,50 @@ public class FramePrincipal extends javax.swing.JFrame {
         jmProntuario.add(jmConsultarProntuario);
 
         jMenu11.add(jmProntuario);
+
+        jMenu18.setText("Alta");
+
+        jmNovoPaciente1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmNovoPaciente1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/create.png"))); // NOI18N
+        jmNovoPaciente1.setText("Novo");
+        jmNovoPaciente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmNovoPaciente1ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jmNovoPaciente1);
+
+        jmConsultarPaciente1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmConsultarPaciente1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/read.png"))); // NOI18N
+        jmConsultarPaciente1.setText("Consultar");
+        jmConsultarPaciente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmConsultarPaciente1ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jmConsultarPaciente1);
+
+        jmEditarPaciente1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmEditarPaciente1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jmEditarPaciente1.setText("Editar");
+        jmEditarPaciente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmEditarPaciente1ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jmEditarPaciente1);
+
+        jmDeletarPaciente1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmDeletarPaciente1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/delete.png"))); // NOI18N
+        jmDeletarPaciente1.setText("Deletar");
+        jmDeletarPaciente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmDeletarPaciente1ActionPerformed(evt);
+            }
+        });
+        jMenu18.add(jmDeletarPaciente1);
+
+        jMenu11.add(jMenu18);
 
         jMenuBar3.add(jMenu11);
 
@@ -822,11 +871,11 @@ public class FramePrincipal extends javax.swing.JFrame {
      }//GEN-LAST:event_jmDeletarPacienteActionPerformed
 
     private void jmConsultarProntuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarProntuarioActionPerformed
-
+        
         Prontuario p = new Prontuario();
         jDesktopPane.add(p);
         p.setVisible(true);
-
+        
 
     }//GEN-LAST:event_jmConsultarProntuarioActionPerformed
 //Paciente----------------------------------------------------------------------------
@@ -990,37 +1039,40 @@ public class FramePrincipal extends javax.swing.JFrame {
         consultar.setVisible(true);    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
+        
         Consulta consulta = new Consulta("cadastrar");
         jDesktopPane.add(consulta);
         consulta.setVisible(true);
-
+        
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-
+        
         Medicamento m = new Medicamento();
         jDesktopPane.add(m);
         m.setVisible(true);
-
+        
 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Consulta consulta = new Consulta("consultar");
-        jDesktopPane.add(consulta);
-        consulta.setVisible(true);    }//GEN-LAST:event_jMenuItem3ActionPerformed
+        Prontuario prontuario = new Prontuario();
+        jDesktopPane.add(prontuario);
+        prontuario.setVisible(true);        
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Consulta consulta = new Consulta("alterar");
+        ConsultaEditar consulta = new ConsultaEditar();
         jDesktopPane.add(consulta);
         consulta.setVisible(true);    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        Consulta consulta = new Consulta("excluir");
-        jDesktopPane.add(consulta);
-        consulta.setVisible(true);    }//GEN-LAST:event_jMenuItem5ActionPerformed
+        ProntuarioExcluir prontuarioExcluir = new ProntuarioExcluir();
+        jDesktopPane.add(prontuarioExcluir);
+        prontuarioExcluir.setVisible(true);        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         CirurgiaAdd cirurgiaAdd = new CirurgiaAdd();
@@ -1045,7 +1097,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         cirurgiaExcluir.setVisible(true);    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-
+        
         ExameAdd exameAdd = new ExameAdd();
         jDesktopPane.add(exameAdd);
         exameAdd.setVisible(true);
@@ -1068,6 +1120,25 @@ public class FramePrincipal extends javax.swing.JFrame {
         ExameExcluir exameExcluir = new ExameExcluir();
         jDesktopPane.add(exameExcluir);
         exameExcluir.setVisible(true);    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jmNovoPaciente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmNovoPaciente1ActionPerformed
+        Alta alta = new Alta();
+        jDesktopPane.add(alta);
+        alta.setVisible(true);
+
+    }//GEN-LAST:event_jmNovoPaciente1ActionPerformed
+
+    private void jmConsultarPaciente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmConsultarPaciente1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmConsultarPaciente1ActionPerformed
+
+    private void jmEditarPaciente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEditarPaciente1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmEditarPaciente1ActionPerformed
+
+    private void jmDeletarPaciente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeletarPaciente1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmDeletarPaciente1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1119,6 +1190,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu17;
+    private javax.swing.JMenu jMenu18;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -1161,15 +1233,18 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmConsultarEscala;
     private javax.swing.JMenuItem jmConsultarEstoque;
     private javax.swing.JMenuItem jmConsultarPaciente;
+    private javax.swing.JMenuItem jmConsultarPaciente1;
     private javax.swing.JMenuItem jmConsultarProntuario;
     private javax.swing.JMenuItem jmDeletarEC;
     private javax.swing.JMenuItem jmDeletarEscala;
     private javax.swing.JMenuItem jmDeletarEstoque;
     private javax.swing.JMenuItem jmDeletarPaciente;
+    private javax.swing.JMenuItem jmDeletarPaciente1;
     private javax.swing.JMenuItem jmEditarEC;
     private javax.swing.JMenuItem jmEditarEscala;
     private javax.swing.JMenuItem jmEditarEstoque;
     private javax.swing.JMenuItem jmEditarPaciente;
+    private javax.swing.JMenuItem jmEditarPaciente1;
     private javax.swing.JMenuItem jmEnfermeiroC;
     private javax.swing.JMenuItem jmEnfermeiroD;
     private javax.swing.JMenuItem jmEnfermeiroE;
@@ -1184,6 +1259,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmMedicoN;
     private javax.swing.JMenuItem jmNovoEscala;
     private javax.swing.JMenuItem jmNovoPaciente;
+    private javax.swing.JMenuItem jmNovoPaciente1;
     private javax.swing.JMenu jmProntuario;
     // End of variables declaration//GEN-END:variables
 }

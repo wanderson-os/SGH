@@ -273,7 +273,7 @@ public class FuncionarioDao {
 
     }
 
-    public ArrayList<Pessoa> listarFuncionarioNC() {
+    public ArrayList<Funcionario> listarFuncionarioNC() {
         try {
             conn = Conexao.getConexao();
 
@@ -283,6 +283,7 @@ public class FuncionarioDao {
         String sql;
         PreparedStatement pStatement = null;
         ResultSet rs = null;
+        ArrayList<Funcionario> funcionarios = null;
         boolean umaVez = true;
         sql = ("SELECT cpf, nome, sobrenome, funcao "
                 + "FROM pessoa  where peso is null");
@@ -293,7 +294,7 @@ public class FuncionarioDao {
 
             while (rs.next()) {
                 if (umaVez) {
-                    pessoas = new ArrayList<>();
+                    funcionarios = new ArrayList<>();
                     umaVez = false;
                 }
 
@@ -303,14 +304,54 @@ public class FuncionarioDao {
                 funcionario.setSobrenome(rs.getString("sobrenome"));
                 funcionario.setFuncao(rs.getString("funcao"));
 
-                pessoas.add(funcionario);
+                funcionarios.add(funcionario);
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getCause());
         }
         fecharConexao();
-        return pessoas;
+        return funcionarios;
+
+    }
+
+    public ArrayList<Funcionario> listarMedicoNC() {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        ArrayList<Funcionario> funcionarios = null;
+        boolean umaVez = true;
+        sql = ("SELECT cpf,nome, sobrenome FROM pessoa  where funcao = 'Medico'");
+
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    funcionarios = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Funcionario funcionario = new Funcionario();
+                funcionario.setCpf(rs.getString("cpf"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+
+                funcionarios.add(funcionario);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getCause());
+        }
+        fecharConexao();
+        return funcionarios;
 
     }
 

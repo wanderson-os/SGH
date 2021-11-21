@@ -17,6 +17,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Cirurgia;
+import model.Funcionario;
 import model.Paciente;
 import model.Prontuario;
 
@@ -179,6 +180,60 @@ public class ProntuarioDao {
                 p.setMedicamentos(md.listarPorProntuario(p.getId()));
                 p.setCirurgias(cd.listarPorProntuario(p.getId()));
 
+                prontuarios.add(p);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        fecharConexao();
+        return prontuarios;
+
+    }
+
+    public ArrayList<Prontuario> listarParaAlta() {
+
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Prontuario> prontuarios = null;
+        sql = ("select p.nome as paciente, p.sobrenome as sobrenome_p, pr.cpf_paciente, m.nome as medico,m.sobrenome as sobrenome_m, pr.cpf_medico, pr.data, pr.hora, id as id_prontuario\n"
+                + "from pessoa p \n"
+                + "join prontuario pr on pr.cpf_paciente = p.cpf\n"
+                + "join pessoa m on pr.cpf_medico = m.cpf\n"
+                + "where pr.alta_id is null");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            cd = new CirurgiaDao();
+            while (rs.next()) {
+                if (umaVez) {
+                    prontuarios = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Prontuario p = new Prontuario();
+                p.setId(rs.getInt("id_prontuario"));
+                p.setData(rs.getDate("data").toLocalDate());
+                p.setHora(rs.getTime("hora").toLocalTime());
+                Funcionario m = new Funcionario();
+                m.setNome(rs.getString("medico"));
+                m.setSobrenome(rs.getString("sobrenome_m"));
+                m.setCpf(rs.getString("cpf_medico"));
+                Paciente pa = new Paciente();
+                pa.setNome(rs.getString("paciente"));
+                pa.setSobrenome(rs.getString("sobrenome_p"));
+                pa.setCpf(rs.getString("cpf_paciente"));
+
+                p.setPaciente(pa);
+                p.setMedico(m);
                 prontuarios.add(p);
             }
 

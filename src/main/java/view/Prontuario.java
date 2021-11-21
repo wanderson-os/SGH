@@ -159,6 +159,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
 
         jpPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Paciente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 18))); // NOI18N
 
+        jftfDataNascimentoPaciente.setEditable(false);
         jftfDataNascimentoPaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("Data de Nascimento"));
         try {
             jftfDataNascimentoPaciente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -166,6 +167,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        jftfTelefonePaciente.setEditable(false);
         jftfTelefonePaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("Telefone"));
         try {
             jftfTelefonePaciente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#.####-####")));
@@ -173,12 +175,16 @@ public class Prontuario extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        tfSobrenomePaciente.setEditable(false);
         tfSobrenomePaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("Sobrenome"));
 
+        tfNomePaciente.setEditable(false);
         tfNomePaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
 
+        tfSexoPaciente.setEditable(false);
         tfSexoPaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("Sexo"));
 
+        jftfCpfPaciente.setEditable(false);
         jftfCpfPaciente.setBorder(javax.swing.BorderFactory.createTitledBorder("CPF"));
         try {
             jftfCpfPaciente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -186,6 +192,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        tfPeso.setEditable(false);
         tfPeso.setBorder(javax.swing.BorderFactory.createTitledBorder("Peso"));
 
         javax.swing.GroupLayout jpPessoa4Layout = new javax.swing.GroupLayout(jpPessoa4);
@@ -236,14 +243,19 @@ public class Prontuario extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tfLogradouroPaciente1.setEditable(false);
         tfLogradouroPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("Logradouro"));
 
+        tfNumeroPaciente1.setEditable(false);
         tfNumeroPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("Número"));
 
+        tfBairroPaciente1.setEditable(false);
         tfBairroPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("Bairro"));
 
+        tfComplementoPaciente1.setEditable(false);
         tfComplementoPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("Complemento"));
 
+        jftfCepPaciente1.setEditable(false);
         jftfCepPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("CEP"));
         try {
             jftfCepPaciente1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
@@ -251,6 +263,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
+        tfUfPaciente1.setEditable(false);
         tfUfPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "UF", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         javax.swing.GroupLayout jpEnderecoPaciente1Layout = new javax.swing.GroupLayout(jpEnderecoPaciente1);
@@ -576,13 +589,16 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfDataCirurgia1.setEditable(false);
         tfDataCirurgia1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfHoraCirurgia1.setEditable(false);
         tfHoraCirurgia1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Horário", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfValorCirurgia1.setEditable(false);
         tfValorCirurgia1.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor"));
 
-        tfSalaCirurgica1.setText("sasas");
+        tfSalaCirurgica1.setEditable(false);
         tfSalaCirurgica1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sala cirurgica", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jpEquipeCirurgica1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Equipe cirurgica", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -658,6 +674,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        taRelatorio1.setEditable(false);
         taRelatorio1.setColumns(20);
         taRelatorio1.setRows(5);
         taRelatorio1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relatório", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -698,13 +715,10 @@ public class Prontuario extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6)
                         .addGroup(jpCirurgias1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpCirurgias1Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
                                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpCirurgias1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tfValorCirurgia1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(tfValorCirurgia1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jpCirurgias1Layout.setVerticalGroup(
@@ -723,13 +737,14 @@ public class Prontuario extends javax.swing.JInternalFrame {
                     .addComponent(tfDataCirurgia1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jpEquipeCirurgica1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jpExames1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Exames", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        cbxExames.setEditable(true);
         cbxExames.setMaximumRowCount(4);
         cbxExames.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -737,12 +752,16 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfDataExame.setEditable(false);
         tfDataExame.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfHoraExame.setEditable(false);
         tfHoraExame.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Horário", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfSalaExame.setEditable(false);
         tfSalaExame.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sala cirurgica", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfValorExame.setEditable(false);
         tfValorExame.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor"));
         tfValorExame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -750,6 +769,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfTipoExame.setEditable(false);
         tfTipoExame.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
 
         jButton1.setText("<<");
@@ -766,6 +786,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        taRelatorioExame.setEditable(false);
         taRelatorioExame.setColumns(20);
         taRelatorioExame.setRows(5);
         jScrollPane6.setViewportView(taRelatorioExame);
@@ -830,10 +851,13 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfNomeMedicamento1.setEditable(false);
         tfNomeMedicamento1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfQunatidade1.setEditable(false);
         tfQunatidade1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Quantidade", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfPrecoMedicamento1.setEditable(false);
         tfPrecoMedicamento1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Preço", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jButton3.setText("<<");
@@ -875,11 +899,11 @@ public class Prontuario extends javax.swing.JInternalFrame {
             jpMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpMedicamentos1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jpMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton3)
-                        .addComponent(jButton4)))
+                        .addComponent(jButton4))
+                    .addComponent(cbxMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNomeMedicamento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -897,8 +921,10 @@ public class Prontuario extends javax.swing.JInternalFrame {
             }
         });
 
+        tfDataProntuario1.setEditable(false);
         tfDataProntuario1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfHoraProntuario1.setEditable(false);
         tfHoraProntuario1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Horário", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jButton5.setText("<<");
@@ -949,10 +975,13 @@ public class Prontuario extends javax.swing.JInternalFrame {
 
         jpAlta1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 18))); // NOI18N
 
+        tfDataAlta1.setEditable(false);
         tfDataAlta1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfHoraAlta1.setEditable(false);
         tfHoraAlta1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Horário", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tfMedicoAlta1.setEditable(false);
         tfMedicoAlta1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Médico", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         javax.swing.GroupLayout jpAlta1Layout = new javax.swing.GroupLayout(jpAlta1);
@@ -981,6 +1010,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
 
         jpDiagnosticoProntuario1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Diagnostico", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        taDiagnosticoProntuario.setEditable(false);
         taDiagnosticoProntuario.setColumns(20);
         taDiagnosticoProntuario.setRows(5);
         jScrollPane7.setViewportView(taDiagnosticoProntuario);
@@ -1019,7 +1049,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
                     .addComponent(jpMedicamentos1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpExames1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpMedico1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jpConsultaTodosLayout.setVerticalGroup(
             jpConsultaTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1027,7 +1057,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpConsultaTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpConsultaTodosLayout.createSequentialGroup()
-                        .addComponent(jpPaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jpPaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jpProntuarios1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jpMedico1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1056,13 +1086,12 @@ public class Prontuario extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1006, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
