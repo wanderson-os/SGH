@@ -21,7 +21,7 @@ import view.mae.EquipeCirurgica;
 public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
 
     GerenciaEquipeCirurgica gec;
-    ArrayList<Pessoa> pessoas;
+    ArrayList<Funcionario> pessoas;
     FuncionarioDao fd;
 
     public EquipeCirurgicaCadastrar() {

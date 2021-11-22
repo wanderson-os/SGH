@@ -29,25 +29,25 @@ public class Prontuario extends javax.swing.JInternalFrame {
     ProntuarioDao pd;
     MedicamentoDao md;
     CirurgiaDao cd;
-    
+
     public Prontuario() {
         initComponents();
         pd = new ProntuarioDao();
         prontuarios = pd.listarTodos();
         md = new MedicamentoDao();
         cd = new CirurgiaDao();
-        
+
         if (prontuarios == null || prontuarios.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum prontuario encontrado !");
         } else {
-            
+
             for (int i = 0; i < prontuarios.size(); i++) {
                 model.Prontuario p = prontuarios.get(i);
                 cbxProntuarios.addItem("Prontuario " + p.getId());
             }
-            
+
         }
-        
+
     }
 
     /**
@@ -1104,7 +1104,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
 
     private void cbxProntuariosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxProntuariosItemStateChanged
         model.Prontuario p = prontuarios.get(cbxProntuarios.getSelectedIndex());
-        
+
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         String data = fmt.format(Date.valueOf(p.getPaciente().getDataNasc())).toString();
         taDiagnosticoProntuario.setText(p.getDiagnostico());
@@ -1117,17 +1117,17 @@ public class Prontuario extends javax.swing.JInternalFrame {
         jftfTelefonePaciente.setText(p.getPaciente().getTelefone());
         jftfCpfPaciente.setText(p.getPaciente().getCpf());
         tfPeso.setText(String.valueOf(p.getPaciente().getPeso()));
-        
+
         tfLogradouroPaciente1.setText(p.getPaciente().getEndereco().getLogradouro());
         tfNumeroPaciente1.setText(String.valueOf(p.getPaciente().getEndereco().getNumero()));
         tfBairroPaciente1.setText(p.getPaciente().getEndereco().getBairro());
         tfComplementoPaciente1.setText(p.getPaciente().getEndereco().getComplemento());
         tfUfPaciente1.setText(p.getPaciente().getEndereco().getUf());
         jftfCepPaciente1.setText(p.getPaciente().getEndereco().getCep());
-        
+
         String dataM = fmt.format(Date.valueOf(p.getMedico().getDataNasc())).toString();
         String dataInscricao = fmt.format(Date.valueOf(p.getMedico().getDataInscricao())).toString();
-        
+
         tfNomeMedico1.setText(p.getMedico().getNome());
         tfSobrenomeMedico1.setText(p.getMedico().getSobrenome());
         jftfDataNascimentoMedico1.setText(dataM);
@@ -1139,41 +1139,54 @@ public class Prontuario extends javax.swing.JInternalFrame {
         ftfRegistroProfissional1.setText(p.getMedico().getRegistroProfissional());
         tfFuncao1.setText(p.getMedico().getFuncao());
         tfEspecialidade1.setText(p.getMedico().getEspecialidade());
-        
+
         tfLogradouroMedico1.setText(p.getMedico().getEndereco().getLogradouro());
         tfNumeroMedico1.setText(String.valueOf(p.getMedico().getEndereco().getNumero()));
         tfBairroMedico1.setText(p.getMedico().getEndereco().getBairro());
         tfComplementoMedico1.setText(p.getMedico().getEndereco().getComplemento());
         tfUfMedico1.setText(p.getMedico().getEndereco().getUf());
         jftfCepMedico1.setText(p.getMedico().getEndereco().getCep());
-        cbxMedicamentos.removeAllItems();
-        
-        if (p.getMedicamentos() == null || p.getMedicamentos().isEmpty()) {
-            
+        if (p.getAlta() != null) {
+            tfHoraAlta1.setText(p.getAlta().getHora().toString());
+            tfDataAlta1.setText(p.getAlta().getData().toString());
+            tfMedicoAlta1.setText(p.getAlta().getMedico().getNome() + " " + p.getAlta().getMedico().getSobrenome());
+
         } else {
-            
+
+            tfHoraAlta1.setText("");
+            tfDataAlta1.setText("");
+            tfMedicoAlta1.setText("");
+
+        }
+
+        cbxMedicamentos.removeAllItems();
+
+        if (p.getMedicamentos() == null || p.getMedicamentos().isEmpty()) {
+
+        } else {
+
             for (int i = 0; i < p.getMedicamentos().size(); i++) {
                 cbxMedicamentos.addItem(p.getMedicamentos().get(i).getNome());
             }
-            
+
         }
         cbxCirurgias.removeAllItems();
         if (p.getCirurgias() == null || p.getCirurgias().isEmpty()) {
-            
+
         } else {
             for (int i = 0; i < p.getCirurgias().size(); i++) {
-                
+
                 cbxCirurgias.addItem("Cirurgia " + p.getCirurgias().get(i).getId() + " " + p.getCirurgias().get(i).getData()
                         + " " + p.getCirurgias().get(i).getHora());
             }
-            
+
         }
-        
+
         cbxExames.removeAllItems();
         if (p.getExames() == null || p.getExames().isEmpty()) {
         } else {
             for (int i = 0; i < p.getExames().size(); i++) {
-                
+
                 cbxExames.addItem("Exame - " + p.getExames().get(i).getId());
             }
         }
@@ -1181,26 +1194,26 @@ public class Prontuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbxProntuariosItemStateChanged
 
     private void cbxMedicamentosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxMedicamentosItemStateChanged
-        
+
         if (cbxMedicamentos.getSelectedIndex() < 0) {
             tfNomeMedicamento1.setText("");
             tfPrecoMedicamento1.setText("");
             tfQunatidade1.setText("");
-            
+
         } else {
             model.Prontuario p = prontuarios.get(cbxProntuarios.getSelectedIndex());
             tfNomeMedicamento1.setText(p.getMedicamentos().get(cbxMedicamentos.getSelectedIndex()).getNome());
             tfPrecoMedicamento1.setText(String.valueOf(p.getMedicamentos().get(cbxMedicamentos.getSelectedIndex()).getPreco()));
             tfQunatidade1.setText(String.valueOf(p.getMedicamentos().get(cbxMedicamentos.getSelectedIndex()).getQuantidade()));
         }
-        
+
 
     }//GEN-LAST:event_cbxMedicamentosItemStateChanged
 
     private void cbxCirurgiasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCirurgiasItemStateChanged
         model.Prontuario p = prontuarios.get(cbxProntuarios.getSelectedIndex());
         if (cbxCirurgias.getItemCount() > 0) {
-            
+
             model.Cirurgia c = p.getCirurgias().get(cbxCirurgias.getSelectedIndex());
             tfDataCirurgia1.setText(c.getData().toString());
             tfHoraCirurgia1.setText(c.getHora().toString());
@@ -1225,7 +1238,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
             tfEnfermeiroChefe1.setText("");
             tfCirurgiaoPrincipal1.setText("");
             tfCirurgiaoAssistente1.setText("");
-            
+
         }
 
     }//GEN-LAST:event_cbxCirurgiasItemStateChanged
@@ -1233,7 +1246,7 @@ public class Prontuario extends javax.swing.JInternalFrame {
     private void cbxExamesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxExamesItemStateChanged
         model.Prontuario p = prontuarios.get(cbxProntuarios.getSelectedIndex());
         if (cbxExames.getItemCount() > 0) {
-            
+
             tfTipoExame.setText(p.getExames().get(cbxExames.getSelectedIndex()).getTipo());
             taRelatorioExame.setText(p.getExames().get(cbxExames.getSelectedIndex()).getRelatorio());
             tfDataExame.setText(p.getExames().get(cbxExames.getSelectedIndex()).getData().toString());
@@ -1241,14 +1254,14 @@ public class Prontuario extends javax.swing.JInternalFrame {
             tfValorExame.setText(String.valueOf(p.getExames().get(cbxExames.getSelectedIndex()).getValor()));
             tfSalaExame.setText("Sala - " + p.getExames().get(cbxExames.getSelectedIndex()).getSalaExameId());
         } else {
-            
+
             tfTipoExame.setText("");
             taRelatorioExame.setText("");
             tfDataExame.setText("");
             tfHoraExame.setText("");
             tfValorExame.setText("");
             tfSalaExame.setText("");
-            
+
         }
     }//GEN-LAST:event_cbxExamesItemStateChanged
 
@@ -1265,96 +1278,96 @@ public class Prontuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfCirurgiaoPrincipal1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        
+
         if (cbxProntuarios.getItemCount() != 0) {
-            
+
             if (cbxProntuarios.getSelectedIndex() - 1 < 0) {
                 cbxProntuarios.setSelectedIndex(cbxProntuarios.getItemCount() - 1);
             } else {
-                
+
                 cbxProntuarios.setSelectedIndex(cbxProntuarios.getSelectedIndex() - 1);
             }
         }
-        
+
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (cbxCirurgias.getItemCount() != 0) {
-            
+
             if (cbxCirurgias.getSelectedIndex() - 1 < 0) {
                 cbxCirurgias.setSelectedIndex(cbxCirurgias.getItemCount() - 1);
             } else {
-                
+
                 cbxCirurgias.setSelectedIndex(cbxCirurgias.getSelectedIndex() - 1);
             }
         }
-        
+
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (cbxExames.getItemCount() != 0) {
-            
+
             if (cbxExames.getSelectedIndex() - 1 < 0) {
                 cbxExames.setSelectedIndex(cbxExames.getItemCount() - 1);
             } else {
-                
+
                 cbxExames.setSelectedIndex(cbxExames.getSelectedIndex() - 1);
             }
         }    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (cbxMedicamentos.getItemCount() != 0) {
-            
+
             if (cbxMedicamentos.getSelectedIndex() - 1 < 0) {
                 cbxMedicamentos.setSelectedIndex(cbxMedicamentos.getItemCount() - 1);
             } else {
-                
+
                 cbxMedicamentos.setSelectedIndex(cbxMedicamentos.getSelectedIndex() - 1);
             }
         }     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (cbxProntuarios.getItemCount() != 0) {
-            
+
             if (cbxProntuarios.getSelectedIndex() + 1 >= cbxProntuarios.getItemCount()) {
                 cbxProntuarios.setSelectedIndex(0);
             } else {
-                
+
                 cbxProntuarios.setSelectedIndex(cbxProntuarios.getSelectedIndex() + 1);
             }
         }    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         if (cbxCirurgias.getItemCount() != 0) {
-            
+
             if (cbxCirurgias.getSelectedIndex() + 1 >= cbxCirurgias.getItemCount()) {
                 cbxCirurgias.setSelectedIndex(0);
             } else {
-                
+
                 cbxCirurgias.setSelectedIndex(cbxCirurgias.getSelectedIndex() + 1);
             }
         }    }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (cbxMedicamentos.getItemCount() != 0) {
-            
+
             if (cbxMedicamentos.getSelectedIndex() + 1 >= cbxMedicamentos.getItemCount()) {
                 cbxMedicamentos.setSelectedIndex(0);
             } else {
-                
+
                 cbxMedicamentos.setSelectedIndex(cbxMedicamentos.getSelectedIndex() + 1);
             }
         }    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (cbxExames.getItemCount() != 0) {
-            
+
             if (cbxExames.getSelectedIndex() + 1 >= cbxExames.getItemCount()) {
                 cbxExames.setSelectedIndex(0);
             } else {
-                
+
                 cbxExames.setSelectedIndex(cbxExames.getSelectedIndex() + 1);
             }
         }    }//GEN-LAST:event_jButton2ActionPerformed

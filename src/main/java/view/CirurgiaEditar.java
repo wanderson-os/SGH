@@ -432,9 +432,7 @@ public class CirurgiaEditar extends javax.swing.JInternalFrame {
             if (cbxEquipeCirurgica.getItemCount() > 0) {
                 for (int i = 0; i < ecs.size(); i++) {
 
-                    System.out.println("ID: " + cirurgias.get(cbxCirurgias.getSelectedIndex()).getEquipeCirurgicaId());
                     if (cirurgias.get(cbxCirurgias.getSelectedIndex()).getEquipeCirurgicaId() == ecs.get(i).getId()) {
-                        System.out.println("ID: " + cbxEquipeCirurgica.getSelectedIndex());
 
                         cbxEquipeCirurgica.setSelectedIndex(i);
                     }

@@ -51,7 +51,7 @@ public class CirurgiaAdd extends javax.swing.JInternalFrame {
             cbxEquipeCirurgica.addItem("Equipe: " + ecs.get(i).getId());
         }
         for (int i = 0; i < prontuarios.size(); i++) {
-            cbxConsulta.addItem("Consulta - " + prontuarios.get(i).getId() + "- " + prontuarios.get(i).getData());
+            cbxConsulta.addItem("Consulta - " + prontuarios.get(i).getId() + "- " + prontuarios.get(i).getData()+ "- "+prontuarios.get(i).getHora());
         }
         for (int i = 0; i < acomodacaoS.size(); i++) {
             cbxSala.addItem(acomodacaoS.get(i).getTipo() + " - " + acomodacaoS.get(i).getNumero());

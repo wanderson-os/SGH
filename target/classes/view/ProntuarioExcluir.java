@@ -1213,6 +1213,18 @@ public class ProntuarioExcluir extends javax.swing.JInternalFrame {
                 cbxExames.addItem("Exame - " + p.getExames().get(i).getId());
             }
         }
+        if (p.getAlta() != null) {
+            tfHoraAlta1.setText(p.getAlta().getHora().toString());
+            tfDataAlta1.setText(p.getAlta().getData().toString());
+            tfMedicoAlta1.setText(p.getAlta().getMedico().getNome() + " " + p.getAlta().getMedico().getSobrenome());
+
+        } else {
+
+            tfHoraAlta1.setText("");
+            tfDataAlta1.setText("");
+            tfMedicoAlta1.setText("");
+
+        }
 
     }//GEN-LAST:event_cbxProntuariosItemStateChanged
 

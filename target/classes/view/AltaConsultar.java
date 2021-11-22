@@ -6,6 +6,7 @@
 package view;
 
 import controller.GerenciaAlta;
+import dao.AltaDao;
 import dao.FuncionarioDao;
 import dao.ProntuarioDao;
 import java.time.LocalTime;
@@ -26,19 +27,18 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
      */
     ArrayList<model.Prontuario> prontuarios;
     dao.ProntuarioDao pd;
-    ArrayList<model.Funcionario> medicos;
-    dao.FuncionarioDao fd;
+    ArrayList<model.Alta> altas;
     int liberarBotao = 0;
     controller.GerenciaAlta ga;
+    dao.AltaDao ad;
 
     public AltaConsultar() {
         initComponents();
-        btnAlta.setEnabled(false);
         pd = new ProntuarioDao();
-        fd = new FuncionarioDao();
-        prontuarios = pd.listarParaAlta();
-        medicos = fd.listarMedicoNC();
+        prontuarios = pd.listarParaAltaNaoNulos();
         ga = new GerenciaAlta();
+        ad = new AltaDao();
+        altas = ad.listar();
         preencheCampos();
     }
 
@@ -57,14 +57,9 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
         btnFechar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtAltas = new javax.swing.JTable();
 
         setClosable(true);
-        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                formMouseMoved(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prontuarios liberados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
@@ -117,18 +112,23 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Altas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtAltas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jtAltas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtAltasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtAltas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -184,21 +184,9 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtProntuariosVetoableChange
 
     private void jtProntuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProntuariosMouseClicked
-        if (jtProntuarios.getSelectedRow() == -1) {
-            liberarBotao = 0;
-
-        } else {
-            liberarBotao = 1;
-        }
 
 
     }//GEN-LAST:event_jtProntuariosMouseClicked
-
-    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-        if (liberarBotao == 2) {
-            btnAlta.setEnabled(true);
-
-        }    }//GEN-LAST:event_formMouseMoved
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
 
@@ -208,30 +196,58 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
 
         }     }//GEN-LAST:event_btnFecharActionPerformed
 
-    public void preencheCampos() {
+    private void jtAltasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAltasMouseClicked
 
-        if (prontuarios != null) {
+        if (jtAltas.getSelectedRow() != -1) {
 
-            Object[][] valores = new Object[prontuarios.size()][4];
-            for (int i = 0; i < prontuarios.size(); i++) {
-                valores[i][0] = prontuarios.get(i).getPaciente().getNome() + " " + prontuarios.get(i).getPaciente().getSobrenome();
-                valores[i][1] = prontuarios.get(i).getMedico().getNome() + " " + prontuarios.get(i).getMedico().getSobrenome();
-                valores[i][2] = prontuarios.get(i).getData();
-                valores[i][3] = prontuarios.get(i).getHora();
+            if (prontuarios != null) {
+                ArrayList<model.Prontuario> prontuariosPorAlta = new ArrayList();
 
-            }
-            DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Paciente", "Médico", "Data", "Horário"});
-            jtProntuarios.setModel(model);
+                for (int i = 0; i < prontuarios.size(); i++) {
+                    if (prontuarios.get(i).getAlta() != null) {
 
-            if (medicos != null) {
-                DefaultListModel medx = new DefaultListModel();
-                for (model.Funcionario f : medicos) {
-                    medx.addElement(f.getNome() + " " + f.getSobrenome());
+                        if (prontuarios.get(i).getAlta().getId() == altas.get(jtAltas.getSelectedRow()).getId()) {
+                            prontuariosPorAlta.add(prontuarios.get(i));
+                        }
+                    }
                 }
-                jlMedicos.setModel(medx);
+                if (prontuariosPorAlta.isEmpty()) {
+                    jtProntuarios.removeAll();
+                } else {
+                    Object[][] valores = new Object[prontuariosPorAlta.size()][4];
+                    for (int i = 0; i < prontuariosPorAlta.size(); i++) {
+                        valores[i][0] = prontuariosPorAlta.get(i).getPaciente().getNome() + " " + prontuariosPorAlta.get(i).getPaciente().getSobrenome();
+                        valores[i][1] = prontuariosPorAlta.get(i).getMedico().getNome() + " " + prontuariosPorAlta.get(i).getMedico().getSobrenome();
+                        valores[i][2] = prontuariosPorAlta.get(i).getData();
+                        valores[i][3] = prontuariosPorAlta.get(i).getHora();
 
+                    }
+
+                    DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Paciente", "Médico", "Data", "Horário"});
+                    jtProntuarios.setModel(model);
+                }
             }
         }
+
+
+    }//GEN-LAST:event_jtAltasMouseClicked
+
+    public void preencheCampos() {
+
+        if (altas != null) {
+
+            Object[][] valores = new Object[altas.size()][3];
+            for (int i = 0; i < altas.size(); i++) {
+                valores[i][0] = altas.get(i).getMedico().getNome() + " " + altas.get(i).getMedico().getSobrenome();
+                valores[i][1] = altas.get(i).getData();
+                valores[i][2] = altas.get(i).getHora();
+
+            }
+            DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Médico", "Data", "Horário"});
+            jtAltas.setModel(model);
+
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -240,7 +256,7 @@ public class AltaConsultar extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtAltas;
     private javax.swing.JTable jtProntuarios;
     // End of variables declaration//GEN-END:variables
 }

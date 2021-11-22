@@ -178,6 +178,61 @@ public class AltaDao {
 
     }
 
+    public Alta buscarPor_id(int id) {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        Alta a = null;
+        ArrayList<Alta> altas = null;
+        sql = ("select m.nome as medico , m.sobrenome as sobrenome_M,\n"
+                + "                a.data, a.hora, a.id\n"
+                + "                from alta a \n"
+                + "                join prontuario p on p.cpf_paciente = a.cpf_paciente\n"
+                + "                and p.alta_id = a.id\n"
+                + "                join pessoa pa on pa.cpf = a.cpf_paciente\n"
+                + "                join pessoa m on m.cpf = a.cpf_medico\n"
+                + "               where a.id = p.alta_id\n"
+                + "			   and a.id = ?");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            pStatement.setInt(1, id);
+            rs = pStatement.executeQuery();
+
+            while (rs.next()) {
+                if (umaVez) {
+                    altas = new ArrayList<>();
+                    umaVez = false;
+                }
+                a = new Alta();
+                Funcionario m = new Funcionario();
+                m.setNome(rs.getString("medico"));
+                m.setSobrenome(rs.getString("sobrenome_m"));
+                LocalDate data = rs.getDate("data").toLocalDate();
+                LocalTime hora = rs.getTime("hora").toLocalTime();
+                a.setData(data);
+                a.setHora(hora);
+                a.setId(rs.getInt("id"));
+                a.setMedico(m);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+        fecharConexao();
+
+        return a;
+
+    }
+
     public void fecharConexao() {
         try {
             conn.close();
