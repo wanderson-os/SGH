@@ -8,6 +8,7 @@ package view;
 import controller.GerenciaCirurgia;
 import dao.AcomodacaoDao;
 import dao.CirurgiaDao;
+import dao.EquipeCirurgicaDao;
 import dao.ProntuarioDao;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -38,14 +39,14 @@ public class CirurgiaConsultar extends javax.swing.JInternalFrame {
     GerenciaCirurgia gc;
 
     public CirurgiaConsultar() {
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        ecd = new dao.EquipeCirurgicaDao();
-        ad = new AcomodacaoDao();
+        ad = AcomodacaoDao.getInstance();
+        pd = ProntuarioDao.getInstance();
+        ecd = EquipeCirurgicaDao.getInstance();
+        cd = CirurgiaDao.getInstance();
         ecs = ecd.listarE();
-        gc = new GerenciaCirurgia();
-        pd = new ProntuarioDao();
-        cd = new CirurgiaDao();
         acomodacaoS = ad.listar("Sala de cirurgia");
         cirurgias = cd.listar();
 
@@ -113,6 +114,7 @@ public class CirurgiaConsultar extends javax.swing.JInternalFrame {
         jsMinuto = new javax.swing.JSpinner();
 
         setClosable(true);
+        setTitle("Consultar Cirurgia");
 
         cbxCirurgias.setMaximumRowCount(5);
         cbxCirurgias.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cirurgias", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));

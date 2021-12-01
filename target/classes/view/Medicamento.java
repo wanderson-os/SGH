@@ -29,10 +29,10 @@ public class Medicamento extends javax.swing.JInternalFrame {
 
     public Medicamento() {
         initComponents();
-        md = new MedicamentoDao();
-        gm = new GerenciaMedicamento();
+        md = MedicamentoDao.getInstance();
         jpCampos.setVisible(false);
         jpCbx.setVisible(false);
+        gm = GerenciaMedicamento.getInstance();
     }
 
     /**

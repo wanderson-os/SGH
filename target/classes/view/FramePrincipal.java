@@ -3,6 +3,23 @@ package view;
 import controller.GerenciaCirurgia;
 import controller.GerenciaExame;
 import controller.GerenciaMedicamento;
+import dao.AcomodacaoDao;
+import dao.AltaDao;
+import dao.CirurgiaDao;
+import dao.EnderecoDao;
+import dao.EquipeCirurgicaDao;
+import dao.ExameDao;
+import dao.FuncionarioDao;
+import dao.ParametrosDao;
+import dao.MedicamentoDao;
+import dao.PacienteDao;
+import dao.ProntuarioDao;
+import java.awt.HeadlessException;
+import javax.swing.JDesktopPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import view.filho.PessoaCadastrar;
 import view.filho.PessoaConsultar;
 import view.filho.PessoaDeletar;
@@ -11,6 +28,7 @@ import view.filho.EquipeCirurgicaCadastrar;
 import view.filho.EquipeCirurgicaConsultar;
 import view.filho.EquipeCirurgicaEditar;
 import view.filho.EquipeCirurgicaExcluir;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,9 +50,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     public FramePrincipal() {
         initComponents();
-        gc = new GerenciaCirurgia();
-        gm = new GerenciaMedicamento();
-        ge = new GerenciaExame();
+
+        gc = GerenciaCirurgia.getInstance();
+        gm = GerenciaMedicamento.getInstance();
+        ge = GerenciaExame.getInstance();
         gc.excluirNulos();
         gm.excluirMPNulo();
         ge.excluirNulos();
@@ -77,6 +96,20 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
+        jMenu13 = new javax.swing.JMenu();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenu19 = new javax.swing.JMenu();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenu21 = new javax.swing.JMenu();
+        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jmNovoPaciente = new javax.swing.JMenuItem();
         jmConsultarPaciente = new javax.swing.JMenuItem();
@@ -135,7 +168,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1138, Short.MAX_VALUE)
+            .addGap(0, 1144, Short.MAX_VALUE)
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,6 +367,94 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenu17.add(jMenu14);
 
         jMenu9.add(jMenu17);
+
+        jMenu13.setText("Financeiro");
+
+        jMenuItem20.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jMenuItem20.setText("Alterar juros padrão");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem20);
+
+        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/pagamento-em-dinheiro.png"))); // NOI18N
+        jMenu10.setText("Pagamento");
+
+        jMenu19.setText("Gerar pagamento");
+
+        jMenuItem23.setText("Dinherio / Débito");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
+        jMenu19.add(jMenuItem23);
+
+        jMenuItem17.setText("Cartão de crédito");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu19.add(jMenuItem17);
+
+        jMenu10.add(jMenu19);
+
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/pagar.png"))); // NOI18N
+        jMenuItem16.setText("Pagar");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem16);
+
+        jMenuItem18.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jMenuItem18.setText("Editar");
+        jMenu10.add(jMenuItem18);
+
+        jMenuItem19.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/recibo.png"))); // NOI18N
+        jMenuItem19.setText("Excluir");
+        jMenu10.add(jMenuItem19);
+
+        jMenu21.setText("Consultar");
+
+        jMenuItem24.setText(" Pagamentos gerados em aberto");
+        jMenu21.add(jMenuItem24);
+
+        jMenuItem25.setText("Pagamentos já pagos");
+        jMenu21.add(jMenuItem25);
+
+        jMenu10.add(jMenu21);
+
+        jMenu13.add(jMenu10);
+
+        jMenuItem21.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones/update.png"))); // NOI18N
+        jMenuItem21.setText("Alterar Quantidade de parcelas");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem21);
+
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem15.setText("Alterar porcentagem do desconto");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem15);
+
+        jMenu9.add(jMenu13);
 
         jMenuBar3.add(jMenu9);
 
@@ -699,8 +820,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jDesktopPane)
                 .addContainerGap())
         );
@@ -942,7 +1062,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
-        Consulta consulta = new Consulta("cadastrar");
+        Consulta consulta = new Consulta();
         jDesktopPane.add(consulta);
         consulta.setVisible(true);
 
@@ -1043,6 +1163,43 @@ public class FramePrincipal extends javax.swing.JFrame {
         alta.setVisible(true);
     }//GEN-LAST:event_jmDeletarPaciente1ActionPerformed
 
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        JurosPadrao jurosPadrao = new view.JurosPadrao(this, true, new PagamentoCartao());
+        jurosPadrao.setVisible(true);
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        AlterarQuantidadeParcelas alterarQuantidadeParcelas = new AlterarQuantidadeParcelas(this, true, new PagamentoCartao());
+        alterarQuantidadeParcelas.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        PagamentoDinheiroDebito pagamentoDinheiroDebito = new PagamentoDinheiroDebito();
+        jDesktopPane.add(pagamentoDinheiroDebito);
+        pagamentoDinheiroDebito.setVisible(true);     }//GEN-LAST:event_jMenuItem23ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        Pagar_parcelas pagar_parcelas = new Pagar_parcelas(this, true);
+        pagar_parcelas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        PagamentoCartao pagamentoCartao = new PagamentoCartao();
+        jDesktopPane.add(pagamentoCartao);
+        pagamentoCartao.setVisible(true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        DescontoPorcentagem descontoPorcentagem = new DescontoPorcentagem(this, true, new PagamentoCartao());
+        descontoPorcentagem.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    public JDesktopPane getjDesktopPane() {
+        return jDesktopPane;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1085,14 +1242,18 @@ public class FramePrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
+    private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu14;
     private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu17;
     private javax.swing.JMenu jMenu18;
+    private javax.swing.JMenu jMenu19;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu21;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
@@ -1108,7 +1269,17 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

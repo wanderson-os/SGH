@@ -1,0 +1,10 @@
+Adicionar qual exame ao paciente com nome e cpf
+Titulos nas telas
+cadastro de acomodação
+opção de modificar os juros
+Corrigir alterar medicamento
+finalizar parte de pagamento
+
+
+Implementar pra salvar os medicamentos, cirurgias, exames, somente na hora de salvar um prontuario, evitando salvar com os campos nulos.
+Existe possibilidade de colocar icones nas telas.

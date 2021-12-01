@@ -17,11 +17,19 @@ import model.Medicamento;
 public class GerenciaMedicamento implements Crud<Medicamento> {
 
     MedicamentoDao md;
-    ArrayList<Medicamento> medicamentos;
 
-    public GerenciaMedicamento() {
-        md = new MedicamentoDao();
-        medicamentos = md.listar();
+    private static GerenciaMedicamento gerenciaMedicamento;
+
+    public static GerenciaMedicamento getInstance() {
+        if (gerenciaMedicamento == null) {
+            gerenciaMedicamento = new GerenciaMedicamento();
+        }
+
+        return gerenciaMedicamento;
+    }
+
+    private GerenciaMedicamento() {
+        md = MedicamentoDao.getInstance();
     }
 
     @Override

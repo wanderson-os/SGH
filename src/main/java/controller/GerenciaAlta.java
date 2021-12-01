@@ -15,7 +15,19 @@ import model.Crud;
  */
 public class GerenciaAlta implements Crud<Alta> {
 
-    AltaDao ad = new AltaDao();
+    AltaDao ad = AltaDao.getInstance();
+    private static GerenciaAlta gerenciaAlta;
+
+    public static GerenciaAlta getInstance() {
+        if (gerenciaAlta == null) {
+            gerenciaAlta = new GerenciaAlta();
+        }
+
+        return gerenciaAlta;
+    }
+
+    private GerenciaAlta() {
+    }
 
     @Override
     public int cadastrar(Alta entidade) {

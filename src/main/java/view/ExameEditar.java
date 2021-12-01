@@ -30,7 +30,6 @@ public class ExameEditar extends javax.swing.JInternalFrame {
     dao.AcomodacaoDao ad;
     ArrayList<Acomodacao> acomodacaoS;
     GerenciaExame ge;
-    Consulta consulta;
     ArrayList<model.Prontuario> prontuarios;
     dao.ProntuarioDao pd;
     dao.ExameDao ed;
@@ -38,16 +37,15 @@ public class ExameEditar extends javax.swing.JInternalFrame {
 
     public ExameEditar() {
         initComponents();
+        ge = GerenciaExame.getInstance();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        pd = new ProntuarioDao();
+        pd = ProntuarioDao.getInstance();
         prontuarios = pd.listarTodos();
-        ad = new AcomodacaoDao();
+        ad = AcomodacaoDao.getInstance();
         acomodacaoS = ad.listar("Sala de exame");
-        ge = new GerenciaExame();
-        this.consulta = consulta;
 
-        ed = new ExameDao();
+        ed = ExameDao.getInstance();
         exames = ed.listar();
 
         for (int i = 0; i < acomodacaoS.size(); i++) {
@@ -82,6 +80,8 @@ public class ExameEditar extends javax.swing.JInternalFrame {
         btnAvancar = new javax.swing.JButton();
         cbxExames = new javax.swing.JComboBox<>();
         btnFechar = new javax.swing.JButton();
+
+        setClosable(true);
 
         jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
@@ -279,6 +279,7 @@ public class ExameEditar extends javax.swing.JInternalFrame {
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         try {
+
             model.Exame e = exames.get(cbxExames.getSelectedIndex());
             Acomodacao sala = acomodacaoS.get(cbxSala.getSelectedIndex());
             LocalTime hora = LocalTime.of((int) jsHora.getValue(), (int) jsMinuto.getValue());

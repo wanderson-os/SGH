@@ -26,7 +26,7 @@ import model.Paciente;
  * @author Wanderson_M
  */
 public class PessoaCadastrar extends Pessoa {
-    
+
     EnderecoDao enderecoDao;
     FuncionarioDao funcionarioDao;
     GerenciaFuncionario gerenciaFuncionario;
@@ -36,70 +36,69 @@ public class PessoaCadastrar extends Pessoa {
     private char sexo;
     LocalDate dataInscricao, dataNasc;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    
+
     public PessoaCadastrar(String painel, String funcao) {
         super(painel, funcao);
         instanciaBotaoAcao("Salvar");
         initComponents(painel, funcao);
-        enderecoDao = new EnderecoDao();
-        funcionarioDao = new FuncionarioDao();
-        gerenciaFuncionario = new GerenciaFuncionario();
-        gerenciaPaciente = new GerenciaPaciente();
-        
-    }
-    
-    private void initComponents(String painel, String funcao) {
-        
-        if (painel.equals("paciente")) {
-                    SalvarBotoes();
+        enderecoDao = EnderecoDao.getInstance();
+        funcionarioDao = FuncionarioDao.getInstance();
+        gerenciaFuncionario = GerenciaFuncionario.getInstance();
+        gerenciaPaciente = GerenciaPaciente.getInstance();
 
+    }
+
+    private void initComponents(String painel, String funcao) {
+
+        if (painel.equals("paciente")) {
+            SalvarBotoes();
 
         } else if (painel.equals("funcionario")) {
             getTfFuncao().setText(funcao);
-                    SalvarBotoes();
+            SalvarBotoes();
 
         }
     }
-    
+
     public void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
-        
+
         JOptionPane.showMessageDialog(this, "Cancelar");
-        
+
     }
-    
+
     public void PegaCampos() {
         try {
-            
-        nome = getTfNome().getText();
-        sobrenome = getTfSobrenome().getText();
-        cpf = getJftfCpf().getText();
-        dataNasc = LocalDate.parse(getJftfDataNascimento().getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        telefone = getJftfTelefone().getText();
-        ctps = getFtfCtps().getText();
-        funcao = getTfFuncao().getText();
-        registroProfissional = getFtfRegistroProfissional().getText();
-        especialidade = getTfEspecialidade().getText();
-        if (!especialidade.equals("")) {
-            dataInscricao = LocalDate.parse(getFtfDataInscricao().getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        }
-        peso = (float) getJsPeso().getValue();
-        System.out.println("Valor" + peso);
-        if (getRbMasculino().isSelected()) {
-            sexo = 'M';
-        } else if (getRbFeminino().isSelected()) {
-            sexo = 'F';
-        }
-        
+
+            nome = getTfNome().getText();
+            sobrenome = getTfSobrenome().getText();
+            cpf = getJftfCpf().getText();
+            dataNasc = LocalDate.parse(getJftfDataNascimento().getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            telefone = getJftfTelefone().getText();
+            ctps = getFtfCtps().getText();
+            funcao = getTfFuncao().getText();
+            registroProfissional = getFtfRegistroProfissional().getText();
+            especialidade = getTfEspecialidade().getText();
+            if (!especialidade.equals("")) {
+                dataInscricao = LocalDate.parse(getFtfDataInscricao().getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+            peso = (float) getJsPeso().getValue();
+            System.out.println("Valor" + peso);
+            if (getRbMasculino().isSelected()) {
+                sexo = 'M';
+            } else if (getRbFeminino().isSelected()) {
+                sexo = 'F';
+            }
+
         } catch (Exception e) {
         }
-        
+
     }
-    
+
     @Override
     public void jbAcaoActionPerformed(ActionEvent ae, String painel) {
-        
+
         PegaCampos();
-        
+
         switch (painel) {
             case "paciente":
                 Paciente paciente = new Paciente();
@@ -115,10 +114,10 @@ public class PessoaCadastrar extends Pessoa {
                 if (rp == 2) {
                     JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
                     dispose();
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
-                    
+
                 }
                 break;
             case "funcionario":
@@ -139,14 +138,14 @@ public class PessoaCadastrar extends Pessoa {
                 if (rf == 2) {
                     JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
                     dispose();
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro ao cadastrar");
-                    
+
                 }
         }
     }
-    
+
     public Endereco endereco(String cfp_pessoa) {
         Endereco endereco;
         try {
@@ -155,8 +154,8 @@ public class PessoaCadastrar extends Pessoa {
         } catch (Exception e) {
             endereco = null;
         }
-        
+
         return endereco;
     }
-    
+
 }

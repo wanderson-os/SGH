@@ -27,6 +27,18 @@ import model.Pessoa;
 public class EnderecoDao {
 
     private Connection conn;
+    private static EnderecoDao enderecoDao;
+
+    private EnderecoDao() {
+    }
+
+    public static EnderecoDao getInstance() {
+        if (enderecoDao == null) {
+            enderecoDao = new EnderecoDao();
+        }
+        return enderecoDao;
+
+    }
 
     public int id() {
         try {

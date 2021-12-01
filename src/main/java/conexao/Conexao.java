@@ -8,7 +8,6 @@ import java.util.Properties;
 public class Conexao {
 
     private static Connection conn;
-    private static boolean erro;
 
     public static Connection getConexao() throws SQLException {
         if ((conn == null) || (conn.isClosed())) {

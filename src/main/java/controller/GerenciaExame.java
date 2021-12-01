@@ -15,7 +15,20 @@ import model.Exame;
  */
 public class GerenciaExame implements Crud<Exame> {
 
-    ExameDao ed = new ExameDao();
+    ExameDao ed;
+    private static GerenciaExame gerenciaExame;
+
+    public static GerenciaExame getInstance() {
+        if (gerenciaExame == null) {
+            gerenciaExame = new GerenciaExame();
+        }
+
+        return gerenciaExame;
+    }
+
+    private GerenciaExame() {
+        ed = ExameDao.getInstance();
+    }
 
     @Override
     public int cadastrar(Exame entidade) {

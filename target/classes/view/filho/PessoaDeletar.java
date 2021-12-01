@@ -38,11 +38,11 @@ public class PessoaDeletar extends Pessoa {
         this.funcao = funcao;
         this.painel = painel;
         if (painel == "funcionario") {
-            funcionarioDao = new FuncionarioDao();
+            funcionarioDao = FuncionarioDao.getInstance();
             pessoas = funcionarioDao.listarFuncao(funcao);
             funcionario();
         } else {
-            pacienteDao = new PacienteDao();
+            pacienteDao = PacienteDao.getInstance();
             pessoas = pacienteDao.listar();
             paciente();
 
@@ -68,7 +68,7 @@ public class PessoaDeletar extends Pessoa {
         this.add(btnPCbx);
         this.add(btnACbx);
         this.add(cbxPessoa);
-        
+
         instanciaBotaoAcao("Excluir");
         SalvarBotoes();
         addItens();

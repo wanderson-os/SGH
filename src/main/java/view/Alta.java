@@ -30,15 +30,15 @@ public class Alta extends javax.swing.JInternalFrame {
     dao.FuncionarioDao fd;
     int liberarBotao = 0;
     controller.GerenciaAlta ga;
-    
+
     public Alta() {
         initComponents();
+        pd = ProntuarioDao.getInstance();
+        fd = FuncionarioDao.getInstance();
         btnAlta.setEnabled(false);
-        pd = new ProntuarioDao();
-        fd = new FuncionarioDao();
         prontuarios = pd.listarParaAlta();
         medicos = fd.listarMedicoNC();
-        ga = new GerenciaAlta();
+        ga = GerenciaAlta.getInstance();
         preencheCampos();
     }
 
@@ -190,7 +190,7 @@ public class Alta extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
-        
+
         try {
             model.Alta alta = new model.Alta();
             LocalTime hora = LocalTime.of((int) jsHora.getValue(), (int) jsMinuto.getValue());
@@ -203,12 +203,12 @@ public class Alta extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Cadastrado com sucesso !");
                 dispose();
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar !");
-            
+
         }
-        
+
 
     }//GEN-LAST:event_btnAltaActionPerformed
 
@@ -218,18 +218,18 @@ public class Alta extends javax.swing.JInternalFrame {
     private void jtProntuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProntuariosMouseClicked
         if (jtProntuarios.getSelectedRow() == -1) {
             liberarBotao = 0;
-            
+
         } else {
             liberarBotao = 1;
         }
-        
+
 
     }//GEN-LAST:event_jtProntuariosMouseClicked
 
     private void jlMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlMedicosMouseClicked
         if (jlMedicos.getSelectedIndex() == -1) {
             liberarBotao = 0;
-            
+
         } else {
             liberarBotao += 1;
         }
@@ -243,35 +243,35 @@ public class Alta extends javax.swing.JInternalFrame {
         }    }//GEN-LAST:event_formMouseMoved
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        
+
         int e = JOptionPane.showConfirmDialog(this, "Deseja Fechar ?", "", JOptionPane.OK_CANCEL_OPTION);
         if (e == JOptionPane.OK_OPTION) {
             dispose();
 
         }     }//GEN-LAST:event_btnFecharActionPerformed
-    
+
     public void preencheCampos() {
-        
+
         if (prontuarios != null) {
-            
+
             Object[][] valores = new Object[prontuarios.size()][4];
             for (int i = 0; i < prontuarios.size(); i++) {
                 valores[i][0] = prontuarios.get(i).getPaciente().getNome() + " " + prontuarios.get(i).getPaciente().getSobrenome();
                 valores[i][1] = prontuarios.get(i).getMedico().getNome() + " " + prontuarios.get(i).getMedico().getSobrenome();
                 valores[i][2] = prontuarios.get(i).getData();
                 valores[i][3] = prontuarios.get(i).getHora();
-                
+
             }
             DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Paciente", "Médico", "Data", "Horário"});
             jtProntuarios.setModel(model);
-            
+
             if (medicos != null) {
                 DefaultListModel medx = new DefaultListModel();
                 for (model.Funcionario f : medicos) {
                     medx.addElement(f.getNome() + " " + f.getSobrenome());
                 }
                 jlMedicos.setModel(medx);
-                
+
             }
         }
     }

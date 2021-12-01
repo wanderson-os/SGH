@@ -33,9 +33,9 @@ public abstract class EquipeCirurgicaCE extends javax.swing.JInternalFrame {
     public EquipeCirurgicaCE() {
 
         initComponents();
-        gec = new GerenciaEquipeCirurgica();
-        fd = new FuncionarioDao();
-        ecd = new EquipeCirurgicaDao();
+        gec = GerenciaEquipeCirurgica.getInstance();
+        fd = FuncionarioDao.getInstance();
+        ecd = EquipeCirurgicaDao.getInstance();
         ecs = ecd.listarE();
         preencheCampos();
 

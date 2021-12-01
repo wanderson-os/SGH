@@ -34,11 +34,10 @@ public class ProntuarioExcluir extends javax.swing.JInternalFrame {
 
     public ProntuarioExcluir() {
         initComponents();
-        pd = new ProntuarioDao();
+        pd = ProntuarioDao.getInstance();
         prontuarios = pd.listarTodos();
-        md = new MedicamentoDao();
-        cd = new CirurgiaDao();
-        gp = new GerenciaProntuario();
+        md = MedicamentoDao.getInstance();
+        cd = CirurgiaDao.getInstance();
 
         if (prontuarios == null || prontuarios.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum prontuario encontrado !");

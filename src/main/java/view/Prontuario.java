@@ -32,11 +32,10 @@ public class Prontuario extends javax.swing.JInternalFrame {
 
     public Prontuario() {
         initComponents();
-        pd = new ProntuarioDao();
+        pd = ProntuarioDao.getInstance();
         prontuarios = pd.listarTodos();
-        md = new MedicamentoDao();
-        cd = new CirurgiaDao();
-
+        md = MedicamentoDao.getInstance();
+        cd = CirurgiaDao.getInstance();
         if (prontuarios == null || prontuarios.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum prontuario encontrado !");
         } else {

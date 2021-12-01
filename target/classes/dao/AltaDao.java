@@ -17,7 +17,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Alta;
-import model.Alta;
 import model.Funcionario;
 import model.Paciente;
 
@@ -28,6 +27,17 @@ import model.Paciente;
 public class AltaDao {
 
     private Connection conn;
+
+    private AltaDao() {
+    }
+
+    private static AltaDao altaDao;
+    public static AltaDao getInstance() {
+        if (altaDao == null) {
+            altaDao = new AltaDao();
+        }
+        return altaDao;
+    }
 
     public int cadastrar(Alta alta) {
         try {

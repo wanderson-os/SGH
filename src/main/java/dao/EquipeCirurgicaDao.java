@@ -26,6 +26,18 @@ import org.postgresql.util.PSQLException;
 public class EquipeCirurgicaDao {
 
     private Connection conn;
+    private static EquipeCirurgicaDao equipeCirurgicaDao;
+
+    private EquipeCirurgicaDao() {
+    }
+
+    public static EquipeCirurgicaDao getInstance() {
+        if (equipeCirurgicaDao == null) {
+            equipeCirurgicaDao = new EquipeCirurgicaDao();
+        }
+        return equipeCirurgicaDao;
+
+    }
 
     public int cadastrar(EquipeCirurgica equipeCirurgica) {
         try {
@@ -278,7 +290,7 @@ public class EquipeCirurgicaDao {
                 anestesista.setNome(rs.getString("nome_anestesista"));
                 anestesista.setSobrenome(rs.getString("sobrenome_anestesista"));
                 equipeCirurgica = new EquipeCirurgica(cirurgiaoP, cirurgiaoA, enfermeiro, anestesista, instrumentador, circulante);
-            
+
             }
 
         } catch (Exception e) {

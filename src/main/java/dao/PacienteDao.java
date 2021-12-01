@@ -24,11 +24,21 @@ import model.Pessoa;
  */
 public class PacienteDao {
 
+    private static PacienteDao pacienteDao;
+
+    public static PacienteDao getInstance() {
+        if (pacienteDao == null) {
+            pacienteDao = new PacienteDao();
+        }
+        return pacienteDao;
+
+    }
+
     Connection conn = null;
     EnderecoDao enderecoDao;
 
-    public PacienteDao() {
-        enderecoDao = new EnderecoDao();
+    private PacienteDao() {
+        enderecoDao = EnderecoDao.getInstance();
     }
 
     public int cadastrar(Paciente paciente) {
@@ -94,7 +104,7 @@ public class PacienteDao {
             pStatement.setString(8, cpf);
             pStatement.execute();
             pStatement.close();
-            r  = 1;
+            r = 1;
 
         } catch (Exception e) {
             e.printStackTrace();

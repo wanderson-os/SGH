@@ -26,7 +26,19 @@ import model.Exame;
 public class ExameDao {
 
     private Connection conn;
-    private ProntuarioDao pd;
+    private static ExameDao exameDao;
+
+    private ExameDao() {
+
+    }
+
+    public static ExameDao getInstance() {
+        if (exameDao == null) {
+            exameDao = new ExameDao();
+        }
+        return exameDao;
+
+    }
 
     public int cadastrar(Exame exame) {
         try {
@@ -56,6 +68,7 @@ public class ExameDao {
             ret = 1;
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         fecharConexao();
         return ret;
@@ -156,7 +169,6 @@ public class ExameDao {
 
     public ArrayList<Exame> listar() {
 
-        pd = new ProntuarioDao();
         try {
             conn = Conexao.getConexao();
 
@@ -207,7 +219,6 @@ public class ExameDao {
     }
 
     public ArrayList<Exame> listarPorProntuario(int id) {
-        pd = new ProntuarioDao();
 
         try {
             conn = Conexao.getConexao();
@@ -261,7 +272,6 @@ public class ExameDao {
     }
 
     public ArrayList<Exame> listarPorPaciente(String cpf) {
-        pd = new ProntuarioDao();
 
         try {
             conn = Conexao.getConexao();

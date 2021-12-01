@@ -15,7 +15,21 @@ import model.Endereco;
  */
 public class GerenciaEndereco implements Crud<Endereco> {
 
-    EnderecoDao ed = new EnderecoDao();
+    EnderecoDao ed;
+
+    private static GerenciaEndereco gerenciaEndereco;
+
+    public static GerenciaEndereco getInstance() {
+        if (gerenciaEndereco == null) {
+            gerenciaEndereco = new GerenciaEndereco();
+        }
+
+        return gerenciaEndereco;
+    }
+
+    private GerenciaEndereco() {
+        ed = EnderecoDao.getInstance();
+    }
 
     @Override
     public int cadastrar(Endereco entidade) {

@@ -17,12 +17,21 @@ import model.Crud;
  */
 public class GerenciaCirurgia implements Crud<Cirurgia> {
 
-    CirurgiaDao cd;
     ArrayList<Cirurgia> cirurgias;
+    CirurgiaDao cd;
 
-    public GerenciaCirurgia() {
-        cd = new CirurgiaDao();
-//        cirurgias = cd.listar();
+    private static GerenciaCirurgia gerenciaCirurgia;
+
+    public static GerenciaCirurgia getInstance() {
+        if (gerenciaCirurgia == null) {
+            gerenciaCirurgia = new GerenciaCirurgia();
+        }
+
+        return gerenciaCirurgia;
+    }
+
+    private GerenciaCirurgia() {
+        cd = CirurgiaDao.getInstance();
     }
 
     @Override

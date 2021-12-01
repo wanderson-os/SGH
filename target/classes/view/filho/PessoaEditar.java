@@ -9,7 +9,6 @@ import controller.GerenciaEndereco;
 import view.mae.Pessoa;
 import controller.GerenciaFuncionario;
 import controller.GerenciaPaciente;
-import dao.EnderecoDao;
 import dao.FuncionarioDao;
 import dao.PacienteDao;
 import java.awt.event.ActionEvent;
@@ -20,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.Endereco;
 import model.Funcionario;
@@ -52,19 +50,20 @@ public class PessoaEditar extends Pessoa {
         this.funcao = funcao;
         this.painel = painel;
         if (painel == "funcionario") {
-            funcionarioDao = new FuncionarioDao();
+            funcionarioDao = FuncionarioDao.getInstance();
             pessoas = funcionarioDao.listarFuncao(funcao);
             funcionario();
         } else {
-            pacienteDao = new PacienteDao();
+            pacienteDao = PacienteDao.getInstance();
             pessoas = pacienteDao.listar();
             paciente();
 
         }
-        ge = new GerenciaEndereco();
-        funcionarioDao = new FuncionarioDao();
-        gerenciaFuncionario = new GerenciaFuncionario();
-        gerenciaPaciente = new GerenciaPaciente();
+
+        ge = GerenciaEndereco.getInstance();
+        funcionarioDao = FuncionarioDao.getInstance();
+        gerenciaFuncionario = GerenciaFuncionario.getInstance();
+        gerenciaPaciente = GerenciaPaciente.getInstance();
         this.setLayout(null);
         cbxPessoa = new JComboBox();
         cbxPessoa.addItemListener(new java.awt.event.ItemListener() {
@@ -122,7 +121,7 @@ public class PessoaEditar extends Pessoa {
                 paciente.setEndereco(endereco(paciente));
                 int r = ge.alterar(paciente.getEndereco());
                 if (r == 1) {
-                 r = gerenciaPaciente.alterar(paciente, cpfAntigo);
+                    r = gerenciaPaciente.alterar(paciente, cpfAntigo);
                 }
                 if (r == 1) {
                     JOptionPane.showMessageDialog(this, "Dados alterados com sucesso !");

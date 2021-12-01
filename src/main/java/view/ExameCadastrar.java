@@ -28,16 +28,15 @@ public class ExameCadastrar extends javax.swing.JInternalFrame {
     dao.AcomodacaoDao ad;
     ArrayList<Acomodacao> acomodacaoS;
     GerenciaExame ge;
-    Consulta consulta;
 
-    public ExameCadastrar(Consulta consulta) {
+    public ExameCadastrar() {
         initComponents();
+        ge = GerenciaExame.getInstance();
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        ad = new AcomodacaoDao();
+        ad = AcomodacaoDao.getInstance();
         acomodacaoS = ad.listar("Sala de exame");
-        ge = new GerenciaExame();
-        this.consulta = consulta;
 
         for (int i = 0; i < acomodacaoS.size(); i++) {
             cbxSala.addItem(acomodacaoS.get(i).getTipo() + " - " + acomodacaoS.get(i).getNumero());
@@ -68,6 +67,8 @@ public class ExameCadastrar extends javax.swing.JInternalFrame {
         btnAnterior = new javax.swing.JButton();
         btnAvancar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+
+        setClosable(true);
 
         jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
@@ -274,6 +275,7 @@ public class ExameCadastrar extends javax.swing.JInternalFrame {
                 dispose();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar !");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed

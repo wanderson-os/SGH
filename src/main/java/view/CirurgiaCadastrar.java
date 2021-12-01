@@ -7,6 +7,7 @@ package view;
 
 import controller.GerenciaCirurgia;
 import dao.AcomodacaoDao;
+import dao.EquipeCirurgicaDao;
 import dao.ProntuarioDao;
 import static java.lang.System.gc;
 import java.time.LocalDate;
@@ -29,22 +30,20 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
     ArrayList<Acomodacao> acomodacaoS;
     ArrayList<model.Prontuario> prontuarios;
     dao.EquipeCirurgicaDao ecd;
-    dao.ProntuarioDao pd;
     dao.AcomodacaoDao ad;
     GerenciaCirurgia gc;
     Consulta consulta;
+    dao.ProntuarioDao pd;
 
-    public CirurgiaCadastrar(Consulta consulta) {
+    public CirurgiaCadastrar() {
+        ad = AcomodacaoDao.getInstance();
+        pd = ProntuarioDao.getInstance();
+        ecd = EquipeCirurgicaDao.getInstance();
         initComponents();
-        ecd = new dao.EquipeCirurgicaDao();
-        ad = new AcomodacaoDao();
         ecs = ecd.listarE();
-        gc = new GerenciaCirurgia();
-        pd = new ProntuarioDao();
-        this.consulta = consulta;
         acomodacaoS = ad.listar("Sala de cirurgia");
         prontuarios = pd.listarTodos();
-
+        gc = GerenciaCirurgia.getInstance();
         for (int i = 0; i < ecs.size(); i++) {
             cbxEquipeCirurgica.addItem("Equipe: " + ecs.get(i).getId());
         }
@@ -93,6 +92,7 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
         jsMinuto = new javax.swing.JSpinner();
 
         setClosable(true);
+        setTitle("Cadastrar Cirurgia");
 
         cbxEquipeCirurgica.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Equipe cirurgica", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         cbxEquipeCirurgica.addItemListener(new java.awt.event.ItemListener() {
@@ -333,7 +333,7 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -396,6 +396,7 @@ public class CirurgiaCadastrar extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
     }
+
     public void campos() {
 
         model.EquipeCirurgica equipeCirurgica = ecs.get(cbxEquipeCirurgica.getSelectedIndex());

@@ -26,8 +26,8 @@ public class EquipeCirurgicaCadastrar extends EquipeCirurgica {
 
     public EquipeCirurgicaCadastrar() {
         getBtnAcao().setText("Salvar");
-        gec = new GerenciaEquipeCirurgica();
-        fd = new FuncionarioDao();
+        gec = GerenciaEquipeCirurgica.getInstance();
+        fd = FuncionarioDao.getInstance();
         pessoas = fd.listarFuncionarioNC();
         preencheCampos();
 

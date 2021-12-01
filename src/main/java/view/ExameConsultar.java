@@ -27,8 +27,6 @@ public class ExameConsultar extends javax.swing.JInternalFrame {
      */
     dao.AcomodacaoDao ad;
     ArrayList<Acomodacao> acomodacaoS;
-    GerenciaExame ge;
-    Consulta consulta;
     ArrayList<model.Prontuario> prontuarios;
     dao.ProntuarioDao pd;
     dao.ExameDao ed;
@@ -38,12 +36,10 @@ public class ExameConsultar extends javax.swing.JInternalFrame {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        pd = new ProntuarioDao();
+        pd = ProntuarioDao.getInstance();
         prontuarios = pd.listarTodos();
-        ad = new AcomodacaoDao();
+        ad = AcomodacaoDao.getInstance();
         acomodacaoS = ad.listar("Sala de exame");
-        ge = new GerenciaExame();
-        this.consulta = consulta;
         tfTipo.setEditable(false);
         btnAnterior.setEnabled(false);
         btnAvancar.setEnabled(false);
@@ -53,7 +49,7 @@ public class ExameConsultar extends javax.swing.JInternalFrame {
         jsMinuto.setEnabled(false);
         taRelatorio.setEditable(false);
         jdcData.setEnabled(false);
-        ed = new ExameDao();
+        ed = ExameDao.getInstance();
         exames = ed.listar();
 
         for (int i = 0; i < acomodacaoS.size(); i++) {
@@ -88,6 +84,8 @@ public class ExameConsultar extends javax.swing.JInternalFrame {
         btnAvancar = new javax.swing.JButton();
         cbxExames = new javax.swing.JComboBox<>();
         btnFechar = new javax.swing.JButton();
+
+        setClosable(true);
 
         jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 

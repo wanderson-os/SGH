@@ -26,9 +26,21 @@ import model.Pessoa;
  */
 public class FuncionarioDao {
 
-    private EnderecoDao enderecoDao = new EnderecoDao();
     private Connection conn;
     ArrayList<Pessoa> pessoas = null;
+    EnderecoDao enderecoDao;
+    private static FuncionarioDao funcionarioDao;
+
+    public static FuncionarioDao getInstance() {
+        if (funcionarioDao == null) {
+            funcionarioDao = new FuncionarioDao();
+        }
+        return funcionarioDao;
+
+    }
+
+    private FuncionarioDao() {
+    }
 
     public int cadastrar(Funcionario funcionario) {
         try {
@@ -109,6 +121,7 @@ public class FuncionarioDao {
 
     public int excluir(Funcionario funcionario) {
         int r = 0;
+        enderecoDao = EnderecoDao.getInstance();
         try {
             r = enderecoDao.excluir(funcionario.getEndereco());
             conn = Conexao.getConexao();

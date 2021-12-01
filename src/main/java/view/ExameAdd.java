@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Acomodacao;
+import model.Prontuario;
 
 /**
  *
@@ -27,18 +28,16 @@ public class ExameAdd extends javax.swing.JInternalFrame {
     dao.AcomodacaoDao ad;
     ArrayList<Acomodacao> acomodacaoS;
     GerenciaExame ge;
-    Consulta consulta;
     ArrayList<model.Prontuario> prontuarios;
     dao.ProntuarioDao pd;
 
     public ExameAdd() {
         initComponents();
-        pd = new ProntuarioDao();
+        ad = AcomodacaoDao.getInstance();
+        pd = ProntuarioDao.getInstance();
+        ge = GerenciaExame.getInstance();
         prontuarios = pd.listarTodos();
-        ad = new AcomodacaoDao();
         acomodacaoS = ad.listar("Sala de exame");
-        ge = new GerenciaExame();
-        this.consulta = consulta;
 
         for (int i = 0; i < acomodacaoS.size(); i++) {
             cbxSala.addItem(acomodacaoS.get(i).getTipo() + " - " + acomodacaoS.get(i).getNumero());
@@ -72,6 +71,8 @@ public class ExameAdd extends javax.swing.JInternalFrame {
         btnAvancar = new javax.swing.JButton();
         cbxConsulta = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
+
+        setClosable(true);
 
         jdcData.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 

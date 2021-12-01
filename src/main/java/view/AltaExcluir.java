@@ -34,10 +34,10 @@ public class AltaExcluir extends javax.swing.JInternalFrame {
 
     public AltaExcluir() {
         initComponents();
-        pd = new ProntuarioDao();
+        pd = ProntuarioDao.getInstance();
+        ad = AltaDao.getInstance();
         prontuarios = pd.listarParaAltaNaoNulos();
-        ga = new GerenciaAlta();
-        ad = new AltaDao();
+        ga = GerenciaAlta.getInstance();
         altas = ad.listar();
         preencheCampos();
     }
@@ -60,6 +60,7 @@ public class AltaExcluir extends javax.swing.JInternalFrame {
         jtAltas = new javax.swing.JTable();
 
         setClosable(true);
+        setTitle("Excluir alta");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prontuarios liberados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 

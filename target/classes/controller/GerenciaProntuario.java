@@ -16,7 +16,22 @@ import model.Prontuario;
  */
 public class GerenciaProntuario implements Crud<Prontuario> {
 
-    ProntuarioDao pd = new ProntuarioDao();
+    ProntuarioDao pd;
+
+    private static GerenciaProntuario gerenciaProntuario;
+
+    public static GerenciaProntuario getInstance() {
+        if (gerenciaProntuario == null) {
+            gerenciaProntuario = new GerenciaProntuario();
+        }
+
+        return gerenciaProntuario;
+    }
+
+    private GerenciaProntuario() {
+        pd = ProntuarioDao.getInstance();
+    }
+
     ArrayList<Prontuario> prontuarios = new ArrayList();
 
     @Override

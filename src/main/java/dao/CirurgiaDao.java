@@ -27,7 +27,21 @@ import model.Prontuario;
 public class CirurgiaDao {
 
     private Connection conn;
-    private ProntuarioDao pd;
+    private dao.ProntuarioDao pd;
+    private static CirurgiaDao cirurgiaDao;
+
+    public static CirurgiaDao getInstance() {
+        if (cirurgiaDao == null) {
+            cirurgiaDao = new CirurgiaDao();
+        }
+        return cirurgiaDao;
+
+    }
+
+    private CirurgiaDao() {
+    }
+    
+    
 
     public int cadastrar(Cirurgia cirurgia) {
         try {
@@ -226,9 +240,8 @@ public class CirurgiaDao {
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         boolean umaVez = true;
-        EquipeCirurgicaDao ecd = new EquipeCirurgicaDao();
+        EquipeCirurgicaDao ecd = EquipeCirurgicaDao.getInstance();
         ArrayList<Cirurgia> cirurgias = null;
-        pd = new ProntuarioDao();
         sql = ("SELECT c.id_equipe_cirurgica, c.data, c.hora, c.valor, c.relatorio, c.sala_cirurgica_id, c.id\n"
                 + "	,ac.id, ac.tipo, ac.numero FROM cirurgia c \n"
                 + "	join acomodacao ac on ac.id = c.sala_cirurgica_id");
@@ -306,7 +319,6 @@ public class CirurgiaDao {
 
     public ArrayList<Cirurgia> listarPorProntuario(int id) {
         int r = 0;
-        pd = new ProntuarioDao();
 
         try {
             conn = Conexao.getConexao();
@@ -318,7 +330,7 @@ public class CirurgiaDao {
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         boolean umaVez = true;
-        EquipeCirurgicaDao ecd = new EquipeCirurgicaDao();
+        EquipeCirurgicaDao ecd = EquipeCirurgicaDao.getInstance();
         ArrayList<Cirurgia> cirurgias = null;
         sql = ("	SELECT c.id_equipe_cirurgica, c.data, c.hora, c.valor, c.relatorio, c.sala_cirurgica_id, c.id\n"
                 + "                ,ac.id, ac.tipo, ac.numero FROM cirurgia c\n"
@@ -361,7 +373,6 @@ public class CirurgiaDao {
 
     public ArrayList<Cirurgia> listarPorPaciente(String cpf) {
         int r = 0;
-        pd = new ProntuarioDao();
 
         try {
             conn = Conexao.getConexao();
@@ -373,7 +384,7 @@ public class CirurgiaDao {
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         boolean umaVez = true;
-        EquipeCirurgicaDao ecd = new EquipeCirurgicaDao();
+        EquipeCirurgicaDao ecd = EquipeCirurgicaDao.getInstance();
         ArrayList<Cirurgia> cirurgias = null;
         sql = ("SELECT c.id_equipe_cirurgica, c.data, c.hora, c.valor, c.relatorio, c.sala_cirurgica_id, c.id, p.id as \"prontuario_id\"\n"
                 + ", a.numero, a.tipo, a.id as id_a "

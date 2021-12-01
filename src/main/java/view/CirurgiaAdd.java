@@ -7,6 +7,7 @@ package view;
 
 import controller.GerenciaCirurgia;
 import dao.AcomodacaoDao;
+import dao.EquipeCirurgicaDao;
 import dao.ProntuarioDao;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -36,13 +37,13 @@ public class CirurgiaAdd extends javax.swing.JInternalFrame {
     GerenciaCirurgia gc;
 
     public CirurgiaAdd() {
+        ad = AcomodacaoDao.getInstance();
+        pd = ProntuarioDao.getInstance();
+        ecd = EquipeCirurgicaDao.getInstance();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        ecd = new dao.EquipeCirurgicaDao();
-        ad = new AcomodacaoDao();
         ecs = ecd.listarE();
-        gc = new GerenciaCirurgia();
-        pd = new ProntuarioDao();
+        gc = GerenciaCirurgia.getInstance();
         prontuarios = pd.listarTodos();
         acomodacaoS = ad.listar("Sala de cirurgia");
         initComponents();
@@ -51,7 +52,7 @@ public class CirurgiaAdd extends javax.swing.JInternalFrame {
             cbxEquipeCirurgica.addItem("Equipe: " + ecs.get(i).getId());
         }
         for (int i = 0; i < prontuarios.size(); i++) {
-            cbxConsulta.addItem("Consulta - " + prontuarios.get(i).getId() + "- " + prontuarios.get(i).getData()+ "- "+prontuarios.get(i).getHora());
+            cbxConsulta.addItem("Consulta - " + prontuarios.get(i).getId() + "- " + prontuarios.get(i).getData() + "- " + prontuarios.get(i).getHora());
         }
         for (int i = 0; i < acomodacaoS.size(); i++) {
             cbxSala.addItem(acomodacaoS.get(i).getTipo() + " - " + acomodacaoS.get(i).getNumero());
@@ -96,6 +97,9 @@ public class CirurgiaAdd extends javax.swing.JInternalFrame {
         taRelatorio = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jsMinuto = new javax.swing.JSpinner();
+
+        setClosable(true);
+        setTitle("Adicionar cirurgia");
 
         cbxConsulta.setMaximumRowCount(5);
         cbxConsulta.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));

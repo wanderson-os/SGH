@@ -35,18 +35,18 @@ public class EquipeCirurgicaEditar extends EquipeCirurgica {
     JButton btnp, btna;
 
     public EquipeCirurgicaEditar() {
-        ecd = new EquipeCirurgicaDao();
+        ecd = EquipeCirurgicaDao.getInstance();
         getBtnAcao().setText("Alterar");
-        gec = new GerenciaEquipeCirurgica();
+        gec = GerenciaEquipeCirurgica.getInstance();
         cbxEquipeCirugica = new JComboBox();
         cbxEquipeCirugica.addItemListener(this::cbxEquipeCirurgicaItemStateChanged);
         btnp = new JButton();
         btna = new JButton();
-        gf = new GerenciaFuncionario();
+        gf = GerenciaFuncionario.getInstance();
         btna.addActionListener(this::btnAnteriorActionPerformed);
         btnp.addActionListener(this::btnProximoActionPerformed);
         ecs = ecd.listarE();
-        pessoas = gf.getFuncionarios();
+        pessoas = fd.listarTodosFuncionarios();
         preencheCampos();
         this.setSize(496, 360);
         this.setLayout(null);

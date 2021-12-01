@@ -27,13 +27,26 @@ import model.Prontuario;
  */
 public class ProntuarioDao {
 
+    private static ProntuarioDao prontuarioDao;
+
+    public static ProntuarioDao getInstance() {
+        if (prontuarioDao == null) {
+            prontuarioDao = new ProntuarioDao();
+        }
+        return prontuarioDao;
+
+    }
+
+    private ProntuarioDao() {
+    }
+
     private Connection conn;
-    private CirurgiaDao cd;
     private PacienteDao pd;
-    private FuncionarioDao fd = new FuncionarioDao();
+    private FuncionarioDao fd;
     private ExameDao ed;
     private MedicamentoDao md;
     private AltaDao ad;
+    private CirurgiaDao cd;
 
     public int cadastrar(Prontuario prontuario) {
         try {
@@ -46,8 +59,8 @@ public class ProntuarioDao {
         int ret = 0;
         PreparedStatement pStatement = null;
         sql = "INSERT INTO public.prontuario(\n"
-                + "	cpf_medico, cpf_paciente, data, hora, diagnostico)\n"
-                + "	VALUES (?, ?, ?, ?, ?)";
+                + "	cpf_medico, cpf_paciente, data, hora, diagnostico,gerou_pagamento)\n"
+                + "	VALUES (?, ?, ?, ?, ?,?)";
         try {
             Date data = Date.valueOf(prontuario.getData());
 
@@ -58,6 +71,7 @@ public class ProntuarioDao {
             Time hora = Time.valueOf(prontuario.getHora());
             pStatement.setTime(4, hora);
             pStatement.setString(5, prontuario.getDiagnostico());
+            pStatement.setBoolean(6, false);
             pStatement.execute();
             pStatement.close();
             ret = 1;
@@ -135,12 +149,13 @@ public class ProntuarioDao {
     }
 
     public ArrayList<Prontuario> listarPorPaciente(String cpf) {
-
+        pd = PacienteDao.getInstance();
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        cd = CirurgiaDao.getInstance();
         try {
             conn = Conexao.getConexao();
-            pd = new PacienteDao();
-            ed = new ExameDao();
-            md = new MedicamentoDao();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +178,6 @@ public class ProntuarioDao {
             pStatement = conn.prepareStatement(sql);
             pStatement.setString(1, cpf);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -214,7 +228,6 @@ public class ProntuarioDao {
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -248,7 +261,7 @@ public class ProntuarioDao {
     }
 
     public ArrayList<Prontuario> listarParaAltaNaoNulos() {
-
+        ad = AltaDao.getInstance();
         try {
             conn = Conexao.getConexao();
 
@@ -269,8 +282,7 @@ public class ProntuarioDao {
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
-            ad = new AltaDao();
+
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -304,13 +316,15 @@ public class ProntuarioDao {
     }
 
     public Prontuario buscarPorCirurgia(int id) {
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        cd = CirurgiaDao.getInstance();
+        pd = PacienteDao.getInstance();
 
         Prontuario p = null;
         try {
             conn = Conexao.getConexao();
-            pd = new PacienteDao();
-            ed = new ExameDao();
-            md = new MedicamentoDao();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -335,7 +349,6 @@ public class ProntuarioDao {
             pStatement = conn.prepareStatement(sql);
             pStatement.setInt(1, id);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -367,9 +380,12 @@ public class ProntuarioDao {
     public Prontuario buscarPorExame(int id) {
 
         Prontuario p = null;
-        pd = new PacienteDao();
-        ed = new ExameDao();
-        md = new MedicamentoDao();
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        cd = CirurgiaDao.getInstance();
+        pd = PacienteDao.getInstance();
+
         try {
             conn = Conexao.getConexao();
 
@@ -395,7 +411,6 @@ public class ProntuarioDao {
             pStatement = conn.prepareStatement(sql);
             pStatement.setInt(1, id);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -424,13 +439,15 @@ public class ProntuarioDao {
     }
 
     public ArrayList<Prontuario> listarTodos() {
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        ad = AltaDao.getInstance();
+        cd = CirurgiaDao.getInstance();
+        pd = PacienteDao.getInstance();
 
         try {
             conn = Conexao.getConexao();
-            pd = new PacienteDao();
-            ed = new ExameDao();
-            md = new MedicamentoDao();
-            ad = new AltaDao();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -451,7 +468,6 @@ public class ProntuarioDao {
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
-            cd = new CirurgiaDao();
             while (rs.next()) {
                 if (umaVez) {
                     prontuarios = new ArrayList<>();
@@ -477,6 +493,258 @@ public class ProntuarioDao {
         }
         fecharConexao();
         return prontuarios;
+
+    }
+
+    public ArrayList<Prontuario> listarNaoPagos() {
+        cd = CirurgiaDao.getInstance();
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        ad = AltaDao.getInstance();
+        pd = PacienteDao.getInstance();
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Prontuario> prontuarios = null;
+        sql = ("SELECT p.cpf as \"CPF Paciente\",\n"
+                + "pm.cpf as \"CPF Medico\",\n"
+                + "pr.data as \"Data prontuario\", pr.hora as \"Hora prontuario\", pr.diagnostico as \"Diagnostico prontuario\", pr.id as \"ID prontuario\",\n"
+                + "pr.alta_id\n"
+                + "FROM prontuario pr \n"
+                + "join pessoa p on p.cpf = pr.cpf_paciente\n"
+                + "join pessoa pm on pm.cpf = pr.cpf_medico\n"
+                + "where gerou_pagamento = false");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            while (rs.next()) {
+                if (umaVez) {
+                    prontuarios = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Prontuario p = new Prontuario();
+                p.setId(rs.getInt("ID prontuario"));
+                p.setData(rs.getDate("Data prontuario").toLocalDate());
+                p.setHora(rs.getTime("Hora prontuario").toLocalTime());
+                p.setMedico(fd.BuscarPorCpf(rs.getString("CPF Medico")));
+                p.setPaciente(pd.BuscarPorCpf(rs.getString("CPF Paciente")));
+                p.setDiagnostico(rs.getString("Diagnostico prontuario"));
+                p.setExames(ed.listarPorProntuario(p.getId()));
+                p.setMedicamentos(md.listarPorProntuario(p.getId()));
+                p.setCirurgias(cd.listarPorProntuario(p.getId()));
+                p.setAlta(ad.buscarPor_id(rs.getInt("alta_id")));
+                prontuarios.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        fecharConexao();
+        return prontuarios;
+
+    }
+
+    public ArrayList<Prontuario> listarGeradosNaoPagos() {
+        cd = CirurgiaDao.getInstance();
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        ad = AltaDao.getInstance();
+        pd = PacienteDao.getInstance();
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Prontuario> prontuarios = null;
+        sql = ("SELECT p.cpf as \"CPF Paciente\",\n"
+                + "                pm.cpf as \"CPF Medico\",\n"
+                + "                pr.data as \"Data prontuario\", pr.hora as \"Hora prontuario\", pr.diagnostico as \"Diagnostico prontuario\", pr.id as \"ID prontuario\",\n"
+                + "                pr.alta_id\n"
+                + "                FROM prontuario pr \n"
+                + "               join pessoa p on p.cpf = pr.cpf_paciente\n"
+                + "               join pessoa pm on pm.cpf = pr.cpf_medico\n"
+                + "                join pagamento pg on pg.id_prontuario = pr.id\n"
+                + "                where pr.gerou_pagamento = true");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            while (rs.next()) {
+                if (umaVez) {
+                    prontuarios = new ArrayList<>();
+                    umaVez = false;
+                }
+
+                Prontuario p = new Prontuario();
+                p.setId(rs.getInt("ID prontuario"));
+                p.setData(rs.getDate("Data prontuario").toLocalDate());
+                p.setHora(rs.getTime("Hora prontuario").toLocalTime());
+                p.setMedico(fd.BuscarPorCpf(rs.getString("CPF Medico")));
+                p.setPaciente(pd.BuscarPorCpf(rs.getString("CPF Paciente")));
+                p.setDiagnostico(rs.getString("Diagnostico prontuario"));
+                p.setExames(ed.listarPorProntuario(p.getId()));
+                p.setMedicamentos(md.listarPorProntuario(p.getId()));
+                p.setCirurgias(cd.listarPorProntuario(p.getId()));
+                p.setAlta(ad.buscarPor_id(rs.getInt("alta_id")));
+                prontuarios.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        fecharConexao();
+        return prontuarios;
+
+    }
+
+    public Prontuario buscarPorId(int id) {
+        cd = CirurgiaDao.getInstance();
+        fd = FuncionarioDao.getInstance();
+        ed = ExameDao.getInstance();
+        md = MedicamentoDao.getInstance();
+        ad = AltaDao.getInstance();
+        pd = PacienteDao.getInstance();
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        Prontuario p = null;
+        boolean umaVez = true;
+        sql = ("SELECT p.cpf as \"CPF Paciente\",\n"
+                + "                pm.cpf as \"CPF Medico\",\n"
+                + "                pr.data as \"Data prontuario\", pr.hora as \"Hora prontuario\", pr.diagnostico as \"Diagnostico prontuario\", pr.id as \"ID prontuario\",\n"
+                + "                pr.alta_id\n"
+                + "                FROM prontuario pr \n"
+                + "               join pessoa p on p.cpf = pr.cpf_paciente\n"
+                + "               join pessoa pm on pm.cpf = pr.cpf_medico\n"
+                + "			   join pagamento pg on pg.id_prontuario = pr.id\n"
+                + "                where pr.gerou_pagamento = true");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            while (rs.next()) {
+
+                p = new Prontuario();
+                p.setId(rs.getInt("ID prontuario"));
+                p.setData(rs.getDate("Data prontuario").toLocalDate());
+                p.setHora(rs.getTime("Hora prontuario").toLocalTime());
+                p.setMedico(fd.BuscarPorCpf(rs.getString("CPF Medico")));
+                p.setPaciente(pd.BuscarPorCpf(rs.getString("CPF Paciente")));
+                p.setDiagnostico(rs.getString("Diagnostico prontuario"));
+                p.setExames(ed.listarPorProntuario(p.getId()));
+                p.setMedicamentos(md.listarPorProntuario(p.getId()));
+                p.setCirurgias(cd.listarPorProntuario(p.getId()));
+                p.setAlta(ad.buscarPor_id(rs.getInt("alta_id")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        fecharConexao();
+        return p;
+
+    }
+
+    public ArrayList<Paciente> listarPacientesNaoPagosSemRepetir() {
+
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Paciente> pacientes = null;
+        sql = ("SELECT distinct cpf, nome, sobrenome\n"
+                + "FROM pessoa p\n"
+                + "join prontuario pr on pr.cpf_paciente = p.cpf\n"
+                + "where pr.id not in (select id_prontuario from pagamento)");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            while (rs.next()) {
+                if (umaVez) {
+                    pacientes = new ArrayList();
+                    umaVez = false;
+                }
+
+                Paciente p = new Paciente();
+                p.setNome(rs.getString("nome"));
+                p.setSobrenome(rs.getString("sobrenome"));
+                p.setCpf(rs.getString("cpf"));
+                pacientes.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        fecharConexao();
+        return pacientes;
+
+    }
+
+    public ArrayList<Paciente> listarPacientesNaoPagosGeradosSemRepetir() {
+
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        PreparedStatement pStatement = null;
+        ResultSet rs = null;
+        boolean umaVez = true;
+        ArrayList<Paciente> pacientes = null;
+        sql = ("	SELECT distinct cpf, nome, sobrenome\n"
+                + "                FROM pessoa p\n"
+                + "                join prontuario pr on pr.cpf_paciente = p.cpf\n"
+                + "				where  pr.gerou_pagamento = true");
+        try {
+            pStatement = conn.prepareStatement(sql);
+            rs = pStatement.executeQuery();
+            while (rs.next()) {
+                if (umaVez) {
+                    pacientes = new ArrayList();
+                    umaVez = false;
+                }
+
+                Paciente p = new Paciente();
+                p.setNome(rs.getString("nome"));
+                p.setSobrenome(rs.getString("sobrenome"));
+                p.setCpf(rs.getString("cpf"));
+                pacientes.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        fecharConexao();
+        return pacientes;
 
     }
 

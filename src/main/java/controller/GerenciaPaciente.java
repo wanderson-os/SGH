@@ -17,11 +17,19 @@ import model.Pessoa;
 public class GerenciaPaciente {
 
     PacienteDao pacienteDao;
-    ArrayList<Pessoa> pacientes;
 
-    public GerenciaPaciente() {
-        pacienteDao = new PacienteDao();
-        pacientes = pacienteDao.listar();
+    private static GerenciaPaciente gerenciaPaciente;
+
+    public static GerenciaPaciente getInstance() {
+        if (gerenciaPaciente == null) {
+            gerenciaPaciente = new GerenciaPaciente();
+        }
+
+        return gerenciaPaciente;
+    }
+
+    private GerenciaPaciente() {
+        pacienteDao = PacienteDao.getInstance();
     }
 
     public int cadastrar(Paciente p) {
@@ -32,9 +40,6 @@ public class GerenciaPaciente {
 
     public int excluir(Paciente p) {
         int r = pacienteDao.excluir(p);
-        if (r == 1) {
-            pacientes = pacienteDao.listar();
-        }
 
         return r;
     }
@@ -47,10 +52,6 @@ public class GerenciaPaciente {
 
     public void listar(Paciente p) {
 
-    }
-
-    public ArrayList<Pessoa> getPacientes() {
-        return pacientes;
     }
 
 }
