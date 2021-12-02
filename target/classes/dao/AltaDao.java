@@ -125,7 +125,7 @@ public class AltaDao {
             ret = 1;
 
         } catch (Exception e) {
-
+e.printStackTrace();
         }
 
         fecharConexao();

@@ -39,7 +39,7 @@ public class PagamentoDao {
     private PagamentoDao() {
     }
 
-    public int cadastrar(Pagamento pagamento, Parcela parcela) {
+    public int gerar(Pagamento pagamento) {
         try {
             conn = Conexao.getConexao();
             conn.setAutoCommit(false);
@@ -67,57 +67,55 @@ public class PagamentoDao {
         } catch (Exception ePag) {
             System.out.println("Pagamento: " + ePag.getMessage());
             ePag.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (Exception ex) {
-            }
+           
 
         }
 
         sql = ("INSERT INTO public.parcela(\n"
                 + "	numero, valor, data_vencimento, juros, desconto, data_pagamento)\n"
                 + "	VALUES (?, ?, ?, ?, ?, ?)");
-
-        try {
-            pStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pStatement.setInt(1, parcela.getNumero());
-            pStatement.setFloat(2, parcela.getValor());
-            pStatement.setDate(3, Date.valueOf(parcela.getDataVencimento()));
-            pStatement.setFloat(4, parcela.getJuros());
-            pStatement.setFloat(5, parcela.getDesconto());
-            pStatement.setDate(6, Date.valueOf(parcela.getDataPagamento()));
-            pStatement.execute();
-            ResultSet rsParcela = pStatement.getGeneratedKeys();
-            if (rsParcela.next()) {
-                parcela.setId(rsParcela.getInt("id"));
-            }
-        } catch (Exception ePar) {
-            System.out.println("Parcela: " + ePar.getMessage());
+        for (Parcela parcela : pagamento.getParcelas()) {
             try {
-                conn.rollback();
-
-            } catch (Exception ex) {
+                pStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                pStatement.setInt(1, parcela.getNumero());
+                pStatement.setFloat(2, parcela.getValor());
+                pStatement.setDate(3, Date.valueOf(parcela.getDataVencimento()));
+                pStatement.setFloat(4, parcela.getJuros());
+                pStatement.setFloat(5, parcela.getDesconto());
+                if (parcela.getDataPagamento() == null) {
+                    pStatement.setDate(6, null);
+                } else {
+                    pStatement.setDate(6, Date.valueOf(parcela.getDataPagamento()));
+                }
+                pStatement.execute();
+                ResultSet rsParcela = pStatement.getGeneratedKeys();
+                if (rsParcela.next()) {
+                    parcela.setId(rsParcela.getInt("id"));
+                }
+            } catch (Exception ePar) {
+                System.out.println("Parcela: " + ePar.getMessage());
+                
             }
+
         }
 
         sql = ("INSERT INTO public.parcela_pagamento(\n"
                 + "	id_parcela, id_pagamento)\n"
                 + "	VALUES (?, ?);");
 
-        try {
-            pStatement = conn.prepareStatement(sql);
-            pStatement.setInt(1, parcela.getId());
-            pStatement.setInt(2, pagamento.getId());
-            pStatement.execute();
+        for (Parcela parcela : pagamento.getParcelas()) {
 
-        } catch (Exception e) {
             try {
-                conn.rollback();
+                pStatement = conn.prepareStatement(sql);
+                pStatement.setInt(1, parcela.getId());
+                pStatement.setInt(2, pagamento.getId());
+                pStatement.execute();
 
-            } catch (Exception ePP) {
+            } catch (Exception e) {
+            
+                System.out.println("Pagamento_parcela: " + e.getMessage());
+                e.printStackTrace();
             }
-            System.out.println("Pagamento_parcela: " + e.getMessage());
-            e.printStackTrace();
         }
 
         sql = "UPDATE public.prontuario\n"
@@ -160,10 +158,12 @@ public class PagamentoDao {
         boolean umaVez = true;
         ArrayList<Pagamento> pagamentos = null;
         sql = ("SELECT pg.tipo, pg.id_prontuario, pg.id\n"
-                + "	FROM public.pagamento pg\n"
-                + "	join prontuario p on p.id = pg.id_prontuario\n"
-                + "	where p.gerou_pagamento = true\n"
-                + "	;");
+                + "FROM public.pagamento pg\n"
+                + "join prontuario p on p.id = pg.id_prontuario\n"
+                + "join parcela_pagamento parpa on parpa.id_pagamento = pg.id\n"
+                + "join parcela par on parpa.id_parcela = par.id\n"
+                + "where p.gerou_pagamento = true\n"
+                + "and par.data_pagamento is null ");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
@@ -185,7 +185,7 @@ public class PagamentoDao {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
         fecharConexao();
 

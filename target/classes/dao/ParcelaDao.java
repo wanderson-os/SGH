@@ -41,6 +41,41 @@ public class ParcelaDao {
     private ParcelaDao() {
     }
 
+    public int pagar(Parcela p) {
+        try {
+            conn = Conexao.getConexao();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sql;
+        int r = 0;
+        PreparedStatement pStatement = null;
+        
+        sql = "UPDATE public.parcela\n"
+                + "	SET numero=?, valor=?,data_pagamento=?\n"
+                + "	WHERE id = ?;";
+        try {
+            pStatement = conn.prepareStatement(sql);
+            Date dataPagamento = Date.valueOf(p.getDataPagamento());
+            pStatement.setInt(1, p.getNumero());
+            pStatement.setFloat(2, p.getValor());
+            pStatement.setDate(3, dataPagamento);
+            pStatement.setInt(4, p.getId());
+            pStatement.execute();
+            pStatement.close();
+            r = 1;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
+        fecharConexao();
+        return r;
+    }
+
+    
     public ArrayList<model.Parcela> listarNaoPagas(int id) {
         try {
             conn = Conexao.getConexao();
@@ -57,7 +92,7 @@ public class ParcelaDao {
                 + "                FROM public.parcela par\n"
                 + "				join parcela_pagamento pp on pp.id_parcela = par.id\n"
                 + "				where pp.id_pagamento = ?"
-                + "and where par.data_pagamento is null");
+                + "and par.data_pagamento is null");
         try {
             pStatement = conn.prepareStatement(sql);
             pStatement.setInt(1, id);
@@ -69,15 +104,14 @@ public class ParcelaDao {
                     umaVez = false;
                 }
                 LocalDate dataVencimento = rs.getDate("data_vencimento").toLocalDate();
-                LocalDate dataPagamento = rs.getDate("data_pagamento").toLocalDate();
                 ParametrosDao jd = ParametrosDao.getInstance();
 
-                Parcela p = new Parcela(rs.getInt("numero"), rs.getFloat("valor"), dataVencimento, rs.getFloat("juros"), rs.getFloat("desconto"), dataPagamento, rs.getInt("id"));
+                Parcela p = new Parcela(rs.getInt("numero"), rs.getFloat("valor"), dataVencimento, rs.getFloat("juros"), rs.getFloat("desconto"), null, rs.getInt("id"));
                 parcelas.add(p);
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
         fecharConexao();
 

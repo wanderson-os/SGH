@@ -53,12 +53,13 @@ public class ParametrosDao {
         int ret = 0;
         PreparedStatement pStatement = null;
         sql = "UPDATE public.parametros\n"
-                + "	SET quantidade_de_parcelas=?, juros_porcentagem=?, desconto_porcentagem=?";
+                + "	SET quantidade_de_parcelas=?, juros_porcentagem=?, desconto_porcentagem=?, juros_ao_mes=?";
         try {
             pStatement = conn.prepareStatement(sql);
             pStatement.setInt(1, parametro.getQuantidadeDeParcelas());
             pStatement.setFloat(2, parametro.getJurosPorcentagem());
             pStatement.setFloat(3, parametro.getDescontoPorcentagem());
+            pStatement.setFloat(4, parametro.getJurosAoMes());
             pStatement.execute();
             pStatement.close();
             ret = 1;
@@ -83,13 +84,14 @@ public class ParametrosDao {
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         sql = ("SELECT quantidade_de_parcelas, juros_porcentagem, desconto_porcentagem\n"
+                + ",juros_ao_mes"
                 + "	FROM public.parametros;");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
 
             while (rs.next()) {
-                p = new Parametro(rs.getInt("quantidade_de_parcelas"), rs.getFloat("juros_porcentagem"), rs.getFloat("desconto_porcentagem"));
+                p = new Parametro(rs.getInt("quantidade_de_parcelas"), rs.getFloat("juros_porcentagem"), rs.getFloat("desconto_porcentagem"), rs.getFloat("juros_ao_mes"));
 
             }
 

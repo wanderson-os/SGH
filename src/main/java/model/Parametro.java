@@ -14,11 +14,13 @@ public class Parametro {
     private int quantidadeDeParcelas;
     private float jurosPorcentagem;
     private float descontoPorcentagem;
+    private float jurosAoMes;
 
-    public Parametro(int quantidadeDeParcelas, float jurosPorcentagem, float descontoPorcentagem) {
+    public Parametro(int quantidadeDeParcelas, float jurosPorcentagem, float descontoPorcentagem, float jurosAoMes) {
         this.quantidadeDeParcelas = quantidadeDeParcelas;
         this.jurosPorcentagem = jurosPorcentagem;
         this.descontoPorcentagem = descontoPorcentagem;
+        this.jurosAoMes = jurosAoMes;
     }
 
     public Parametro() {
@@ -47,7 +49,13 @@ public class Parametro {
     public void setDescontoPorcentagem(float descontoPorcentagem) {
         this.descontoPorcentagem = descontoPorcentagem;
     }
-    
-    
+
+    public float getJurosAoMes() {
+        return jurosAoMes;
+    }
+
+    public void setJurosAoMes(float jurosAoMes) {
+        this.jurosAoMes = jurosAoMes;
+    }
 
 }

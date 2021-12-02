@@ -5,16 +5,19 @@
  */
 package view;
 
+import controller.GerenciaPagamento;
 import dao.ParametrosDao;
 import dao.PagamentoDao;
 import dao.ProntuarioDao;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Juros;
 import model.Pagamento;
+import model.Parametro;
 import model.Parcela;
 
 /**
@@ -32,21 +35,30 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
     ProntuarioDao pd;
     Juros juros;
     float soma;
+    private float descontoMaximo = 0;
     DecimalFormat df;
-
+    private Parametro parametros;
+    private ParametrosDao parametrosDao;
+    float descontoAplicado = 0;
+    
     public PagamentoDinheiroDebito() {
+        parametrosDao = ParametrosDao.getInstance();
+        
         pd = ProntuarioDao.getInstance();
         prontuarios = pd.listarNaoPagos();
         pacientes = pd.listarPacientesNaoPagosSemRepetir();
         df = new DecimalFormat("#,###.00");
         initComponents();
+        ftfDesconto.setText("0");
         if (pacientes == null) {
-            JOptionPane.showMessageDialog(this, "Nenhuma consulta pendendte !");
+            JOptionPane.showMessageDialog(this, "Nenhuma paciente com alta pendente !");
+            btnSalvar.setEnabled(false);
+            btnDesconto.setEnabled(false);
             dispose();
         } else {
             preencheCampos();
         }
-
+        
     }
 
     /**
@@ -69,7 +81,12 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
         jtProntuarios = new javax.swing.JTable();
         cbxDinheiroDebito = new javax.swing.JComboBox<>();
         ftfDesconto = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        btnDesconto = new javax.swing.JButton();
+        tfDescontoMaximo = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setClosable(true);
         setTitle("Pagamento juros composto"); // NOI18N
@@ -121,7 +138,7 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("Pagar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -169,7 +186,32 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
 
         ftfDesconto.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Desconto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jButton1.setText("Aplicar desconto");
+        btnDesconto.setText("Aplicar desconto");
+        btnDesconto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescontoActionPerformed(evt);
+            }
+        });
+
+        tfDescontoMaximo.setEditable(false);
+        tfDescontoMaximo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Desconto maximo", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Alterar porcentagem do desconto");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,19 +221,25 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(cbxDinheiroDebito, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSalvar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnFechar)))
-                        .addGap(48, 48, 48)
+                                .addGap(6, 6, 6)
+                                .addComponent(cbxDinheiroDebito, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115)
+                                .addComponent(tfDescontoMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnSalvar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnFechar))
+                                    .addComponent(tfValorTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ftfDesconto))
+                            .addComponent(ftfDesconto)
+                            .addComponent(btnDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -209,16 +257,18 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ftfDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ftfDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfDescontoMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cbxDinheiroDebito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnFechar)
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDesconto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFechar)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,21 +277,21 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
     private void jtPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtPacientesMouseClicked
         if (jtPacientes.getSelectedRow() != -1) {
             prontuariosNaoPagos = new ArrayList();
-
+            
             for (int j = 0; j < prontuarios.size(); j++) {
                 if (pacientes.get(jtPacientes.getSelectedRow()).getNome().equals(prontuarios.get(j).getPaciente().getNome())) {
                     prontuariosNaoPagos.add(prontuarios.get(j));
                 }
             }
             System.out.println("Tamanho p: " + prontuariosNaoPagos.size());
-
+            
             Object[][] valores = new Object[prontuariosNaoPagos.size()][3];
             for (int i = 0; i < prontuariosNaoPagos.size(); i++) {
-
+                
                 valores[i][0] = prontuariosNaoPagos.get(i).getData();
                 valores[i][1] = prontuariosNaoPagos.get(i).getHora();
                 valores[i][2] = prontuariosNaoPagos.get(i).getMedico().getNome() + " " + prontuariosNaoPagos.get(i).getMedico().getSobrenome();
-
+                
             }
             DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Data", "Hora", "Médico"});
             jtProntuarios.setModel(model);
@@ -249,35 +299,43 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
         }     }//GEN-LAST:event_jtPacientesMouseClicked
 
     private void jtProntuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProntuariosMouseClicked
+        campos();
+        
 
+    }//GEN-LAST:event_jtProntuariosMouseClicked
+    
+    public void campos() {
+        parametros = parametrosDao.recuperar();
+        
         if (jtProntuarios.getSelectedRow() != -1) {
             soma = 0;
             model.Prontuario p = prontuariosNaoPagos.get(jtProntuarios.getSelectedRow());
             if (p.getCirurgias() != null) {
                 for (int i = 0; i < p.getCirurgias().size(); i++) {
                     soma += p.getCirurgias().get(i).getValor();
-
+                    
                 }
-
+                
             }
             if (p.getExames() != null) {
                 for (int i = 0; i < p.getExames().size(); i++) {
                     soma += p.getExames().get(i).getValor();
                 }
-
+                
             }
             if (p.getMedicamentos() != null) {
                 for (int i = 0; i < p.getMedicamentos().size(); i++) {
                     soma += p.getMedicamentos().get(i).getPreco();
                 }
-
+                
             }
             tfValorTotal.setText("R$ " + df.format(soma));
-
+            descontoMaximo = soma * (parametros.getDescontoPorcentagem() / 100);
+            tfDescontoMaximo.setText(df.format(descontoMaximo));
         }
-
-
-    }//GEN-LAST:event_jtProntuariosMouseClicked
+        
+    }
+    
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         int e = JOptionPane.showConfirmDialog(this, "Deseja Fechar ?", "", JOptionPane.OK_CANCEL_OPTION);
@@ -288,10 +346,13 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
+            GerenciaPagamento gp = GerenciaPagamento.getInstance();
             float juros = 0;
             ArrayList<Parcela> parcelas = new ArrayList();
-            Parcela parcela = new Parcela(1, soma, LocalDate.now(), juros, 0, LocalDate.now(), 0);
+            Parcela parcela = new Parcela(1, soma, LocalDate.now(), juros, descontoAplicado, LocalDate.now(), 0);
             parcelas.add(parcela);
+            
+            System.out.println("Valor: " + parcela.getValor());
             Pagamento pagamento = new Pagamento();
             pagamento.setParcelas(parcelas);
             pagamento.setProntuario(prontuarios.get(jtProntuarios.getSelectedRow()));
@@ -302,48 +363,84 @@ public class PagamentoDinheiroDebito extends javax.swing.JInternalFrame {
                 tipo = "Débito";
             }
             pagamento.setTipo(tipo);
-            PagamentoDao p = PagamentoDao.getInstance();
-            int r = p.cadastrar(pagamento, parcela);
+            int r = gp.gerarPagamento(pagamento);
+            r = 0;
+            r = gp.pagar(parcela);
             if (r == 1) {
                 JOptionPane.showMessageDialog(this, "Pagamento efetuado com sucesso !");
                 dispose();
             }
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao efetuar pagamento !");
-
+            
             e.printStackTrace();
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
+    
 
+    private void btnDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescontoActionPerformed
+        
+        if (jtProntuarios.getSelectedRow() != -1) {
+            try {
+                descontoAplicado += Float.valueOf(ftfDesconto.getText()).floatValue();
+                if (descontoAplicado > descontoMaximo) {
+                    JOptionPane.showMessageDialog(this, "Erro ! Valor maximo de desconto : R$ " + df.format(descontoMaximo));
+                    descontoAplicado = 0;
+                    campos();
+                } else {
+                    System.out.println("TTTT");
+                    soma -= descontoAplicado;
+                    tfValorTotal.setText(df.format(soma));
+                    
+                }
+                
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Informe o valor corretamente.");
+            }
+            
+        }
+    }//GEN-LAST:event_btnDescontoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        DescontoPorcentagem descontoPorcentagem = new DescontoPorcentagem(new JFrame(), true, this);
+        descontoPorcentagem.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    
     public void preencheCampos() {
-
+        
         Object[][] valores = new Object[pacientes.size()][2];
         for (int i = 0; i < pacientes.size(); i++) {
             valores[i][0] = pacientes.get(i).getNome();
             valores[i][1] = pacientes.get(i).getSobrenome();
-
+            
         }
-
+        
         DefaultTableModel model = new DefaultTableModel(valores, new String[]{"Nome", "Sobrenome"});
         jtPacientes.setModel(model);
-
+        
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDesconto;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> cbxDinheiroDebito;
     private javax.swing.JFormattedTextField ftfDesconto;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jtPacientes;
     private javax.swing.JTable jtProntuarios;
+    private javax.swing.JTextField tfDescontoMaximo;
     private javax.swing.JTextField tfValorTotal;
     // End of variables declaration//GEN-END:variables
 }

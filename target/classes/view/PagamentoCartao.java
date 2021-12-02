@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.GerenciaPagamento;
 import controller.GerenciaParametros;
 import dao.ParametrosDao;
 import dao.ProntuarioDao;
@@ -43,6 +44,8 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
     DecimalFormat df;
     private boolean novoValor = false;
     private int indCBX = 0;
+    private GerenciaPagamento gerenciaPagamento;
+    private float somaPraDesconto = 0;
 
     public PagamentoCartao() {
         pd = ProntuarioDao.getInstance();
@@ -54,8 +57,9 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
         ftfDesconto.setText("0");
         rbJurosSimples.setSelected(true);
         if (pacientes == null) {
-            JOptionPane.showMessageDialog(this, "Nenhuma consulta pendendte !");
+            JOptionPane.showMessageDialog(this, "Nenhuma paciente com alta pendente !");
             btnSalvar.setEnabled(false);
+            btnDesconto.setEnabled(false);
             dispose();
         } else {
             preencheCampos();
@@ -86,7 +90,7 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
         rbJurosSimples = new javax.swing.JRadioButton();
         rbJurosComposto = new javax.swing.JRadioButton();
         ftfDesconto = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        btnDesconto = new javax.swing.JButton();
         tfDescontoMaximo = new javax.swing.JTextField();
         tfParcelas = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -225,10 +229,10 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
         ftfDesconto.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Desconto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         ftfDesconto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
-        jButton1.setText("Aplicar desconto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDesconto.setText("Aplicar desconto");
+        btnDesconto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDescontoActionPerformed(evt);
             }
         });
 
@@ -308,13 +312,10 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(ftfDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfValorFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfValorFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addGap(16, 16, 16))))))
+                                .addComponent(btnDesconto)
+                                .addGap(16, 16, 16))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -343,7 +344,7 @@ public class PagamentoCartao extends javax.swing.JInternalFrame {
                         .addComponent(ftfDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(btnDesconto)
                             .addComponent(rbJurosComposto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -419,7 +420,7 @@ public void aplicarDesconto() {
 
             }
             tfValorTotal.setText("" + soma);
-
+            somaPraDesconto = soma;
             if (novoValor) {
                 soma -= descontoAplicado;
             }
@@ -459,7 +460,7 @@ public void aplicarDesconto() {
     private void cbxParcelasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxParcelasItemStateChanged
 
         if (cbxParcelas.getSelectedIndex() != -1) {
-            descontoMaximo = somas.get(cbxParcelas.getSelectedIndex()) * (parametros.getDescontoPorcentagem() / 100);
+            descontoMaximo = somaPraDesconto * (parametros.getDescontoPorcentagem() / 100);
             if (descontoAplicado <= descontoMaximo) {
                 tfValorFinal.setText("R$ " + df.format(somas.get(cbxParcelas.getSelectedIndex()) - descontoAplicado));
                 tfParcelas.setText(+cbxParcelas.getSelectedIndex() + 1 + "x de R$ " + df.format((somas.get(cbxParcelas.getSelectedIndex()) - descontoAplicado) / (cbxParcelas.getSelectedIndex() + 1)));
@@ -512,30 +513,37 @@ public void aplicarDesconto() {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         try {
-
+            gerenciaPagamento = GerenciaPagamento.getInstance();
             Pagamento p = new Pagamento();
             p.setProntuario(prontuariosNaoPagos.get(jtProntuarios.getSelectedRow()));
             p.setTipo("Cartão de crédito");
             for (int i = 0; i <= cbxParcelas.getSelectedIndex(); i++) {
                 Parcela parcela = new Parcela();
                 parcela.setDataVencimento(LocalDate.now().plusMonths((i + 1)));
-                System.out.println("Juros: " + juros);
                 parcela.setJuros(juros);
                 parcela.setNumero(i + 1);
-                System.out.println("Parcela n: " + parcela.getNumero());
                 if (novoValor) {
                     parcela.setValor(((somas.get(cbxParcelas.getSelectedIndex()) - descontoAplicado) / (cbxParcelas.getSelectedIndex() + 1)));
                 } else {
                     parcela.setValor((somas.get(cbxParcelas.getSelectedIndex()) / (cbxParcelas.getSelectedIndex() + 1)));
                 }
-                System.out.println("Valor da parcela" + parcela.getValor());
+
+                p.addParcela(parcela);
+            }
+            int r = gerenciaPagamento.gerarPagamento(p);
+            if (r == 1) {
+                JOptionPane.showMessageDialog(this, "Pagamento gerado com sucesso !");
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao gerar pagamento !");
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescontoActionPerformed
         if (jtProntuarios.getSelectedRow() != -1) {
 
             try {
@@ -580,7 +588,7 @@ public void aplicarDesconto() {
             JOptionPane.showMessageDialog(this, "Nenhum prontuario selecionado !");
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDescontoActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         DescontoPorcentagem descontoPorcentagem = new DescontoPorcentagem(new JFrame(), true, this);
@@ -613,12 +621,12 @@ public void aplicarDesconto() {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDesconto;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxParcelas;
     private javax.swing.JFormattedTextField ftfDesconto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

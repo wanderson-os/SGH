@@ -26,6 +26,7 @@ public class Pagamento {
     }
 
     public Pagamento() {
+        parcelas = new ArrayList();
     }
 
     public Prontuario getProntuario() {
@@ -58,6 +59,11 @@ public class Pagamento {
 
     public void setParcelas(ArrayList<Parcela> parcelas) {
         this.parcelas = parcelas;
+    }
+
+    public void addParcela(Parcela p) {
+        parcelas.add(p);
+
     }
 
 }

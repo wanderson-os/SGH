@@ -521,7 +521,8 @@ public class ProntuarioDao {
                 + "FROM prontuario pr \n"
                 + "join pessoa p on p.cpf = pr.cpf_paciente\n"
                 + "join pessoa pm on pm.cpf = pr.cpf_medico\n"
-                + "where gerou_pagamento = false");
+                + "where gerou_pagamento = false\n"
+                + "and pr.alta_id is not null");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
@@ -682,7 +683,9 @@ public class ProntuarioDao {
         sql = ("SELECT distinct cpf, nome, sobrenome\n"
                 + "FROM pessoa p\n"
                 + "join prontuario pr on pr.cpf_paciente = p.cpf\n"
-                + "where pr.id not in (select id_prontuario from pagamento)");
+                + "where pr.id not in (select id_prontuario from pagamento)\n"
+                + "and pr.gerou_pagamento = false\n"
+                + "and pr.alta_id is not null");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();
@@ -720,10 +723,14 @@ public class ProntuarioDao {
         ResultSet rs = null;
         boolean umaVez = true;
         ArrayList<Paciente> pacientes = null;
-        sql = ("	SELECT distinct cpf, nome, sobrenome\n"
-                + "                FROM pessoa p\n"
-                + "                join prontuario pr on pr.cpf_paciente = p.cpf\n"
-                + "				where  pr.gerou_pagamento = true");
+        sql = ("SELECT distinct cpf, nome, sobrenome\n"
+                + "FROM pessoa p\n"
+                + "join prontuario pr on pr.cpf_paciente = p.cpf\n"
+                + "join pagamento pag on pag.id_prontuario = pr.id\n"
+                + "join parcela_pagamento parpa on parpa.id_pagamento = pag.id\n"
+                + "join parcela parc on parpa.id_parcela = parc.id\n"
+                + "where  pr.gerou_pagamento = true\n"
+                + "and parc.data_pagamento is null");
         try {
             pStatement = conn.prepareStatement(sql);
             rs = pStatement.executeQuery();

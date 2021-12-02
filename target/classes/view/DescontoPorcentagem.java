@@ -23,11 +23,23 @@ public class DescontoPorcentagem extends javax.swing.JDialog {
     private Parametro parametros;
     private DecimalFormat df = new DecimalFormat("#,###.##");
     private static PagamentoCartao pagamentoCartao;
+    private static PagamentoDinheiroDebito pagamentoDinheiroDebito;
 
     public DescontoPorcentagem(java.awt.Frame parent, boolean modal, PagamentoCartao pagamentoCartao) {
         super(parent, modal);
         initComponents();
         this.pagamentoCartao = pagamentoCartao;
+        gp = GerenciaParametros.getInstance();
+        parametros = gp.recuperar();
+        String porcenetagem = df.format(parametros.getDescontoPorcentagem()).toString();
+        ftfPorcentagemDesconto.setText(porcenetagem);
+    }
+
+    public DescontoPorcentagem(java.awt.Frame parent, boolean modal, PagamentoDinheiroDebito pagamentoDinheiroDebito) {
+        super(parent, modal);
+        initComponents();
+        this.pagamentoCartao = pagamentoCartao;
+        this.pagamentoDinheiroDebito = pagamentoDinheiroDebito;
         gp = GerenciaParametros.getInstance();
         parametros = gp.recuperar();
         String porcenetagem = df.format(parametros.getDescontoPorcentagem()).toString();
@@ -102,6 +114,9 @@ public class DescontoPorcentagem extends javax.swing.JDialog {
                 int r = gp.alterar(parametros);
                 if (r == 1) {
                     JOptionPane.showMessageDialog(this, "Alterado com sucesso !");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao alterar, valor máximo permitido = 100");
+
                 }
 
             }
@@ -120,7 +135,12 @@ public class DescontoPorcentagem extends javax.swing.JDialog {
     }//GEN-LAST:event_ftfPorcentagemDescontoActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        pagamentoCartao.campos();
+        if (pagamentoCartao != null) {
+            pagamentoCartao.campos();
+        }
+        if (pagamentoDinheiroDebito != null) {
+            pagamentoDinheiroDebito.campos();
+        }
     }//GEN-LAST:event_formWindowClosing
 
     /**
